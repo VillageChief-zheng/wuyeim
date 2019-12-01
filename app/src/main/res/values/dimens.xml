@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="textsp10">10sp</dimen>
+    <dimen name="textsp11">11sp</dimen>
+    <dimen name="textsp12">12sp</dimen>
+    <dimen name="textsp13">13sp</dimen>
+    <dimen name="textsp14">14sp</dimen>
+    <dimen name="textsp15">15sp</dimen>
+    <dimen name="textsp16">16sp</dimen>
+    <dimen name="textsp17">17sp</dimen>
+    <dimen name="textsp18">18sp</dimen>
+    <dimen name="textsp19">19sp</dimen>
+    <dimen name="textsp20">20sp</dimen>
+    <dimen name="textsp21">21sp</dimen>
+    <dimen name="textsp22">22sp</dimen>
+    <dimen name="textsp23">23sp</dimen>
+    <dimen name="textsp24">24sp</dimen>
+    <dimen name="textsp25">25sp</dimen>
+    <dimen name="textsp30">30sp</dimen>
+    <dimen name="textsp50">50sp</dimen>
+    <dimen name="dapline5">0.5dp</dimen>
+    <dimen name="dapline6">0.6dp</dimen>
+
+    <dimen name="dap1">1dp</dimen>
+     <dimen name="dap2">2dp</dimen>
+    <dimen name="dap3">3dp</dimen>
+    <dimen name="dap4">4dp</dimen>
+    <dimen name="dap5">5dp</dimen>
+    <dimen name="dap6">6dp</dimen>
+    <dimen name="dap7">7dp</dimen>
+    <dimen name="dap8">8dp</dimen>
+    <dimen name="dap9">9dp</dimen>
+    <dimen name="dap10">10dp</dimen>
+    <dimen name="dap20">20dp</dimen>
+    <dimen name="dap21">21dp</dimen>
+    <dimen name="dap22">22dp</dimen>
+    <dimen name="dap23">23dp</dimen>
+    <dimen name="dap24">24dp</dimen>
+    <dimen name="dap25">25dp</dimen>
+    <dimen name="dap26">26dp</dimen>
+    <dimen name="dap30">30dp</dimen>
+    <dimen name="dap40">40dp</dimen>
+    <dimen name="dap50">50dp</dimen>
+
+
+
+</resources>
