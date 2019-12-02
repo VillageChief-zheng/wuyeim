@@ -6,4 +6,5 @@
     <color name="white">#FFFFFF</color>
     <color name="logincolor">#717486</color>
     <color name="linecolor">#393D4D</color>
+    <color name="text_ff99">#FF999999</color>
 </resources>
