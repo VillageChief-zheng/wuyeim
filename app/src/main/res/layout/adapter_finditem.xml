@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+   android:orientation="horizontal"
+    android:background="#FF191725"
+    >
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_weight="0.2"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/im_header"
+        />
+      <TextView
+          android:layout_width="@dimen/dap30"
+          android:layout_height="14dp"
+          android:gravity="center"
+          android:text="在线"
+          android:layout_marginTop="-13dp"
+          android:textSize="@dimen/textsp9"
+          android:textColor="@color/white"
+          android:background="@drawable/inlin_sahpe"
+          android:padding="@dimen/dap1"
+          />
+ </LinearLayout>
+    >
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="0.6"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+         >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_name"
+            android:textSize="@dimen/textsp16"
+            android:textColor="@color/white"
+            android:text="人间四月"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_content"
+            android:textSize="@dimen/textsp16"
+            android:textColor="@color/text_ff99"
+            android:text="人间四sdsd 月"
+            android:layout_marginTop="@dimen/dap6"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="0.2"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="@dimen/textsp11"
+    android:textColor="@color/text_ff99"
+    android:text="  人气：888"
+    android:drawableLeft="@mipmap/ic_rq"
+    android:id="@+id/tv_rq"
+
+    />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textsp11"
+            android:textColor="@color/text_ff99"
+            android:text="  魅力：888"
+            android:layout_marginTop="@dimen/dap6"
+            android:drawableLeft="@mipmap/ic_ml"
+            android:id="@+id/tv_ml"
+            />
+    </LinearLayout>
+</LinearLayout>
