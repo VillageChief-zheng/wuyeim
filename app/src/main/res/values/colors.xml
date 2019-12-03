@@ -7,4 +7,9 @@
     <color name="logincolor">#717486</color>
     <color name="linecolor">#393D4D</color>
     <color name="text_ff99">#FF999999</color>
+    <color name="text_ffA7A3">#FFA7A3BD</color>
+    <color name="text_ffB6A8">#FFB6A8FF</color>
+    <color name="text_ff393D">#FF393D4D</color>
+    <color name="text_ff66">#FF666666</color>
+    <color name="people_bg">#FF191725</color>
 </resources>
