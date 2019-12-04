@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <com.androidkun.xtablayout.XTabLayout
+        android:id="@+id/xTablayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:xTabMode="fixed"
+        app:xTabIndicatorColor="@color/topview"
+        app:xTabIndicatorHeight="3dp"
+        app:xTabSelectedTextColor="@color/topview"
+        app:xTabTextColor="@color/textcolorff33"
+        app:xTabTextSize="@dimen/textsp17"
+        app:xTabSelectedTextSize="@dimen/textsp17"
+        app:xTabDisplayNum="4"
+        app:xTabDividerWidthWidthText="true"
+        />
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+</LinearLayout>

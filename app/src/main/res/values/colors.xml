@@ -9,7 +9,12 @@
     <color name="text_ff99">#FF999999</color>
     <color name="text_ffA7A3">#FFA7A3BD</color>
     <color name="text_ffB6A8">#FFB6A8FF</color>
+    <color name="topview">#FFB6A8FF</color>
     <color name="text_ff393D">#FF393D4D</color>
     <color name="text_ff66">#FF666666</color>
     <color name="people_bg">#FF191725</color>
+    <color name="textcolorff33">#FF191725</color>
+    <color name="textcolorffb6">#FFFB6F80</color>
+    <color name="textcolorff00">#FF000000</color>
+    <color name="textcolorff66">#FF666666</color>
 </resources>
