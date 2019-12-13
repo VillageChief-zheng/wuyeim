@@ -52,6 +52,7 @@
             android:textColor="@color/logincolor"
             android:textSize="@dimen/textsp16"
             android:id="@+id/edphone"
+            android:background="@null"
             />
         <TextView
             android:layout_width="0dp"
@@ -62,8 +63,8 @@
             android:textColor="@color/logincolor"
             android:layout_marginRight="@dimen/dap26"
             android:gravity="center"
-          android:background="@drawable/loginbuttonbg"
-            />
+            android:background="@drawable/drift_content"
+             />
         <!--输入框-->
     </LinearLayout>
     <View
@@ -72,6 +73,7 @@
         android:layout_marginLeft="@dimen/dap26"
         android:layout_marginRight="@dimen/dap26"
         android:background="@color/linecolor"
+        android:layout_marginTop="@dimen/dap5"
 
         />
     <!--输入框-->
@@ -92,6 +94,7 @@
             android:textColor="@color/logincolor"
             android:id="@+id/smcode"
             android:textSize="@dimen/textsp16"
+            android:background="@null"
             />
 
         <!--输入框-->
@@ -102,6 +105,7 @@
         android:layout_marginLeft="@dimen/dap26"
         android:layout_marginRight="@dimen/dap26"
         android:background="@color/linecolor"
+        android:layout_marginTop="@dimen/dap5"
         />
 
     <Button
@@ -115,6 +119,8 @@
         android:layout_marginLeft="@dimen/dap26"
         android:layout_marginRight="@dimen/dap26"
         android:id="@+id/bg_login"
+        android:gravity="center"
+
         />
 
 

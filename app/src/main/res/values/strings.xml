@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">piaoliuim</string>
+
+
+
+
+    <!--公共区域-->
+    <string name="setting_acount">设置</string>
+    <string name="no_internet">网络连接异常，请检查您的网络设置！</string>
+    <string name="generic_error">网络异常,请稍后再试！</string>
+
 </resources>

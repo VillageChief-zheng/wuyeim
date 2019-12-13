@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FF191725"
+    >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_cuo"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dap50"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_ff99"
+        android:textSize="@dimen/sp_14"
+        android:text="充值失败！请检查您的网络。"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dap10"
+         />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dap50"
+        android:text="再次充值"
+        android:background="@drawable/fillet_grbg"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsp18"
+        android:layout_marginTop="@dimen/dap30"
+        android:layout_marginLeft="@dimen/dap26"
+        android:layout_marginRight="@dimen/dap26"
+        android:id="@+id/bt_retop"
+
+        />
+</LinearLayout>

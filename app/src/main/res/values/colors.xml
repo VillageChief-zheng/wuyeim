@@ -17,4 +17,9 @@
     <color name="textcolorffb6">#FFFB6F80</color>
     <color name="textcolorff00">#FF000000</color>
     <color name="textcolorff66">#FF666666</color>
+    <color name="line">#FF393D4D</color>
+    <color name="projectthem">#FF191725</color>
+    <color name="changphonecolor">#FF717486</color>
+    <color name="progressbar">#92D0FA</color>
+    <color name="themcolor">#FF775EFF</color>
 </resources>
