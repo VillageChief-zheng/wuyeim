@@ -17,7 +17,7 @@
 <ImageView
     android:layout_width="83dp"
      android:layout_height="83dp"
-    android:src="@mipmap/ic_weixin"
+    android:src="@mipmap/defal_head"
     android:layout_centerInParent="true"
     android:id="@+id/clock"
     /><ImageView
@@ -52,19 +52,18 @@
                 android:textColor="@color/white"
                 android:id="@+id/tv_basic"
                 />
+
             <EditText
+                android:id="@+id/et_nicheng"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_basic"
-                android:layout_marginTop="@dimen/dp_10"
                 android:layout_gravity="center_horizontal"
-                android:gravity="left"
-                android:id="@+id/tv_nicheng"
-                android:textSize="@dimen/sp_16"
-                android:textColor="#FF999999"
-                android:text="试试"
+                android:layout_marginTop="@dimen/dp_10"
                 android:background="@null"
-                />
+                android:gravity="left"
+                android:textColor="#FF999999"
+                android:textSize="@dimen/sp_16" />
         </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -89,19 +88,18 @@
                 android:textColor="@color/white"
                 android:id="@+id/tv_jian"
                  />
+
             <EditText
+                android:id="@+id/et_jianjie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_jian"
-                android:layout_marginTop="@dimen/dp_10"
                 android:layout_gravity="center_horizontal"
-                android:gravity="left"
-                android:id="@+id/et_jianjie"
-                android:textSize="@dimen/sp_16"
-                android:textColor="#FF999999"
-                android:text="简介"
+                android:layout_marginTop="@dimen/dp_10"
                 android:background="@null"
-                />
+                android:gravity="left"
+                android:textColor="#FF999999"
+                android:textSize="@dimen/sp_16" />
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
@@ -126,19 +124,18 @@
                 android:textColor="@color/white"
                 android:id="@+id/tv_id"
                 />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_id"
-                android:layout_marginTop="@dimen/dp_10"
-                android:layout_gravity="center_horizontal"
-                android:gravity="left"
-                android:id="@+id/tv_ids"
-                android:textSize="@dimen/sp_16"
-                android:textColor="@color/white"
-                android:text="id"
-                android:background="@null"
-                />
+
+             <TextView
+                 android:id="@+id/tv_ids"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/tv_id"
+                 android:layout_gravity="center_horizontal"
+                 android:layout_marginTop="@dimen/dp_10"
+                 android:background="@null"
+                 android:gravity="left"
+                 android:textColor="@color/white"
+                 android:textSize="@dimen/sp_16" />
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
@@ -164,19 +161,18 @@
                 android:textColor="@color/white"
                 android:id="@+id/tv_sex"
                 />
+
             <TextView
+                android:id="@+id/tv_sexs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_sex"
-                android:layout_marginTop="@dimen/dp_10"
                 android:layout_gravity="center_horizontal"
-                android:gravity="left"
-                android:id="@+id/tv_sexs"
-                android:textSize="@dimen/sp_16"
-                android:textColor="@color/white"
-                android:text="女 "
+                android:layout_marginTop="@dimen/dp_10"
                 android:drawableRight="@mipmap/ic_nv"
-                 />
+                android:gravity="left"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16" />
         </RelativeLayout>
         <View
             android:layout_width="match_parent"

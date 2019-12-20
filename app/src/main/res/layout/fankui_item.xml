@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dap40"
+    android:background="@drawable/fankui_typeselce"
+    android:layout_margin="@dimen/dap5"
+    android:id="@+id/llsel"
+    >
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:textColor="@color/white"
+    android:textSize="14sp"
+    android:gravity="center"
+    android:text="sssss"
+    android:id="@+id/tv"
+    android:layout_margin="2dp"
+    android:padding="5dp"
+
+    />
+</LinearLayout>

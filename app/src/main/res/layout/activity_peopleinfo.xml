@@ -173,11 +173,15 @@
             android:layout_width="0dp"
             android:layout_weight="0.6"
             android:layout_height="match_parent"
+            android:gravity="center"
+
             >
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:src="@mipmap/ceshi"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         />
     </LinearLayout>
    <LinearLayout
@@ -189,14 +193,19 @@
        android:layout_marginLeft="@dimen/dap5"
        >
        <ImageView
-           android:layout_width="95dp"
-            android:layout_height="95dp"
+           android:layout_width="90dp"
+            android:layout_height="85dp"
            android:src="@mipmap/ceshi"
+           android:adjustViewBounds="true"
+           android:scaleType="fitXY"
            />
        <ImageView
-           android:layout_width="95dp"
-            android:layout_height="95dp"
+           android:layout_marginTop="@dimen/dap10"
+           android:layout_width="90dp"
+            android:layout_height="85dp"
            android:src="@mipmap/ceshi"
+           android:adjustViewBounds="true"
+           android:scaleType="fitXY"
            />
    </LinearLayout>
     </LinearLayout>

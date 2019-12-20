@@ -47,12 +47,26 @@
             android:textColor="#FFB6A8FF"
             android:background="@drawable/drift_content"
             android:layout_marginRight="@dimen/dap15"
-            android:id="@+id/tv_deleteblack"
+            android:id="@+id/tv_love"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:padding="@dimen/dp_5"
+            android:visibility="gone"
             />
-
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="已关注"
+            android:gravity="center"
+            android:textSize="@dimen/textsp14"
+            android:textColor="@color/text_ff99"
+             android:layout_marginRight="@dimen/dap15"
+            android:id="@+id/tv_arllove"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/dp_5"
+            android:visibility="gone"
+            />
     </RelativeLayout>
 
 </LinearLayout>

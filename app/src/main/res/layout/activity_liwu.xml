@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FF1F1C2E"
+    >
+    <com.chuange.basemodule.view.NavigationTopView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:titleName="我的礼物"
+        app:bgColor="#FF191725"
+        android:id="@+id/topView"
+        />
+
+    <com.androidkun.xtablayout.XTabLayout
+        android:id="@+id/xTablayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:xTabMode="fixed"
+        app:xTabIndicatorColor="@color/topview"
+        app:xTabIndicatorHeight="3dp"
+        app:xTabSelectedTextColor="@color/topview"
+        app:xTabTextColor="@color/text_ff99"
+        app:xTabTextSize="@dimen/sp_20"
+        app:xTabSelectedTextSize="@dimen/sp_20"
+        app:xTabDisplayNum="3"
+        app:xTabDividerWidthWidthText="true"
+        />
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000"
+        />
+
+
+</LinearLayout>

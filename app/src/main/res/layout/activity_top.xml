@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:textColor="#FF717486"
+    android:orientation="vertical"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:orientation="vertical"
+            android:background="@drawable/not_cir_gradual_vio"
+
+            >
+            <com.chuange.basemodule.view.NavigationTopView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:titleName="我的金币"
+                app:bgColor="#00000000"
+                android:id="@+id/top"
+                 >
+
+            </com.chuange.basemodule.view.NavigationTopView>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:gravity="center_horizontal"
+     >
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="@color/white"
+    android:textSize="33sp"
+    android:text=" 999"
+     android:drawableLeft="@mipmap/ic_topjb"
+    android:layout_centerVertical="true"
+    android:id="@+id/tv_myjb"
+      />
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/tv_myjb"
+    android:text="当前余额"
+    android:textColor="#FFB6A8FF"
+    android:textSize="@dimen/sp_14"
+    android:layout_centerVertical="true"
+      android:layout_marginLeft="@dimen/dp_10"
+    />
+</RelativeLayout>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#FF191725"
+        >
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="请选择充值金额"
+    android:textSize="@dimen/sp_14"
+    android:layout_marginTop="@dimen/dp_10"
+    android:gravity="center"
+    />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recommend_gv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="2"
+            android:scrollbars="none"
+            android:layout_marginTop="@dimen/dp_10"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dap50"
+            android:text="充值"
+            android:background="@drawable/fillet_grbg"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsp18"
+            android:layout_marginTop="@dimen/dap30"
+            android:layout_marginLeft="@dimen/dap26"
+            android:layout_marginRight="@dimen/dap26"
+            android:id="@+id/bt_top"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="金币使用规则"
+            android:textSize="@dimen/sp_14"
+            android:textColor="#FF75737C"
+            android:layout_marginTop="@dimen/dap20"
+            android:layout_marginLeft="@dimen/dap15"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1. 从 2015 年 4 月起，Ant Design 在蚂蚁金服中后台；"
+            android:textSize="@dimen/sp_12"
+            android:textColor="#FF75737C"
+            android:layout_marginTop="@dimen/dap20"
+            android:layout_marginLeft="@dimen/dap15"
+            /> <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1. 从 2015 年 4 月起，Ant Design 在蚂蚁金服中后台；"
+            android:textSize="@dimen/sp_12"
+            android:textColor="#FF75737C"
+            android:layout_marginTop="@dimen/dap10"
+            android:layout_marginLeft="@dimen/dap15"
+        android:layout_marginBottom="@dimen/dap10"
+            />
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

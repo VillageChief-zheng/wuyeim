@@ -2,9 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#FF191725"
-    >
+    android:background="#FF191725">
+    <com.chuange.basemodule.view.NavigationTopView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:titleName="意见反馈"
+        app:bgColor="#FF191725"
+         >
+
+
+    </com.chuange.basemodule.view.NavigationTopView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recommend_gv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dap50"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="2"
+        android:scrollbars="none"
+        android:layout_marginTop="@dimen/dp_10"
+
+        />
     <EditText
         android:layout_marginTop="@dimen/dp_5"
         android:layout_height="250dp"
@@ -13,12 +33,26 @@
         android:gravity="left|top"
           android:minLines="8"
          android:background="#FF232034"
-        android:textSize="@dimen/sp_14"
-        android:hint="请在此处填写您的反馈内容"
+        android:textSize="@dimen/sp_15"
+        android:hint="我们非常重视您的宝贵意见，感谢您的支持！"
         android:id="@+id/ed_content"
-        android:textColorHint="#FF717486"
+        android:textColorHint="#FF999999"
+        android:textColor="#FF999999"
         android:paddingLeft="@dimen/dap10"
         android:paddingTop="@dimen/dap10"
+        android:maxEms="50"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dap5"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+
         />
     <Button
         android:layout_width="match_parent"
@@ -27,7 +61,7 @@
         android:background="@drawable/fillet_grbg"
         android:textColor="@color/white"
         android:textSize="@dimen/textsp18"
-        android:layout_marginTop="@dimen/dp_100"
+        android:layout_marginTop="@dimen/dap40"
         android:layout_marginLeft="@dimen/dap26"
         android:layout_marginRight="@dimen/dap26"
         android:id="@+id/bt_submit"

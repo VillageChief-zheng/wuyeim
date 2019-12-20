@@ -15,6 +15,11 @@ import com.chaychan.library.BottomBarLayout;
 import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.BaseFragement;
 import com.chuange.basemodule.utils.ActivityTaskManager;
+import com.wuye.piaoliuim.activity.EditInfoAct;
+import com.wuye.piaoliuim.activity.FangdaPicAct;
+import com.wuye.piaoliuim.activity.OpinionAct;
+import com.wuye.piaoliuim.activity.RechangeAct;
+import com.wuye.piaoliuim.activity.UserInfoAct;
 import com.wuye.piaoliuim.fragment.FindFragment;
 import com.wuye.piaoliuim.fragment.ImFragment;
 import com.wuye.piaoliuim.fragment.MyFragment;
@@ -67,7 +72,7 @@ public class MainActivity extends BaseActivity {
 
     private void changeFragment(int currentPosition) {
         if (currentPosition==2){
-        startActivity(new Intent(this, LoginActivity.class));
+        startActivity(new Intent(this, FangdaPicAct.class));
         }else {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.main_container, mFragmentList.get(currentPosition));

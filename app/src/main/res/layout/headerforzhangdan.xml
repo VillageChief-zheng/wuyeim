@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dap30"
+  android:text="只显示近7天账单"
+    android:textColor="#FF93919C"
+    android:gravity="center|left"
+    android:layout_marginLeft="@dimen/dap20"
+    />
+</LinearLayout>

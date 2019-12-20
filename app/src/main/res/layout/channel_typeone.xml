@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:orientation="vertical"
+    android:background="@drawable/channel_bg"
+    android:layout_margin="@dimen/dap5"
+    android:id="@+id/ztai"
+
+     >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/selected_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/pad_14"
+            android:layout_marginTop="@dimen/pad_10"
+
+            android:gravity="center"
+            android:text="1元"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+      android:layout_below="@+id/selected_text_view"
+         android:gravity="center"
+        android:textSize="@dimen/sp_14"
+        android:layout_marginLeft="@dimen/pad_14"
+        android:layout_marginTop="@dimen/pad_10"
+        android:textColor="#FF999999"
+        android:id="@+id/tv"
+        android:text="可获得"
+         />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/jinbi"
+            android:textSize="@dimen/sp_14"
+            android:layout_toRightOf="@+id/tv"
+            android:layout_below="@+id/selected_text_view"
+            android:gravity="center"
+            android:text="可获得500金币"
+            android:layout_marginTop="@dimen/pad_10"
+
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addjinbi"
+            android:textSize="@dimen/sp_14"
+            android:layout_toRightOf="@+id/jinbi"
+            android:layout_below="@+id/selected_text_view"
+            android:gravity="center"
+            android:text="可获得500金币"
+            android:textColor="@color/themcolor"
+            android:layout_marginTop="@dimen/pad_10"
+            />
+    </RelativeLayout>
+    <FrameLayout
+        android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/delete_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_topfirst"/>
+    </FrameLayout>
+
+
+</FrameLayout>

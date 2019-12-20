@@ -92,7 +92,7 @@ public class SimpleRequest  extends BaseRequest<String> {
             Log.i("返回结果++++++++",jsonTxt);
             BaseData baseData= GsonUtil.getDefaultGson().fromJson(jsonTxt,BaseData.class);
             int returnCode = root.optInt("code");
-            if (baseData.success.equals("0")) {
+            if (baseData.code.equals("200")) {
                 if (root.has("data")) {
                     String result = root.optString("data");
                     rComplete.onComplete(jsonTxt);
