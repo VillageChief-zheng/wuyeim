@@ -5,10 +5,12 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.chuange.basemodule.BaseActivity;
+import com.lcw.library.imagepicker.ImagePicker;
 import com.lcw.library.imagepicker.adapter.ImagePreViewAdapter;
 import com.lcw.library.imagepicker.data.MediaFile;
 import com.lcw.library.imagepicker.view.HackyViewPager;
 import com.wuye.piaoliuim.R;
+import com.wuye.piaoliuim.utils.GlideLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,14 @@ public class FangdaPicAct extends BaseActivity {
         initView();
     }
   private void initView(){
+      ImagePicker.getInstance()
+              .setTitle("标题")//设置标题
+              .showCamera(true)//设置是否显示拍照按钮
+              .showImage(true)//设置是否展示图片
+              .showVideo(true)//设置是否展示视频
+              .setMaxCount(3)//设置最大选择图片数目(默认为1，单选)
+              .setSingleType(true)//设置图片视频不能同时选择
+              .setImageLoader(new GlideLoader());
         mMediaFileList=new ArrayList<>();
         MediaFile mediaFile=new MediaFile();
         mediaFile.setPath("/storage/emulated/0/Download/timg.jpeg");
