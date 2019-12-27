@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/pad_10"
+
+        >
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/pad_100"
+            >
+
+            <TextView
+                android:text=""
+                android:textSize="@dimen/sp_16"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                  android:ellipsize="end"
+                android:id="@+id/tv_title"
+                />
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="@dimen/sp_14"
+                android:textColor="#FFACACAC"
+                 android:layout_marginTop="@dimen/dap8"
+                android:maxLines="2"
+                android:ellipsize="end"
+
+
+                />
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2019-10-25"
+                android:textSize="@dimen/sp_14"
+                android:textColor="#FFACACAC"
+                android:gravity="right"
+
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -74,13 +74,13 @@ public class JubaoAct extends BaseActivity implements YiJIanTypeAdapter.OnChecke
 
     //初始化充值通道
     public void initChannel() {
-        ChannelModel channelModel = new ChannelModel(ChannelModel.ONE, "色情低俗", "500金币", "", "1");
-        ChannelModel channelModels = new ChannelModel(ChannelModel.ONE, "政治敏感", "600金币", "", "6");
-        ChannelModel channelModelss = new ChannelModel(ChannelModel.ONE, "违法暴力", "1000金币", "+60金币", "10");
-        ChannelModel channelModelsss = new ChannelModel(ChannelModel.ONE, "欺诈骗钱", "1500金币", "+120金币", "15");
-        ChannelModel channelModelsss1 = new ChannelModel(ChannelModel.ONE, "恐怖血腥", "1500金币", "+120金币", "15");
-        ChannelModel channelModelsss2 = new ChannelModel(ChannelModel.ONE, "广告", "1500金币", "+120金币", "15");
-        ChannelModel channelModelsss3 = new ChannelModel(ChannelModel.ONE, "其它", "1500金币", "+120金币", "15");
+        ChannelModel channelModel = new ChannelModel(ChannelModel.ONE, "色情低俗", "500金币", "", "1",1);
+        ChannelModel channelModels = new ChannelModel(ChannelModel.ONE, "政治敏感", "600金币", "", "6",1);
+        ChannelModel channelModelss = new ChannelModel(ChannelModel.ONE, "违法暴力", "1000金币", "+60金币", "10",1);
+        ChannelModel channelModelsss = new ChannelModel(ChannelModel.ONE, "欺诈骗钱", "1500金币", "+120金币", "15",1);
+        ChannelModel channelModelsss1 = new ChannelModel(ChannelModel.ONE, "恐怖血腥", "1500金币", "+120金币", "15",1);
+        ChannelModel channelModelsss2 = new ChannelModel(ChannelModel.ONE, "广告", "1500金币", "+120金币", "15",1);
+        ChannelModel channelModelsss3 = new ChannelModel(ChannelModel.ONE, "其它", "1500金币", "+120金币", "15",1);
         list.add(channelModel);
         list.add(channelModels);
         list.add(channelModelss);

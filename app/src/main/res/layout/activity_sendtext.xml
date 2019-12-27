@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FF191725"
+    android:orientation="vertical">
+<com.chuange.basemodule.view.NavigationTopView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:titleName="文字漂流瓶"
+    app:bgColor="#FF191725"
+    >
+
+</com.chuange.basemodule.view.NavigationTopView>
+    <EditText
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_height="250dp"
+        android:layout_width="match_parent"
+        android:inputType="textMultiLine"
+        android:gravity="left|top"
+        android:minLines="8"
+        android:background="#FF232034"
+        android:textSize="@dimen/sp_15"
+        android:hint="说说你此刻的想法…"
+        android:id="@+id/ed_content"
+        android:textColorHint="#FF999999"
+        android:textColor="#FF999999"
+        android:paddingLeft="@dimen/dap10"
+        android:paddingTop="@dimen/dap10"
+        android:maxEms="50"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dap50"
+        android:text="发送"
+        android:background="@drawable/loginbuttonbg"
+        android:textColor="#FF585271"
+        android:textSize="@dimen/textsp18"
+        android:layout_marginTop="@dimen/dp_100"
+        android:layout_marginLeft="@dimen/dap26"
+        android:layout_marginRight="@dimen/dap26"
+        android:id="@+id/bg_send"
+
+        />
+</LinearLayout>

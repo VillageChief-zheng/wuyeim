@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FF35314B"
+    >
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:orientation="vertical"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+
+    </FrameLayout>
+    <FrameLayout
+         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+
+
+            >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/ll_one"
+            android:gravity="center_vertical"
+            >
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/pad_35"
+              android:id="@+id/tv_jb"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/sp_24"
+            android:textColor="#FFFFFFFF"
+            android:text="300"
+             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:gravity="center_vertical"
+            android:textSize="@dimen/sp_16"
+            android:textColor="#FFFFFFFF"
+            android:text="金币"
+            android:layout_marginLeft="@dimen/dap5"
+             />
+            <TextView
+            android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dap15"
+                android:text="充值"
+                android:textColor="#FFFFFFFF"
+                android:gravity="center"
+                android:background="@drawable/fillet_grbg"
+                android:padding="@dimen/dap5"
+                android:id="@+id/tv_top"
+                />
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+
+                 >
+                <TextView
+                    android:layout_width="@dimen/dap50"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dap15"
+                    android:text="1"
+                    android:textColor="#FFFFFFFF"
+                    android:gravity="center"
+                    android:background="@drawable/liwu_num_left"
+                    android:padding="@dimen/dap5"
+                    android:layout_gravity="center"
+                    android:id="@+id/tv_num"
+
+                    />
+                <TextView
+                    android:layout_width="@dimen/dap50"
+                    android:layout_height="wrap_content"
+                     android:text="发送"
+                    android:textColor="#FFFFFFFF"
+                    android:gravity="center"
+                    android:background="@drawable/liwu_num_right"
+                    android:padding="@dimen/dap5"
+                    android:layout_gravity="center"
+                    android:id="@+id/bt_send"
+
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </FrameLayout>
+</LinearLayout>

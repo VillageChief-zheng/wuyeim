@@ -40,28 +40,8 @@ public class GlodAdapter  extends BaseQuickAdapter<GlodData.Res.GlodList, BaseVi
     protected void convert(BaseViewHolder helper, GlodData.Res.GlodList rseckillRow) {
         this.rseckillRow=rseckillRow;
         helper.setText(R.id.tv_riqi, rseckillRow.getCreate_time()).setText(R.id.tv_riqiyear, rseckillRow.getCreate_time())
-        .setText(R.id.tv_number, rseckillRow.getGold()).setText(R.id.tv_name,returntype(rseckillRow.getType()))
+        .setText(R.id.tv_number, rseckillRow.getGold()).setText(R.id.tv_name,"")
         ;
 
-
-
-
     }
-    public String returntype(String showType){
-        String types = "";
-        if (showType.equals("1")){
-            types="注册";
-        }else if (showType.equals("2")){
-            types="充值";
-        }else if (showType.equals("3")){
-            types="收到礼物";
-        }else if (showType.equals("4")){
-            types="看广告";
-        }else if (showType.equals("-1")){
-            types="扔瓶子";
-        }else if (showType.equals("-2")){
-            types="送礼物";
-        }
-        return types;
-    }
-}
+ }

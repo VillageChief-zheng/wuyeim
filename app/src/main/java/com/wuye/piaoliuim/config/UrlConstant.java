@@ -78,6 +78,8 @@ public class UrlConstant {
     public static String AGE = "age";
     public static String BLICKID = "blick_id";
     public static String JUBAOID = "report_id";
+    public static String DELLITPIC = "dellitpic";
+    public static String FILENAME = "filename";
 
 
 
@@ -108,7 +110,10 @@ public class UrlConstant {
     public static final String GETOTHERUSERINFO = "User/getUserDetails";//获取其他的用户信息
     public static final String ADDBLACk = "User/addBlack";//加入黑名单
     public static final String ADDFOLLOW = "User/userFollow";//关注
-
+    public static final String DELUSERIMG = "User/delUserAlbum";//删除
+    public static final String MAINFIND = "Index/getFindLists";//发现页
+    public static final String PIAOLIULIST = "Index/getDriftlists";//漂流瓶列表
+    public static final String PIAOLIUYUYIN = "Index/saveFileVideo";//语音
 
 
 }

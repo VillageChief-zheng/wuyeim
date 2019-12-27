@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+         >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/dp_10"
+            android:id="@+id/ll_fuhao"
+            >
+
+            <TextView
+                android:background="@drawable/shape_paihang"
+                android:layout_width="@dimen/dap80"
+                android:layout_height="wrap_content"
+                android:text="  富豪榜"
+                android:textColor="#FFB6A8FF"
+                android:textSize="@dimen/sp_15"
+                android:id="@+id/tv_mylove"
+                android:drawableLeft="@mipmap/ic_fuhaobang"
+                android:gravity="center"
+                android:padding="@dimen/dap5"
+
+                   />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/dp_10"
+            android:id="@+id/ll_ml"
+            >
+
+            <TextView
+                android:background="@drawable/shape_paihang"
+                android:layout_width="@dimen/dap80"
+                android:layout_height="wrap_content"
+                android:text="  魅力榜"
+                android:textColor="#FFB6A8FF"
+                android:textSize="@dimen/sp_15"
+                 android:drawableLeft="@mipmap/ic_mlbang"
+                android:gravity="center"
+                android:padding="@dimen/dap5"
+
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/dp_10"
+            android:id="@+id/ll_rqi"
+            >
+
+            <TextView
+                android:background="@drawable/shape_paihang"
+                android:layout_width="@dimen/dap80"
+                android:layout_height="wrap_content"
+                android:text="  人气榜"
+                android:textColor="#FFB6A8FF"
+                android:textSize="@dimen/sp_15"
+                 android:drawableLeft="@mipmap/ic_rqbang"
+                android:gravity="center"
+                android:padding="@dimen/dap5"
+
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

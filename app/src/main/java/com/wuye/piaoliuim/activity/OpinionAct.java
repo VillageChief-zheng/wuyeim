@@ -94,10 +94,10 @@ public class OpinionAct extends BaseActivity implements YiJIanTypeAdapter.OnChec
 
     //初始化充值通道
     public void initChannel() {
-        ChannelModel channelModel = new ChannelModel(ChannelModel.ONE, "产品体验", "500金币", "", "1");
-        ChannelModel channelModels = new ChannelModel(ChannelModel.ONE, "产品功能", "600金币", "", "6");
-        ChannelModel channelModelss = new ChannelModel(ChannelModel.ONE, "账号相关", "1000金币", "+60金币", "10");
-        ChannelModel channelModelsss = new ChannelModel(ChannelModel.ONE, "其它", "1500金币", "+120金币", "15");
+        ChannelModel channelModel = new ChannelModel(ChannelModel.ONE, "产品体验", "500金币", "", "1",1);
+        ChannelModel channelModels = new ChannelModel(ChannelModel.ONE, "产品功能", "600金币", "", "6",1);
+        ChannelModel channelModelss = new ChannelModel(ChannelModel.ONE, "账号相关", "1000金币", "+60金币", "10",1);
+        ChannelModel channelModelsss = new ChannelModel(ChannelModel.ONE, "其它", "1500金币", "+120金币", "15",1);
         list.add(channelModel);
         list.add(channelModels);
         list.add(channelModelss);

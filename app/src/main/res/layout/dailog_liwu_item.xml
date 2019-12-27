@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+<RelativeLayout
+    android:layout_width="@dimen/pad_100"
+    android:layout_height="@dimen/pad_100"
+     >
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@mipmap/liwu_cheng"
+    android:layout_centerInParent="true"
+    android:adjustViewBounds="true"
+    android:scaleType="fitXY"
+    android:background="@drawable/liwu_bg"
+    android:id="@+id/img_liwu"
+    />
+ </RelativeLayout>
+    <TextView
+        android:layout_width="@dimen/pad_100"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#FF8B90A6"
+        android:text="饮料"
+        android:gravity="center"
+        android:id="@+id/tv_name"
+        android:layout_marginTop="@dimen/pad_10"
+        />
+    <TextView
+        android:layout_width="@dimen/pad_100"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#FF775EFF"
+        android:text="100金币"
+        android:gravity="center"
+        android:id="@+id/tv_jinbi"
+        />
+</LinearLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:background="#FF191725"
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dap70"
+  android:background="#FF2B2938"
+    android:layout_marginLeft="@dimen/pad_10"
+    android:layout_marginRight="@dimen/pad_10"
+    android:layout_marginTop="@dimen/dap80"
+    android:gravity="center_vertical"
+    android:id="@+id/rl_musci"
+
+    >
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@mipmap/ic_ks"
+    android:layout_marginLeft="@dimen/pad_20"
+    android:id="@+id/im_ztandks"
+    android:adjustViewBounds="true"
+    android:scaleType="fitXY"
+       />
+<SeekBar
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_toRightOf="@+id/im_ztandks"
+    android:id="@+id/seekbar"
+    />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seekbar"
+        android:layout_toRightOf="@+id/im_ztandks"
+        android:layout_marginTop="@dimen/dap5"
+
+        >
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="#FF999999"
+    android:textSize="@dimen/sp_10"
+    android:text="10"
+    android:layout_marginLeft="@dimen/dap10"
+    android:id="@+id/start"
+    />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FF999999"
+            android:textSize="@dimen/sp_10"
+            android:text="10"
+            android:layout_marginLeft="@dimen/dap10"
+            android:id="@+id/end"
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dap50"
+        android:text="发送"
+        android:background="@drawable/fillet_grbg"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsp18"
+        android:layout_marginTop="@dimen/dap40"
+        android:layout_marginLeft="@dimen/dap26"
+        android:layout_marginRight="@dimen/dap26"
+        android:id="@+id/bt_submit"
+        android:layout_below="@+id/rl_musci"
+        android:visibility="gone"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dap150"
+          android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/pad_100"
+        android:layout_centerVertical="true"
+        >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_yy_not"
+         android:id="@+id/im_luyin"
+        android:layout_centerInParent="true"
+        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/im_luyin"
+            android:gravity="center"
+            android:text="重新录取声音"
+            android:textColor="#FF999999"
+            android:textSize="@dimen/sp_15"
+            android:layout_marginTop="@dimen/dap10"
+            android:visibility="gone"
+            android:id="@+id/restyuyim"
+            />
+    </RelativeLayout>
+</RelativeLayout>

@@ -54,12 +54,12 @@ public class RechangeAct extends BaseActivity implements ChannelAdapter.OnChecke
 
     //初始化充值通道
     public void initChannel() {
-        ChannelModel channelModel = new ChannelModel(ChannelModel.ONE, "1元", "500金币", "", "1");
-        ChannelModel channelModels = new ChannelModel(ChannelModel.TWO, "6元", "600金币", "", "6");
-        ChannelModel channelModelss = new ChannelModel(ChannelModel.THREE, "10元", "1000金币", "+60金币", "10");
-        ChannelModel channelModelsss = new ChannelModel(ChannelModel.THREE, "15元", "1500金币", "+120金币", "15");
-        ChannelModel channelModelsssss = new ChannelModel(ChannelModel.THREE, "20元", "2000金", "+200金币", "20");
-        ChannelModel channelModelssss = new ChannelModel(ChannelModel.THREE, "50元", "5000金币", "+500金币", "20");
+        ChannelModel channelModel = new ChannelModel(ChannelModel.ONE, "1元", "500金币", "", "1",1);
+        ChannelModel channelModels = new ChannelModel(ChannelModel.TWO, "6元", "600金币", "", "6",1);
+        ChannelModel channelModelss = new ChannelModel(ChannelModel.THREE, "10元", "1000金币", "+60金币", "10",1);
+        ChannelModel channelModelsss = new ChannelModel(ChannelModel.THREE, "15元", "1500金币", "+120金币", "15",1);
+        ChannelModel channelModelsssss = new ChannelModel(ChannelModel.THREE, "20元", "2000金", "+200金币", "20",1);
+        ChannelModel channelModelssss = new ChannelModel(ChannelModel.THREE, "50元", "5000金币", "+500金币", "20",1);
         list.add(channelModel);
         list.add(channelModels);
         list.add(channelModelss);

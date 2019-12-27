@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_100"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/dp_5"
+    android:gravity="center"
+    android:background="@color/white"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_margin="@dimen/pad_10"
+    >
+    <TextView
+        android:layout_width="@dimen/pad_60dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="取消"
+        android:textColor="#FF666666"
+        android:textSize="@dimen/sp_15"
+        />
+    <TextView
+        android:layout_width="@dimen/pad_60dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="赠送数量"
+        android:textColor="#FF000000"
+        android:textSize="@dimen/sp_16"
+        android:gravity="center"
+        />
+    <TextView
+        android:layout_width="@dimen/pad_60dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="确定"
+        android:textColor="#FF775EFF"
+        android:textSize="@dimen/sp_15"
+        android:gravity="right"
+        android:id="@+id/tv_send"
+        />
+
+</LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dap40"
+        android:layout_weight="1"
+        android:background="@drawable/commentitembg"
+        android:id="@+id/dialog_comment_content"
+        android:layout_marginLeft="@dimen/dp_6"
+        android:gravity="center"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:minLines="3"
+        android:textSize="@dimen/sp_12"
+        android:layout_margin="10dp"
+        android:maxLength="2"
+        android:maxEms="3"
+        android:text="1"
+        android:inputType="number"
+         />
+
+
+</LinearLayout>

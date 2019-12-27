@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#FF871CFE"
     >
     <com.androidkun.xtablayout.XTabLayout
         android:id="@+id/xTablayout"
@@ -12,8 +13,8 @@
         app:xTabMode="fixed"
         app:xTabIndicatorColor="@color/topview"
         app:xTabIndicatorHeight="3dp"
-        app:xTabSelectedTextColor="@color/topview"
-        app:xTabTextColor="@color/textcolorff33"
+        app:xTabSelectedTextColor="@color/white"
+        app:xTabTextColor="#FFBBB0FF"
         app:xTabTextSize="@dimen/textsp17"
         app:xTabSelectedTextSize="@dimen/textsp17"
         app:xTabDisplayNum="4"

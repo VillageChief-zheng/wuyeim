@@ -27,6 +27,7 @@
           android:textColor="@color/white"
           android:background="@drawable/inlin_sahpe"
           android:padding="@dimen/dap1"
+          android:id="@+id/tv_inline"
           />
  </LinearLayout>
     >

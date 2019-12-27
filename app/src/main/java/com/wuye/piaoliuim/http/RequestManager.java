@@ -127,5 +127,13 @@ public class RequestManager {
     public void upDateUserinfo(Context context, HashMap<String, String> params,List<File> files, String fileName , MediaType type, RequestListener<String> rComplete) {
         SimpleRequest request = new SimpleRequest(context, UrlConstant.UPDATEUSERINFO, params,files,fileName,type, rComplete);
         request.upFile();
+    }/**
+     *  更改个人信息
+     *
+     * @paramMy
+     */
+    public void upYuyin(Context context, HashMap<String, String> params,List<File> files, String fileName , MediaType type, RequestListener<String> rComplete) {
+        SimpleRequest request = new SimpleRequest(context, UrlConstant.PIAOLIUYUYIN, params,files,fileName,type, rComplete);
+        request.upFile();
     }
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+      android:background="#BF000000"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+         android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/dap40"
+        android:layout_marginRight="@dimen/dap40"
+         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/pad_100"
+        >
+    <LinearLayout
+        android:id="@+id/ll_wz"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/send_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:clickable="true"
+            android:textSize="@dimen/sp_16"
+            android:text="文字漂流瓶"
+            android:textColor="@color/white" />
+    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_yuyin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/send_yuyin" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:clickable="true"
+                android:textSize="@dimen/sp_16"
+                android:text="语音漂流瓶"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/cancle_send"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/dp_60"
+        android:id="@+id/canle_tv"
+        />
+</RelativeLayout>

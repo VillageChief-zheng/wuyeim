@@ -20,12 +20,15 @@ public class ChannelModel implements Serializable {
     public String jinBi;
     public String jine;
     public String addJinbi;
+    public int imgSrc;
 
-    public ChannelModel(int type, Object data,String jinBi,String addJinbi,String jine) {
+    public ChannelModel(int type, Object data,String jinBi,String addJinbi,String jine,int imgSrc) {
         this.type = type;
         this.data = data;
         this.jinBi = jinBi;
         this.jine=jine;
         this.addJinbi=addJinbi;
+        this.imgSrc=imgSrc;
+
     }
 }

@@ -20,6 +20,7 @@
           android:text="4"
           android:textSize="@dimen/textsp20"
           android:textColor="@color/textcolorff00"
+          android:id="@+id/tv_number"
           />
         <ImageView
             android:id="@+id/clock"
