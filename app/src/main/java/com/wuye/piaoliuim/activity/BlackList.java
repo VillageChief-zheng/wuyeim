@@ -1,11 +1,13 @@
 package com.wuye.piaoliuim.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -73,6 +75,10 @@ public class BlackList extends BaseActivity {
     public void setAdapter(BlackData  dataList){
         if (mNextRequestPage==1){
              publicAdapter=new BlackListAdapter( this,R.layout.adapter_black_item,dataList.res.blackLists);
+            @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
+                    this,
+                    LinearLayoutManager.VERTICAL, false);
+            recommendGv.setLayoutManager(managers);
              recommendGv.setAdapter(publicAdapter);
             publicAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
                 @Override
@@ -100,9 +106,30 @@ public class BlackList extends BaseActivity {
 
     }
     public void setAdapterLis(){
-        publicAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        publicAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
+                String   passId=publicAdapter.getData().get(position).getBlick_id();
+                switch (view.getId()) {
+                    case R.id.tv_deleteblack:
+                        removeBlack(position, passId);
+                        break;
+                }
+            }
+        });
+    }
+
+    private void removeBlack(int postione,String id){
+        HashMap<String, String> params = new HashMap<>();
+        params.put(UrlConstant.BLICKID,id );
+        RequestManager.getInstance().publicPostMap(this, params, UrlConstant.REMOVEBLACK, new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+                publicAdapter.remove(postione);
+            }
+
+            @Override
+            public void onError(String message) {
 
             }
         });

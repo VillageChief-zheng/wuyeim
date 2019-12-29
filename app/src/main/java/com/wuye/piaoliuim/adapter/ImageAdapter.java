@@ -68,7 +68,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public int getItemCount() {
 //        return mData != null ? mData.size() : 0;
         int count = mData == null ? 1 : mData.size() + 1;
-        if (count >3) {
+        if (count >1) {
             return mData.size();
         } else {
             return count;

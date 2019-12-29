@@ -1,5 +1,6 @@
 package com.wuye.piaoliuim.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -49,10 +50,14 @@ public class SendTxtAndYuyinAct extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_wz:
+                startActivity(new Intent(getBaseContext(),SendTextAct.class));
                 break;
             case R.id.ll_yuyin:
+                startActivity(new Intent(getBaseContext(),SendYuyinAct.class));
+
                 break;
             case R.id.canle_tv:
+                finish();
                 break;
         }
     }

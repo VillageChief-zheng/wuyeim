@@ -15,6 +15,7 @@ import com.chuange.basemodule.BaseActivity;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.LoveData;
 import com.wuye.piaoliuim.bean.UserInfoData;
+import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
@@ -57,9 +58,10 @@ public class MyActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_persone);
         ButterKnife.bind(this);
+        getNetData();
     }
 
-    public void getNetData(int page){
+    public void getNetData(){
         HashMap<String, String> params = new HashMap<>();
          RequestManager.getInstance().publicPostMap(this, params, UrlConstant.GETUSERINFO, new RequestListener<String>() {
             @Override
@@ -74,26 +76,25 @@ public class MyActivity extends BaseActivity {
             }
         });
     }
-    public void setUser( UserInfoData userInfoData){
+    public void setUser(final UserInfoData userInfoData){
 
         if (userInfoData.res.listList.getGender().equals("1")){
             Drawable drawable= getResources().getDrawable(R.mipmap.ic_nan);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         tvName.setCompoundDrawables(drawable,null,null,null);
-        tvName.setText(userInfoData.res.listList.name);
         }else  if (userInfoData.res.listList.getGender().equals("2")){
             Drawable drawable= getResources().getDrawable(R.mipmap.ic_nv);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             tvName.setCompoundDrawables(drawable,null,null,null);
-            tvName.setText(userInfoData.res.listList.name);
-        }
-      tvQianming.setText(userInfoData.res.listList.getSignature());
+         }
+        tvName.setText(userInfoData.res.listList.name);
+        tvQianming.setText(userInfoData.res.listList.getSignature());
         tvFins.setText(userInfoData.res.listList.getFans()+"  粉丝");
       tvGz.setText(userInfoData.res.listList.getFollows()+"  关注");
         RequestOptions options = new RequestOptions()//圆形图片
                 .circleCrop();
         Glide.with(this)
-                .load(userInfoData.res.listList.getLitpic()).apply(options)
+                .load(Constants.BASEURL+userInfoData.res.listList.getLitpic()).apply(options)
                 .into(imHeader);
 tvToedit.setOnClickListener(new View.OnClickListener() {
     @Override

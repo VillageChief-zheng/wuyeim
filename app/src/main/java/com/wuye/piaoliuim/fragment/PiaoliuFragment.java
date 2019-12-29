@@ -1,15 +1,20 @@
 package com.wuye.piaoliuim.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuange.basemodule.BaseFragement;
 import com.chuange.basemodule.utils.ViewUtils;
 import com.wuye.piaoliuim.R;
+import com.wuye.piaoliuim.activity.UserInfoAct;
 import com.wuye.piaoliuim.adapter.FinsAdapter;
 import com.wuye.piaoliuim.adapter.PiaoliuAdapter;
 import com.wuye.piaoliuim.bean.FinsData;
@@ -76,7 +81,12 @@ public class PiaoliuFragment extends BaseFragement {
     }
     public void setAdapter(PiaoliuData dataList){
         if (mNextRequestPage==1){
-            publicAdapter=new PiaoliuAdapter( getContext(),R.layout.adapter_fins_item,dataList.res.listList);
+             @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
+                    getBaseActivity(),
+                    LinearLayoutManager.VERTICAL, false);
+            publicAdapter=new PiaoliuAdapter( getContext(),R.layout.adapter_drift_item,dataList.res.listList);
+            recommendGv.setLayoutManager(managers);
+
             recommendGv.setAdapter(publicAdapter);
             publicAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
                 @Override
@@ -108,6 +118,7 @@ public class PiaoliuFragment extends BaseFragement {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 //jinxing 关注
+
         }
         });
     }

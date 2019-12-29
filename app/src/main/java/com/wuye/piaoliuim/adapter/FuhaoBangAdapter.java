@@ -2,6 +2,7 @@ package com.wuye.piaoliuim.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.FindData;
 import com.wuye.piaoliuim.bean.GlodData;
+import com.wuye.piaoliuim.config.Constants;
 
 import java.util.List;
 
@@ -41,29 +43,28 @@ public class FuhaoBangAdapter extends BaseQuickAdapter<FindData.Res.FIndList, Ba
 
     @Override
     protected void convert(BaseViewHolder helper, FindData.Res.FIndList rseckillRow) {
-        this.rseckillRow=rseckillRow;
-        if (helper.getAdapterPosition()>2){
+        this.rseckillRow = rseckillRow;
+              helper.setText(R.id.tv_number, helper.getAdapterPosition()+3 + "")
+                    .setText(R.id.tv_jinbi, " 金币：" + rseckillRow.getTotal_rece_gold())
+            ;
+            imageView = helper.getView(R.id.clock);
+            tvName = helper.getView(R.id.tv_name);
+            if (rseckillRow.getGender().equals("1")) {
+                Drawable drawable = mContext.getResources().getDrawable(R.mipmap.ic_nan);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tvName.setCompoundDrawables(drawable, null, null, null);
+                tvName.setText(rseckillRow.getName());
+            } else if (rseckillRow.getGender().equals("2")) {
+                Drawable drawable = mContext.getResources().getDrawable(R.mipmap.ic_nv);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tvName.setCompoundDrawables(drawable, null, null, null);
+                tvName.setText(rseckillRow.getName());
+            }
+            RequestOptions options = new RequestOptions()//圆形图片
+                    .circleCrop();
+            Glide.with(mContext)
+                    .load(Constants.BASEURL + rseckillRow.getLitpic()).apply(options)
+                    .into(imageView);
+        }
 
-         helper.setText(R.id.tv_number, helper.getAdapterPosition()).setText(R.id.tv_jinbi," 金币："+ rseckillRow.getTotal_rece_gold())
-         ;
-        imageView=helper.getView(R.id.tv_number);
-        tvName=helper.getView(R.id.tv_name);
-        if (rseckillRow.getGender().equals("1")){
-            Drawable drawable= mContext.getResources().getDrawable(R.mipmap.ic_nan);
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvName.setCompoundDrawables(drawable,null,null,null);
-            tvName.setText(rseckillRow.getName());
-        }else  if (rseckillRow.getGender().equals("2")){
-            Drawable drawable= mContext.getResources().getDrawable(R.mipmap.ic_nv);
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvName.setCompoundDrawables(drawable,null,null,null);
-            tvName.setText(rseckillRow.getName());
-        }
-        RequestOptions options = new RequestOptions()//圆形图片
-                .circleCrop();
-        Glide.with(mContext)
-                .load(rseckillRow.getLitpic()).apply(options)
-                .into(imageView);
-        }
-    }
 }

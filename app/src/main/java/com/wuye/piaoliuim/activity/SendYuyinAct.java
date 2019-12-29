@@ -1,5 +1,8 @@
 package com.wuye.piaoliuim.activity;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -12,6 +15,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 
 import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.utils.ToastUtil;
@@ -79,12 +83,16 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
     @BindView(R.id.bt_submit)
     Button btSubmit;
     private ArrayList<File> upViedoList = new ArrayList<>(); //上传的图片源文件
-
-    @Override
+    private static final int GET_RECODE_AUDIO = 1;
+    private static String[] PERMISSION_AUDIO = {
+            Manifest.permission.RECORD_AUDIO
+    };
+     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sendyuyin);
         ButterKnife.bind(this);
+         verifyAudioPermissions(this);
         RecordManager.getInstance().init(WuyeApplicatione.etdApplication, false);
         AndPermission.with(this)
                 .runtime()
@@ -94,7 +102,6 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
         initRecord();
         mediaPlayerIngHolder = new MediaPlayerHolder();
         mediaPlayerIngHolder.setmPlaybackInfoListener(this);//设置监听
-        mediaPlayerIngHolder.loadMedia("/storage/emulated/0/Record/com.piaoliu.main/record_20191226_07_25_29.wav");
         imLuyin.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -130,8 +137,8 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
 
 
     private void initRecord() {
-        RecordManager.getInstance().changeFormat(RecordConfig.RecordFormat.WAV);
-        recordManager.changeFormat(RecordConfig.RecordFormat.WAV);
+        RecordManager.getInstance().changeFormat(RecordConfig.RecordFormat.MP3);
+        recordManager.changeFormat(RecordConfig.RecordFormat.MP3);
         String recordDir = String.format(Locale.getDefault(), "%s/Record/com.piaoliu.main/",
                 Environment.getExternalStorageDirectory().getAbsolutePath());
         recordManager.changeRecordDir(recordDir);
@@ -220,7 +227,7 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
     }
 
     @Override
-    public void onPositionChanged(int position) {
+    public void onPositionChanged(final int position) {
          new Thread(new Runnable() {
             @Override
             public void run() {
@@ -233,8 +240,7 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
 //                            start.setText(PlayUtils.getAllTime(875));
 
                         } else {
-                            Log.i("ppppppp-----------", position+"");
-                            start.setText(PlayUtils.getAllTime(position));
+                             start.setText(PlayUtils.getAllTime(position));
                             end.setText(PlayUtils.getAllTime(maxVideo - position));
                             seekbar.setProgress(position);
 
@@ -296,7 +302,7 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
         HashMap<String, String> params = new HashMap<>();
 
 
-        RequestManager.getInstance().upYuyin(this, params, upViedoList,UrlConstant.FILENAME,MEDIA_TYPE_PNG, new RequestListener<String>() {
+        RequestManager.getInstance().upYuyin(this, params, upViedoList,UrlConstant.FILEDATA,MEDIA_TYPE_PNG, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
                 //更新成功
@@ -310,4 +316,14 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
             }
         });
     }
-}
+    /*
+     * 申请录音权限*/
+    public static void verifyAudioPermissions(Activity activity) {
+        int permission = ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.RECORD_AUDIO);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, PERMISSION_AUDIO,
+                    GET_RECODE_AUDIO);
+        }
+    }
+ }

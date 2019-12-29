@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuange.basemodule.BaseFragement;
+import com.chuange.basemodule.utils.ViewUtils;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.GlodData;
 import com.wuye.piaoliuim.bean.LiwuData;
@@ -33,7 +34,7 @@ import butterknife.BindView;
  */
 public class AddGlodFragment extends BaseFragement {
 
-    @BindView(R.id.recommend_gv)
+    @ViewUtils.ViewInject(R.id.recommend_gv)
     RecyclerView recommendGv;
 
 
@@ -47,11 +48,7 @@ public class AddGlodFragment extends BaseFragement {
     GlodAdapter publicAdapter;
     View headerView;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-    }
 
     @Override
     protected void initView(Bundle savedInstanceState) {

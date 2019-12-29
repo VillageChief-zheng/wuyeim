@@ -13,37 +13,32 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wuye.piaoliuim.R;
+import com.wuye.piaoliuim.bean.LiulanData;
 import com.wuye.piaoliuim.bean.LiwuData;
 import com.wuye.piaoliuim.config.Constants;
 
 import java.util.List;
 
-/**
- * @ClassName LiwuAdapter
- * @Description
- * @Author VillageChief
- * @Date 2019/12/17 9:53
- */
-public class LiwuAdapter  extends BaseQuickAdapter<LiwuData.Res.LiwuList, BaseViewHolder> {
+public class LiuLanAdapter extends BaseQuickAdapter<LiulanData.Res.JIluList, BaseViewHolder> {
 
     private Context mContext;
-    LiwuData.Res.LiwuList rseckillRow;
+    LiulanData.Res.JIluList rseckillRow;
     ImageView imageView,imLiwu;
     String iszan;
     int viedoZanNumber = 0;
     TextView tvName;
 
-    public LiwuAdapter(Context context, @LayoutRes int layoutResId, @Nullable List<LiwuData.Res.LiwuList> data) {
+    public LiuLanAdapter(Context context, @LayoutRes int layoutResId, @Nullable List<LiulanData.Res.JIluList> data) {
         super(layoutResId, data);
         mContext = context;
 
     }
- // 日 分
+    // 日 分
     @Override
-    protected void convert(BaseViewHolder helper, LiwuData.Res.LiwuList rseckillRow) {
+    protected void convert(BaseViewHolder helper, LiulanData.Res.JIluList rseckillRow) {
         this.rseckillRow=rseckillRow;
-        helper.setText(R.id.tv_riqi, rseckillRow.getCreate_time()).setText(R.id.tv_riqiyear,rseckillRow.getName())
-         .setText(R.id.tv_number,"x"+rseckillRow.getNum())
+        helper.setText(R.id.tv_riqi, rseckillRow.getCreate_time()).setText(R.id.tv_riqiyear,rseckillRow.getCreate_time())
+
         ;
         tvName=helper.getView(R.id.tv_name);
         if (rseckillRow.getGender().equals("1")) {
@@ -54,20 +49,16 @@ public class LiwuAdapter  extends BaseQuickAdapter<LiwuData.Res.LiwuList, BaseVi
             Drawable drawable = mContext.getResources().getDrawable(R.mipmap.ic_nv);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             tvName.setCompoundDrawables(drawable, null, null, null);
-         }
+        }
         tvName.setText(rseckillRow.getName());
 
         imageView = helper.getView(R.id.clock);
-        imLiwu = helper.getView(R.id.im_liwu);
-        RequestOptions options = new RequestOptions()//圆形图片
+         RequestOptions options = new RequestOptions()//圆形图片
                 .circleCrop();
         Glide.with(mContext)
                 .load(Constants.BASEURL+rseckillRow.getLitpic()).apply(options)
                 .into(imageView);
-        Glide.with(mContext)
-                .load(Constants.BASEURL+rseckillRow.getG_litpic())
-                .into(imLiwu);
 
 
-    }
-}
+
+    }}

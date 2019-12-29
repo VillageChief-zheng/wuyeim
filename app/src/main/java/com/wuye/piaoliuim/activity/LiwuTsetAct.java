@@ -17,15 +17,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuange.basemodule.BaseActivity;
+import com.chuange.basemodule.utils.ToastUtil;
 import com.chuange.basemodule.view.DialogView;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.adapter.ChannelAdapter;
 import com.wuye.piaoliuim.adapter.DialogLiwuAdapter;
 import com.wuye.piaoliuim.adapter.YiJIanTypeAdapter;
 import com.wuye.piaoliuim.bean.ChannelModel;
+import com.wuye.piaoliuim.config.UrlConstant;
+import com.wuye.piaoliuim.http.RequestListener;
+import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.KeyMapDailog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +42,7 @@ import butterknife.OnClick;
  * @Author VillageChief
  * @Date 2019/12/27 13:48
  */
-public class LiwuTsetAct extends BaseActivity implements DialogLiwuAdapter.OnCheckedChangedListener , DialogView.DialogViewListener{
+public class LiwuTsetAct extends BaseActivity implements DialogLiwuAdapter.OnCheckedChangedListener , DialogView.DialogViewListener {
 
     @BindView(R.id.button)
     Button button;
@@ -48,43 +53,48 @@ public class LiwuTsetAct extends BaseActivity implements DialogLiwuAdapter.OnChe
     DialogLiwuAdapter dialogLiwuAdapter;
 
     RecyclerView recommendGv;
-    TextView tvNumber,tvJinbi,tvTop,tvSend;
+    TextView tvNumber, tvJinbi, tvTop, tvSend;
     KeyMapDailog dialog;
 
-     String liwuNumber="1";
-     int postione=0;
+    String liwuNumber = "1";
+    String liwuNUmbers = "1";
+
+    int postione = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liwutest);
         ButterKnife.bind(this);
     }
-   private void initRec(){
-       ChannelModel channelModel = new ChannelModel(ChannelModel.ONE, "饮料", "10金币", "", "10",R.mipmap.liwu_yin);
-       ChannelModel channelModels = new ChannelModel(ChannelModel.ONE, "包包", "20金币", "", "20",R.mipmap.liwu_bao);
-       ChannelModel channelModelss = new ChannelModel(ChannelModel.ONE, "蛋糕", "30金币", "+60金币", "30",R.mipmap.liwu_dan);
-       ChannelModel channelModelsss = new ChannelModel(ChannelModel.ONE, "水晶鞋", "50金币", "+120金币", "50",R.mipmap.liwu_xie);
-       ChannelModel channelModel1 = new ChannelModel(ChannelModel.ONE, "红唇", "50金币", "+120金币", "50",R.mipmap.liwu_chun);
-       ChannelModel channelModel2 = new ChannelModel(ChannelModel.ONE, "钻戒", "100金币", "+120金币", "100",R.mipmap.liwu_zuan);
-       ChannelModel channelModel3 = new ChannelModel(ChannelModel.ONE, "一箭穿心", "200金币", "+120金币", "200",R.mipmap.liwu_xin);
-       ChannelModel channelModel4 = new ChannelModel(ChannelModel.ONE, "城堡", "500金币", "+120金币", "500",R.mipmap.liwu_cheng);
-       list.add(channelModel);
-       list.add(channelModels);
-       list.add(channelModelss);
-       list.add(channelModelsss);
-       list.add(channelModel1);
-       list.add(channelModel2);
-       list.add(channelModel3);
-       list.add(channelModel4);
-       dialogLiwuAdapter = new DialogLiwuAdapter(this);
-       dialogLiwuAdapter.replaceAll(list);
-       recommendGv.setHasFixedSize(true);
-       recommendGv.setLayoutManager(new GridLayoutManager(this, 4));
-       recommendGv.setAdapter(dialogLiwuAdapter);
-       dialogLiwuAdapter.changetShowDelImage(true, 8);
-       dialogLiwuAdapter.setOnCheckChangedListener(this);
 
-   }
+    private void initRec() {
+        ChannelModel channelModel = new ChannelModel(ChannelModel.ONE, "饮料", "10金币", "1", "10", R.mipmap.liwu_yin);
+        ChannelModel channelModels = new ChannelModel(ChannelModel.ONE, "包包", "20金币", "2", "20", R.mipmap.liwu_bao);
+        ChannelModel channelModelss = new ChannelModel(ChannelModel.ONE, "蛋糕", "30金币", "3", "30", R.mipmap.liwu_dan);
+        ChannelModel channelModelsss = new ChannelModel(ChannelModel.ONE, "水晶鞋", "50金币", "4", "50", R.mipmap.liwu_xie);
+        ChannelModel channelModel1 = new ChannelModel(ChannelModel.ONE, "红唇", "50金币", "5", "50", R.mipmap.liwu_chun);
+        ChannelModel channelModel2 = new ChannelModel(ChannelModel.ONE, "钻戒", "100金币", "6", "100", R.mipmap.liwu_zuan);
+        ChannelModel channelModel3 = new ChannelModel(ChannelModel.ONE, "一箭穿心", "200金币", "7", "200", R.mipmap.liwu_xin);
+        ChannelModel channelModel4 = new ChannelModel(ChannelModel.ONE, "城堡", "500金币", "8", "500", R.mipmap.liwu_cheng);
+        list.add(channelModel);
+        list.add(channelModels);
+        list.add(channelModelss);
+        list.add(channelModelsss);
+        list.add(channelModel1);
+        list.add(channelModel2);
+        list.add(channelModel3);
+        list.add(channelModel4);
+        dialogLiwuAdapter = new DialogLiwuAdapter(this);
+        dialogLiwuAdapter.replaceAll(list);
+        recommendGv.setHasFixedSize(true);
+        recommendGv.setLayoutManager(new GridLayoutManager(this, 4));
+        recommendGv.setAdapter(dialogLiwuAdapter);
+        dialogLiwuAdapter.changetShowDelImage(true, 8);
+        dialogLiwuAdapter.setOnCheckChangedListener(this);
+
+    }
+
     @Override
     protected void initView(Bundle savedInstanceState) {
 
@@ -94,6 +104,31 @@ public class LiwuTsetAct extends BaseActivity implements DialogLiwuAdapter.OnChe
     protected void processLogic(Bundle savedInstanceState) {
 
     }
+
+    private void sendLiwu(String gid,String number) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(UrlConstant.TYPE,"1");
+        params.put(UrlConstant.USER_ID,"3");
+        params.put(UrlConstant.GID,gid);
+        params.put(UrlConstant.NUMLIWU,number);
+        RequestManager.getInstance(). publicPostMap(this,params, UrlConstant.SENDLIWU, new RequestListener<String>() {
+                    @Override
+                    public void onComplete (String requestEntity){
+                        Toast toast=  showToastFree("1",list.get(postione).imgSrc);
+                        toast.setDuration(Toast.LENGTH_LONG);
+                        cancelLoading();
+                    }
+
+                    @Override
+                    public void onError (String message){
+
+                    }
+                });
+
+    }
+
+
+
 
     @OnClick({R.id.button, R.id.buttons})
     public void onViewClicked(View view) {
@@ -116,6 +151,7 @@ public class LiwuTsetAct extends BaseActivity implements DialogLiwuAdapter.OnChe
                     public void sendBack(String inputText) {
                         //TODO  点击发表后业务逻辑
                         liwuNumber=inputText;
+                        liwuNUmbers=liwuNumber;
                         tvNumber.setText("X"+liwuNumber);
                         Log.i("ssssss",inputText);
                         dialog.hideSoftkeyboard();
@@ -133,9 +169,8 @@ public class LiwuTsetAct extends BaseActivity implements DialogLiwuAdapter.OnChe
 
                 break;
             case R.id.bt_send:
-            Toast toast=  showToastFree("1",list.get(postione).imgSrc);
-            toast.setDuration(Toast.LENGTH_LONG);
-            cancelLoading();
+                sendLiwu(list.get(postione).addJinbi,liwuNUmbers);
+
                 break;
         }
     }

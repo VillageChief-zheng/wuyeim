@@ -65,25 +65,74 @@
         android:orientation="vertical"
         android:gravity="center"
         >
+        <LinearLayout
+            android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+             >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_find_addr"
+                android:id="@+id/im_add"
+                />
+
+            <TextView
+                android:id="@+id/tv_addr"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="left"
+                android:text="  北京市"
+                android:textColor="@color/text_ff99"
+                android:textSize="@dimen/textsp11"
+
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dap6"
+
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_ml"
+                />
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textSize="@dimen/textsp11"
     android:textColor="@color/text_ff99"
     android:text="  人气：888"
-    android:drawableLeft="@mipmap/ic_rq"
-    android:id="@+id/tv_rq"
+     android:id="@+id/tv_rq"
+    android:gravity="left"
 
     />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dap6"
+
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_rq"
+                />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textsp11"
             android:textColor="@color/text_ff99"
             android:text="  魅力：888"
-            android:layout_marginTop="@dimen/dap6"
-            android:drawableLeft="@mipmap/ic_ml"
-            android:id="@+id/tv_ml"
+             android:id="@+id/tv_ml"
+            android:gravity="left"
+
             />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

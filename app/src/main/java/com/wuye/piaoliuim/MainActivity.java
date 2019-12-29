@@ -21,6 +21,7 @@ import com.wuye.piaoliuim.activity.LiwuTsetAct;
 import com.wuye.piaoliuim.activity.OpinionAct;
 import com.wuye.piaoliuim.activity.PaihangAct;
 import com.wuye.piaoliuim.activity.RechangeAct;
+import com.wuye.piaoliuim.activity.SendTxtAndYuyinAct;
 import com.wuye.piaoliuim.activity.SendYuyinAct;
 import com.wuye.piaoliuim.activity.UserInfoAct;
 import com.wuye.piaoliuim.fragment.FindFragment;

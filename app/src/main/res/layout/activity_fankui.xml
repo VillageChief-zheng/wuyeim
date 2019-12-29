@@ -51,6 +51,7 @@
         android:layout_marginTop="@dimen/dap5"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_10"
+        android:visibility="gone"
 
         />
     <Button

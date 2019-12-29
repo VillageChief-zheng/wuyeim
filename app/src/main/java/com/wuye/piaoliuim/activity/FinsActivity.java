@@ -1,9 +1,11 @@
 package com.wuye.piaoliuim.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -71,6 +73,10 @@ public class FinsActivity  extends BaseActivity {
     public void setAdapter(FinsData  dataList){
         if (mNextRequestPage==1){
             publicAdapter=new FinsAdapter( this,R.layout.adapter_fins_item,dataList.res.listList);
+            @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
+                    this,
+                    LinearLayoutManager.VERTICAL, false);
+            recommendGv.setLayoutManager(managers);
             recommendGv.setAdapter(publicAdapter);
             publicAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
                 @Override
@@ -98,10 +104,33 @@ public class FinsActivity  extends BaseActivity {
 
     }
     public void setAdapterLis(){
-        publicAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        publicAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-         //jinxing 关注
+            public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
+                int itemViewId = view.getId();
+                String   passId=publicAdapter.getData().get(position).getUser_id();
+                FinsData.Res.FinsList finsData=publicAdapter.getData().get(position);
+                finsData.setIs_follow("1");
+                switch (itemViewId) {
+                    case R.id.tv_love:
+                 toLove(position,finsData);
+                        break;
+                }
+            }
+        });
+    }
+    private void toLove(int postione,FinsData.Res.FinsList finsData){
+        HashMap<String, String> params = new HashMap<>();
+        params.put(UrlConstant.PASSID,finsData.getUser_id() );
+        RequestManager.getInstance().publicPostMap(this, params, UrlConstant.ADDFOLLOW, new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+                publicAdapter.notifyItemChanged(postione,finsData);
+             }
+
+            @Override
+            public void onError(String message) {
+
             }
         });
     }

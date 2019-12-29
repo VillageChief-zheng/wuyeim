@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuange.basemodule.BaseFragement;
+import com.chuange.basemodule.utils.ViewUtils;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.GlodData;
 import com.wuye.piaoliuim.config.UrlConstant;
@@ -32,7 +33,7 @@ import butterknife.BindView;
  */
 public class SendGlodFragment extends BaseFragement {
 
-    @BindView(R.id.recommend_gv)
+    @ViewUtils.ViewInject(R.id.recommend_gv)
     RecyclerView recommendGv;
 
 
@@ -43,14 +44,10 @@ public class SendGlodFragment extends BaseFragement {
 
     private List<GlodData.Res.GlodList> newsList = new ArrayList<>();
     GlodData listData;
-    GlodAdapter publicAdapter;
+    SendGlodAdapter publicAdapter;
     View headerView;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-    }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -60,7 +57,7 @@ public class SendGlodFragment extends BaseFragement {
 
     public void load(int page) {
         HashMap<String, String> params = new HashMap<>();
-        params.put(UrlConstant.TYPE, "1");
+        params.put(UrlConstant.TYPE, "2");
         params.put(UrlConstant.PAGE,  page+"");
         RequestManager.getInstance().publicPostMap(getContext(), params, UrlConstant.MYGOLDLIST, new RequestListener<String>() {
             @Override
@@ -83,7 +80,7 @@ public class SendGlodFragment extends BaseFragement {
                     LinearLayoutManager.VERTICAL, false);
             recommendGv.addItemDecoration(new RecyclerViewSpacesItemDecoration(5));
             recommendGv.setLayoutManager(managers);
-            publicAdapter=new GlodAdapter( getContext(),R.layout.adapter_zhangdan_item,listData.res.listList);
+            publicAdapter=new SendGlodAdapter( getContext(),R.layout.adapter_sendzhangdan_item,listData.res.listList);
             headerView = getLayoutInflater().inflate(R.layout.headerforzhangdan, null);
             publicAdapter.addHeaderView(headerView);
             recommendGv.setAdapter(publicAdapter);

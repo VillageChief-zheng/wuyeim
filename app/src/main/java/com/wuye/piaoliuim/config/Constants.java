@@ -57,7 +57,7 @@ public class Constants {
     //主机(正式)
     public static String VersionName = "";
     public static boolean mIsDebug = false;
-    public static String BASEURL = "http://39.105.150.151:8080/";//
+    public static String BASEURL = "http://piaoliu.kuaiyueread.com/";//
     public static String RTMPPREFIXION = "ODRPxVx";
     public static String EstimateUrl = "http://zlpg.yipan.com/";
     public static String ConsultUrl = "https://robot.odrcloud.cn/";

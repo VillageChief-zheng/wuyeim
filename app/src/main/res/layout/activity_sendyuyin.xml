@@ -13,6 +13,7 @@
     android:layout_marginTop="@dimen/dap80"
     android:gravity="center_vertical"
     android:id="@+id/rl_musci"
+    android:visibility="gone"
 
     >
 <ImageView

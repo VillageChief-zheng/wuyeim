@@ -120,12 +120,12 @@ public class RequestManager {
         request.postDataAsync();
     }
     /**
-     *  更改个人信息
+     *  上传文件
      *
      * @paramMy
      */
-    public void upDateUserinfo(Context context, HashMap<String, String> params,List<File> files, String fileName , MediaType type, RequestListener<String> rComplete) {
-        SimpleRequest request = new SimpleRequest(context, UrlConstant.UPDATEUSERINFO, params,files,fileName,type, rComplete);
+    public void upUpFile(Context context, HashMap<String, String> params,List<File> files, String fileName , MediaType type, RequestListener<String> rComplete) {
+        SimpleRequest request = new SimpleRequest(context, UrlConstant.UPFILE, params,files,fileName,type, rComplete);
         request.upFile();
     }/**
      *  更改个人信息

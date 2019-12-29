@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         app:titleName="我的关注"
         app:bgColor="#FF191725"
+        android:id="@+id/topView"
         >
 
 

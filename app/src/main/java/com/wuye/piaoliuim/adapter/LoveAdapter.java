@@ -16,6 +16,7 @@ import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.FinsData;
 import com.wuye.piaoliuim.bean.LiwuData;
 import com.wuye.piaoliuim.bean.LoveData;
+import com.wuye.piaoliuim.config.Constants;
 
 import java.util.List;
 
@@ -51,10 +52,9 @@ public class LoveAdapter extends BaseQuickAdapter<LoveData.Res.LoveList, BaseVie
         RequestOptions options = new RequestOptions()//圆形图片
                 .circleCrop();
         Glide.with(mContext)
-                .load(rseckillRow.getLitpic()).apply(options)
+                .load(Constants.BASEURL+rseckillRow.getLitpic()).apply(options)
                 .into(imageView);
         helper.addOnClickListener(R.id.tv_deleteblove);
-
 
     }
 }

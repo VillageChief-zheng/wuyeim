@@ -2,6 +2,7 @@ package com.wuye.piaoliuim.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,11 +10,14 @@ import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.FindData;
 import com.wuye.piaoliuim.bean.PiaoliuData;
+import com.wuye.piaoliuim.config.Constants;
 
 import java.util.List;
 
@@ -42,9 +46,8 @@ public class PiaoliuAdapter  extends BaseQuickAdapter<PiaoliuData.Res.PiaoliuLis
     @Override
     protected void convert(BaseViewHolder helper,PiaoliuData.Res.PiaoliuList rseckillRow) {
         this.rseckillRow=rseckillRow;
-
-        header= helper.getView(R.id.im_header);
-        inLine= helper.getView(R.id.tv_inline);
+         header= helper.getView(R.id.im_header);
+        inLine= helper.getView(R.id.tv_inlin);
         tvName= helper.getView(R.id.tv_name);
         tvContent= helper.getView(R.id.tv_drif_content);
         tvContents= helper.getView(R.id.tv_drif_contents);
@@ -57,13 +60,11 @@ public class PiaoliuAdapter  extends BaseQuickAdapter<PiaoliuData.Res.PiaoliuLis
             Drawable drawable= mContext.getResources().getDrawable(R.mipmap.ic_nan);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             tvName.setCompoundDrawables(drawable,null,null,null);
-            tvName.setText(rseckillRow.getName());
         }else  if (rseckillRow.getGender().equals("2")){
             Drawable drawable= mContext.getResources().getDrawable(R.mipmap.ic_nv);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             tvName.setCompoundDrawables(drawable,null,null,null);
-            tvName.setText(rseckillRow.getName());
-        }
+         }
         if (rseckillRow.getType().equals("1")){
             tvContents.setVisibility(View.VISIBLE);
             tvContents.setText(rseckillRow.getContent());
@@ -74,6 +75,12 @@ public class PiaoliuAdapter  extends BaseQuickAdapter<PiaoliuData.Res.PiaoliuLis
             tvContent.setText("(点击进入瓶子，即可听语音)");
         }
 
-
+        tvName.setText(rseckillRow.getName()+"  ");
+        RequestOptions options = new RequestOptions()//圆形图片
+                .circleCrop();
+        Glide.with(mContext)
+                .load(Constants.BASEURL +rseckillRow.getLitpic()).apply(options)
+                .into(header);
+        helper.addOnClickListener(R.id.tv_love);
     }
 }

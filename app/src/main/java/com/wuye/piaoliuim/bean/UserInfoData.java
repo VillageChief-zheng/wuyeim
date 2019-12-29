@@ -37,6 +37,9 @@ public class UserInfoData extends BaseData {
             public String age;//用户相册 多个以","分割
             public String fans;//用户相册 多个以","分割
             public String follows;//用户相册 多个以","分割
+            @SerializedName("is_follow")
+            public String is_follow ;//用户相册 多个以","分割
+            public String user_gold ;//用户相册 多个以","分割
 
             public String getId() {
                 return id;
@@ -108,6 +111,22 @@ public class UserInfoData extends BaseData {
 
             public void setFollows(String follows) {
                 this.follows = follows;
+            }
+
+            public String getIs_follow() {
+                return is_follow;
+            }
+
+            public void setIs_follow(String is_follow) {
+                this.is_follow = is_follow;
+            }
+
+            public String getUser_gold() {
+                return user_gold;
+            }
+
+            public void setUser_gold(String user_gold) {
+                this.user_gold = user_gold;
             }
         }
         }

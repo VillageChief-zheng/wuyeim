@@ -94,10 +94,10 @@ public class OpinionAct extends BaseActivity implements YiJIanTypeAdapter.OnChec
 
     //初始化充值通道
     public void initChannel() {
-        ChannelModel channelModel = new ChannelModel(ChannelModel.ONE, "产品体验", "500金币", "", "1",1);
-        ChannelModel channelModels = new ChannelModel(ChannelModel.ONE, "产品功能", "600金币", "", "6",1);
-        ChannelModel channelModelss = new ChannelModel(ChannelModel.ONE, "账号相关", "1000金币", "+60金币", "10",1);
-        ChannelModel channelModelsss = new ChannelModel(ChannelModel.ONE, "其它", "1500金币", "+120金币", "15",1);
+        ChannelModel channelModel = new ChannelModel(ChannelModel.ONE, "产品体验", "500金币", "1", "1",1);
+        ChannelModel channelModels = new ChannelModel(ChannelModel.ONE, "产品功能", "600金币", "2", "6",1);
+        ChannelModel channelModelss = new ChannelModel(ChannelModel.ONE, "账号相关", "1000金币", "3", "10",1);
+        ChannelModel channelModelsss = new ChannelModel(ChannelModel.ONE, "其它", "1500金币", "4", "15",1);
         list.add(channelModel);
         list.add(channelModels);
         list.add(channelModelss);
@@ -109,7 +109,7 @@ public class OpinionAct extends BaseActivity implements YiJIanTypeAdapter.OnChec
         recommendGv.setAdapter(yiJIanTypeAdapter);
         yiJIanTypeAdapter.changetShowDelImage(true, 4);
         yiJIanTypeAdapter.setOnCheckChangedListener(this);
-        type = list.get(0).data + "";
+        type = list.get(0).addJinbi + "";
         RecyclerView.LayoutManager manager = new LinearLayoutManager(
                 this,
                 LinearLayoutManager.HORIZONTAL, false);
@@ -157,7 +157,7 @@ public class OpinionAct extends BaseActivity implements YiJIanTypeAdapter.OnChec
 
     @Override
     public void onItemChecked(int position) {
-        type = list.get(position).data + "";
+        type = list.get(position).addJinbi + "";
     }
 
     @OnClick({R.id.bt_submit})
@@ -188,8 +188,7 @@ public class OpinionAct extends BaseActivity implements YiJIanTypeAdapter.OnChec
         if (requestCode == REQUEST_SELECT_IMAGES_CODE && resultCode == RESULT_OK) {
             mPicList.clear();
             mPicList = data.getStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES);
-            Log.i("pppp",mPicList.get(0));
-            imageAdapter.setmData(mPicList, this);
+             imageAdapter.setmData(mPicList, this);
             recyclerview.setAdapter(imageAdapter);
 
         }

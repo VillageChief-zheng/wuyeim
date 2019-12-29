@@ -2,6 +2,7 @@ package com.wuye.piaoliuim.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import com.wuye.piaoliuim.adapter.FragmnetMyAdapter;
 import com.wuye.piaoliuim.adapter.FuhaoBangAdapter;
 import com.wuye.piaoliuim.bean.FindData;
 import com.wuye.piaoliuim.bean.PiaoliuData;
+import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
@@ -83,23 +85,26 @@ public class FuhaoFragment extends BaseFragement implements DialogView.DialogVie
         RequestOptions options = new RequestOptions()//圆形图片
                 .circleCrop();
         Glide.with(getBaseActivity())
-                .load( findData.res.getPublicLists().get(0).getLitpic()).apply(options)
+                .load( Constants.BASEURL+findData.res.getPublicLists().get(0).getLitpic()).apply(options)
                 .into(imageView1);
         Glide.with(getBaseActivity())
-                .load( findData.res.getPublicLists().get(1).getLitpic()).apply(options)
+                .load( Constants.BASEURL+findData.res.getPublicLists().get(1).getLitpic()).apply(options)
                 .into(imageView2);
         Glide.with(getBaseActivity())
-                .load( findData.res.getPublicLists().get(2).getLitpic()).apply(options)
+                .load( Constants.BASEURL+findData.res.getPublicLists().get(2).getLitpic()).apply(options)
                 .into(imageView3);
         tvName1.setText(findData.res.getPublicLists().get(0).getName());
         tvName2.setText(findData.res.getPublicLists().get(1).getName());
         tvName3.setText(findData.res.getPublicLists().get(2).getName());
-         @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
+        findData.res.getPublicLists().remove(0);
+        findData.res.getPublicLists().remove(0);
+        findData.res.getPublicLists().remove(0);
+           @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
                 getBaseActivity(),
                 LinearLayoutManager.VERTICAL, false);
         recommendGv.addItemDecoration(new RecyclerViewSpacesItemDecoration(5));
         recommendGv.setLayoutManager(managers);
-        fuhaoBangAdapter=new FuhaoBangAdapter(getBaseActivity(),R.layout.adapter_my_item,findData.res.getPublicLists());
+        fuhaoBangAdapter=new FuhaoBangAdapter(getBaseActivity(),R.layout.adapter_bangdan_item,findData.res.getPublicLists());
         fuhaoBangAdapter.addHeaderView(headerView);
         recommendGv.setAdapter(fuhaoBangAdapter);
     }

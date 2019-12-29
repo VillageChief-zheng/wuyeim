@@ -6,7 +6,10 @@ import android.util.Log;
 
 import com.chuange.basemodule.BaseData;
  import com.chuange.basemodule.utils.ToastUtil;
+import com.wuye.piaoliuim.config.UrlConstant;
+import com.wuye.piaoliuim.utils.AppSessionEngine;
 import com.wuye.piaoliuim.utils.GsonUtil;
+import com.wuye.piaoliuim.utils.PhoneUtile;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,6 +78,15 @@ public class SimpleRequest  extends BaseRequest<String> {
     @Override
     public RequestParams makeParams() {
         RequestParams pas = new RequestParams();
+        params.put(UrlConstant.CHANNEL,"1");
+        params.put(UrlConstant.PLANTYPE,"1");
+        params.put(UrlConstant.PHONEMODEL, PhoneUtile.getModel());
+        params.put(UrlConstant.DEVICEID,"1");
+        params.put(UrlConstant.DEVICE_BRAND,PhoneUtile.getDeviceBrand());
+        if (AppSessionEngine.getToken()!=null){
+            params.put(UrlConstant.TOKEN,AppSessionEngine.getToken());
+
+        }
         pas.setUrl(url);
         pas.setParamsJson(paramsJson);
         pas.setParams(params);
@@ -86,6 +98,7 @@ public class SimpleRequest  extends BaseRequest<String> {
 
     @Override
     public void parseData(String jsonTxt) {
+        Log.i("返回结果++++++++",jsonTxt);
 
         try {
             JSONObject root = new JSONObject(jsonTxt);
@@ -93,12 +106,12 @@ public class SimpleRequest  extends BaseRequest<String> {
             BaseData baseData= GsonUtil.getDefaultGson().fromJson(jsonTxt,BaseData.class);
             int returnCode = root.optInt("code");
             if (baseData.code.equals("200")) {
-                if (root.has("data")) {
+//                if (root.has("data")) {
                     String result = root.optString("data");
                     rComplete.onComplete(jsonTxt);
-                } else {
-                    rComplete.onComplete("");
-                }
+//                } else {
+//                    rComplete.onComplete("");
+//                }
             } else {
                 String message = baseData.info;
                 if (!TextUtils.isEmpty(message)) {

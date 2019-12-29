@@ -37,6 +37,7 @@ public class FindData extends BaseData {
             public String gender;
             public String online;
             public String signature;
+            public String signin_region;
 
             public String getUser_id() {
                 return user_id;
@@ -108,6 +109,14 @@ public class FindData extends BaseData {
 
             public void setSignature(String signature) {
                 this.signature = signature;
+            }
+
+            public String getSignin_region() {
+                return signin_region;
+            }
+
+            public void setSignin_region(String signin_region) {
+                this.signin_region = signin_region;
             }
         }
         }

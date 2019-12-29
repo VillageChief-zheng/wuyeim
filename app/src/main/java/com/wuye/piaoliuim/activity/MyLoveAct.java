@@ -1,9 +1,11 @@
 package com.wuye.piaoliuim.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -53,7 +55,7 @@ public class MyLoveAct extends BaseActivity {
 
     public void getNetData(int page){
         HashMap<String, String> params = new HashMap<>();
-        params.put(UrlConstant.PASSID,page+"");
+        params.put(UrlConstant.PAGE,page+"");
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.MYFOLLW, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
@@ -66,7 +68,7 @@ public class MyLoveAct extends BaseActivity {
 
             }
         });
-    } public void cancelLove(int postione,String id){
+    } public void cancelLove(final int postione, String id){
         HashMap<String, String> params = new HashMap<>();
         params.put(UrlConstant.PASSID,id );
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.CANCELMYFOLLW, new RequestListener<String>() {
@@ -85,6 +87,10 @@ public class MyLoveAct extends BaseActivity {
     public void setAdapter(LoveData dataList){
         if (mNextRequestPage==1){
             publicAdapter=new LoveAdapter( this,R.layout.adapter_mylove_item,dataList.res.listList);
+            @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
+                   this,
+                    LinearLayoutManager.VERTICAL, false);
+            recommendGv.setLayoutManager(managers);
             recommendGv.setAdapter(publicAdapter);
             publicAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
                 @Override
@@ -112,17 +118,16 @@ public class MyLoveAct extends BaseActivity {
 
     }
     public void setAdapterLis(){
-        publicAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        publicAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //jinxing 关注
+            public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
                 int itemViewId = view.getId();
-              String   passId=publicAdapter.getData().get(position).pass_id;
-                 switch (itemViewId) {
+                String   passId=publicAdapter.getData().get(position).pass_id;
+                switch (itemViewId) {
                     case R.id.tv_deleteblove:
-                        cancelLove(position,passId );
+                        cancelLove(position, passId);
                         break;
-            }
+                }
             }
         });
     }

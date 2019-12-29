@@ -19,12 +19,15 @@ import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.adapter.ImageAdapter;
 import com.wuye.piaoliuim.adapter.YiJIanTypeAdapter;
 import com.wuye.piaoliuim.bean.ChannelModel;
+import com.wuye.piaoliuim.bean.UpFileData;
+import com.wuye.piaoliuim.bean.UserInfoData;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.DisplayUtils;
 import com.wuye.piaoliuim.utils.GlideLoader;
 import com.wuye.piaoliuim.utils.GridDividerItemDecorations;
+import com.wuye.piaoliuim.utils.GsonUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -63,13 +66,14 @@ public class JubaoAct extends BaseActivity implements YiJIanTypeAdapter.OnChecke
     private static final int REQUEST_SELECT_IMAGES_CODE = 0x022;
 
     String typeStr[] = {"1","2","3","4","5","6","7"};
+    String imgStr="";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jubao);
         ButterKnife.bind(this);
         initChannel();
-//        uId=getIntent().getStringExtra("uid");
+        uId=getIntent().getStringExtra("uid");
     }
 
     //初始化充值通道
@@ -123,7 +127,7 @@ public class JubaoAct extends BaseActivity implements YiJIanTypeAdapter.OnChecke
                         .showCamera(true)//设置是否显示拍照按钮
                         .showImage(true)//设置是否展示图片
                         .showVideo(true)//设置是否展示视频
-                        .setMaxCount(3)//设置最大选择图片数目(默认为1，单选)
+                        .setMaxCount(1)//设置最大选择图片数目(默认为1，单选)
                         .setSingleType(true)//设置图片视频不能同时选择
                         .setImageLoader(new GlideLoader())
                         .setImagePaths(mPicList)//设置历史选择记录
@@ -151,7 +155,32 @@ public class JubaoAct extends BaseActivity implements YiJIanTypeAdapter.OnChecke
                 break;
         }
     }
+    public void upFile(){
 
+        MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png/jpg");
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put(UrlConstant.TYPE,"3" );
+        upPicList.clear();
+        for (int i = 0; i < mPicList.size(); i++) {
+            upPicList.add(new File(mPicList.get(i)));
+        }
+        RequestManager.getInstance().upUpFile(this, params,upPicList,UrlConstant.FILEDATA, MEDIA_TYPE_PNG,new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+                //更新成功
+               UpFileData upFileData  = GsonUtil.getDefaultGson().fromJson(requestEntity, UpFileData.class);
+
+                imgStr=upFileData.getFilename();
+
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
     @Override
     public void onItemChecked(int position) {
         type = typeStr[position] ;
@@ -177,22 +206,23 @@ public class JubaoAct extends BaseActivity implements YiJIanTypeAdapter.OnChecke
             mPicList = data.getStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES);
             imageAdapter.setmData(mPicList, this);
             recyclerview.setAdapter(imageAdapter);
-
+            upFile();
         }
     }
     public void toJubao(){
+        String content=edContent.getText().toString().trim();
+//        if (content.equals("")){
+//            loading("请输入内容").setOnlySure();
+//            return;
+//        }
         HashMap<String, String> params = new HashMap<>();
         params.put(UrlConstant.TYPE,type);
-        params.put(UrlConstant.CONTENT,type);
+        params.put(UrlConstant.CONTENT,content);
         params.put(UrlConstant.JUBAOID,uId);
-        MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
-        if (upPicList.size()>0){
-            for (int i = 0; i < mPicList.size(); i++) {
-                upPicList.add(new File(mPicList.get(i)));
-            }
-        }
+        params.put(UrlConstant.LITPIC,imgStr);
 
-        RequestManager.getInstance().upDateUserinfo(this, params, upPicList,UrlConstant.LITPIC,MEDIA_TYPE_PNG, new RequestListener<String>() {
+
+        RequestManager.getInstance().publicPostMap(this, params,UrlConstant.JUBAO, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
                 //更新成功

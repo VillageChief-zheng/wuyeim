@@ -36,6 +36,7 @@ public class LiwuData extends BaseData {
          public String name;
          public String gender;
          public String g_litpic;
+         public String create_time;
 
             public String getUser_id() {
                 return user_id;
@@ -99,6 +100,14 @@ public class LiwuData extends BaseData {
 
             public void setG_litpic(String g_litpic) {
                 this.g_litpic = g_litpic;
+            }
+
+            public String getCreate_time() {
+                return create_time;
+            }
+
+            public void setCreate_time(String create_time) {
+                this.create_time = create_time;
             }
         }
         }

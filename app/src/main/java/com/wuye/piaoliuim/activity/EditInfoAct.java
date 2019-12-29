@@ -1,9 +1,13 @@
 package com.wuye.piaoliuim.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,13 +15,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chuange.basemodule.BaseActivity;
+import com.chuange.basemodule.view.DialogView;
 import com.lcw.library.imagepicker.ImagePicker;
 import com.wuye.piaoliuim.R;
+import com.wuye.piaoliuim.bean.UpFileData;
 import com.wuye.piaoliuim.bean.UserInfoData;
+import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
@@ -25,13 +34,21 @@ import com.wuye.piaoliuim.utils.GlideLoader;
 import com.wuye.piaoliuim.utils.GsonUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * @ClassName EditInfoAct
@@ -39,7 +56,7 @@ import okhttp3.MediaType;
  * @Author VillageChief
  * @Date 2019/12/18 9:33
  */
-public class EditInfoAct extends BaseActivity {
+public class EditInfoAct extends BaseActivity implements DialogView.DialogViewListener {
 
 
     @BindView(R.id.clock)
@@ -68,13 +85,22 @@ public class EditInfoAct extends BaseActivity {
 
      private ArrayList<String> mPicList = new ArrayList<>(); //上传的图片凭证的数据源
     private ArrayList<File> upPicList = new ArrayList<>(); //上传的图片源文件
-
+   String tuPianList="";
     String sexStr;
-    @Override
+    UpFileData upFileData;
+
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myinfo);
         ButterKnife.bind(this);
+         verifyStoragePermissions(this);
+        initView();
     }
    private void initView(){
         userInfoData= (UserInfoData) getIntent().getSerializableExtra("user");
@@ -82,7 +108,7 @@ public class EditInfoAct extends BaseActivity {
             RequestOptions options = new RequestOptions()//圆形图片
                     .circleCrop();
             Glide.with(this)
-                    .load(userInfoData.res.listList.getLitpic())
+                    .load(Constants.BASEURL+userInfoData.res.listList.getLitpic())
                     .apply(options)
                     .into((clock));
         }
@@ -93,14 +119,17 @@ public class EditInfoAct extends BaseActivity {
            Drawable drawable= getResources().getDrawable(R.mipmap.ic_nan);
            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
            tvSexs.setCompoundDrawables(drawable,null,null,null);
-           tvSexs.setText(userInfoData.res.listList.name);
+           tvSexs.setText("男");
+           sexStr="1";
+
        }else  if (userInfoData.res.listList.getGender().equals("2")){
            Drawable drawable= getResources().getDrawable(R.mipmap.ic_nv);
            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
            tvSexs.setCompoundDrawables(drawable,null,null,null);
-           tvSexs.setText(userInfoData.res.listList.name);
+           tvSexs.setText("女");
+           sexStr="2";
        }
-
+       tuPianList=userInfoData.res.listList.getLitpic();
    }
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -127,14 +156,59 @@ public class EditInfoAct extends BaseActivity {
                          .start(EditInfoAct.this, REQUEST_SELECT_IMAGES_CODE);//REQEST_SELECT_IMAGES_CODE为Intent调用的requestCod
                 break;
             case R.id.tv_sexs:
+                loading(R.layout.dialog_nanandnv, this).setOutsideClose(true).setGravity(Gravity.BOTTOM);
+
                 break;
             case R.id.bt_submit:
-                break;
+                subMit();
+                 break;
        }
     }
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have read or write permission
+        int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+
+    }
+    public void upFile(){
+
+        MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png/jpg");
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put(UrlConstant.TYPE,"1" );
+        upPicList.clear();
+        for (int i = 0; i < mPicList.size(); i++) {
+            upPicList.add(new File(mPicList.get(i)));
+        }
+          RequestManager.getInstance().upUpFile(this, params,upPicList,UrlConstant.FILEDATA, MEDIA_TYPE_PNG,new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+                //更新成功
+                upFileData= GsonUtil.getDefaultGson().fromJson(requestEntity, UpFileData.class);
+                tuPianList=upFileData.getFilename();
+             }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+
    public void subMit(){
         String nichengStr=etNicheng.getText().toString().trim();
         String jianJieStr=etJianjie.getText().toString().trim();
+        sexStr=tvSexs.getText().toString().trim();
         if (nichengStr.equals("")){
             loading("请输入昵称").setOnlySure();
             return;
@@ -142,22 +216,17 @@ public class EditInfoAct extends BaseActivity {
             loading("请输入简介").setOnlySure();
             return;
         }
-       MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
-       for (int i = 0; i < mPicList.size(); i++) {
-           upPicList.add(new File(mPicList.get(i)));
-       }
+
        HashMap<String, String> params = new HashMap<>();
        params.put(UrlConstant.NAME,nichengStr );
        params.put(UrlConstant.SINNTURE,jianJieStr );
-       params.put(UrlConstant.AGE,"" );
+       params.put(UrlConstant.AGE,userInfoData.res.listList.getAge() );
        params.put(UrlConstant.GENDER,sexStr );
-       if (mPicList.size()>0){
-           params.put(UrlConstant.OLDLITPIC,userInfoData.res.listList.getLitpic() );
-        }
+       params.put(UrlConstant.LITPIC,tuPianList );
 
-       params.put(UrlConstant.GENDER,sexStr );
 
-       RequestManager.getInstance().upDateUserinfo(this, params, upPicList,UrlConstant.LITPIC,MEDIA_TYPE_PNG, new RequestListener<String>() {
+
+       RequestManager.getInstance().publicPostMap(this, params,UrlConstant.LITPIC, new RequestListener<String>() {
            @Override
            public void onComplete(String requestEntity) {
             //更新成功
@@ -182,7 +251,76 @@ public class EditInfoAct extends BaseActivity {
               .load(mPicList.get(0))
               .apply(options)
               .into((clock));
-   }
+      upFile();
+    }
 
     }
+
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+         switch (v.getId()) {
+            case R.id.tv_nan:
+                 sexStr = "1";
+                Drawable drawables= getResources().getDrawable(R.mipmap.ic_nan);
+                drawables.setBounds(0, 0, drawables.getMinimumWidth(), drawables.getMinimumHeight());
+                tvSexs.setCompoundDrawables(drawables,null,null,null);
+                tvSexs.setText("男");
+                  cancelLoading();
+                break;
+            case R.id.tv_nv:
+
+
+             Drawable drawable= getResources().getDrawable(R.mipmap.ic_nv);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            tvSexs.setCompoundDrawables(drawable,null,null,null);
+                tvSexs.setText("女");
+
+                 sexStr = "2";
+
+                cancelLoading();
+                break;
+        }
+     }
+    @Override
+    public void onView(View view) {
+        view.findViewById(R.id.tv_nv).setOnClickListener(this);
+        view.findViewById(R.id.tv_nan).setOnClickListener(this);
+        view.findViewById(R.id.tv_all).setOnClickListener(this);
+    }
+//    private void getFile(){
+//        OkHttpClient client = new OkHttpClient.Builder()
+//                .build();
+//   File file=new File(mPicList.get(0));
+//        // 设置文件以及文件上传类型封装
+//        RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"),file );
+//
+//        // 文件上传的请求体封装
+//        MultipartBody multipartBody = new MultipartBody.Builder()
+//                .setType(MultipartBody.FORM)
+//                 .addFormDataPart("Filedata", file.getName(), requestBody)
+//                .build();
+//
+//        Request request = new Request.Builder()
+//                .url("http://piaoliu.kuaiyueread.com/Index/uploadfile")
+//                .post(multipartBody)
+//                .build();
+//
+//
+//        Call call = client.newCall(request);
+//        call.enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                Log.i("[[[[[[[[[异常",e.getMessage());
+//
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                Log.i("[[[[[[[[[","lkkskss");
+//
+//            }
+//        });
+//    }
 }

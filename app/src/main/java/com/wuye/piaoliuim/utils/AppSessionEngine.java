@@ -7,6 +7,7 @@ import com.chuange.basemodule.utils.LogUtils;
 import com.chuange.basemodule.utils.ShareParamUtils;
 import com.google.gson.Gson;
 import com.wuye.piaoliuim.WuyeApplicatione;
+import com.wuye.piaoliuim.bean.TokenUserInfo;
 import com.wuye.piaoliuim.bean.UserData;
 import com.wuye.piaoliuim.config.UrlConstant;
 
@@ -44,6 +45,7 @@ public class AppSessionEngine {
         }
     }
 
+
     public static void setUserInfo(UserData userInfo) {
         if (userInfo == null) return;
         try {
@@ -55,7 +57,35 @@ public class AppSessionEngine {
             LogUtils.e(e);
         }
     }
-
+    public static void setTokenUserInfo(TokenUserInfo userInfo) {
+        if (userInfo == null) return;
+        try {
+            String json = getDefaultGson().toJson(userInfo);
+            if (!TextUtils.isEmpty(json)) {
+                setString(json, UrlConstant.USERTOKEN);
+            }
+        } catch (Exception e) {
+            LogUtils.e(e);
+        }
+    }
+    public static TokenUserInfo getUserTokenInfo() {
+        String userInfo = getString(UrlConstant.USERTOKEN);
+        if (userInfo == null) {
+            return null;
+        }
+        try {
+            return getDefaultGson().fromJson(userInfo, TokenUserInfo.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public static String getToken() {
+        TokenUserInfo tokenUserInfo = AppSessionEngine.getUserTokenInfo();
+        if (tokenUserInfo == null || tokenUserInfo.getToken() == null) {
+            return null;
+        }
+        return  tokenUserInfo.getToken() + "";
+    }
     public static String getUseId() {
         UserData userInfo = AppSessionEngine.getUserInfo();
         if (userInfo == null || userInfo.res == null || userInfo.res.user.getUserId() == null) {

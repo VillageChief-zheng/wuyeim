@@ -1,13 +1,16 @@
 package com.wuye.piaoliuim.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuange.basemodule.BaseFragement;
+import com.chuange.basemodule.utils.ViewUtils;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.adapter.LiwuAdapter;
 import com.wuye.piaoliuim.bean.LiwuData;
@@ -30,7 +33,7 @@ import butterknife.BindView;
  */
 public class LiwuSendFragment extends BaseFragement {
 
-    @BindView(R.id.recommend_gv)
+    @ViewUtils.ViewInject(R.id.recommend_gv)
     RecyclerView recommendGv;
 
 
@@ -75,6 +78,10 @@ public class LiwuSendFragment extends BaseFragement {
     public void setAdapter(LiwuData  listData){
         if (mNextRequestPage==1){
             publicAdapter=new LiwuAdapter( getContext(),R.layout.adapter_gift_item,listData.res.listList);
+            @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
+                    getBaseActivity(),
+                    LinearLayoutManager.VERTICAL, false);
+            recommendGv.setLayoutManager(managers);
             recommendGv.setAdapter(publicAdapter);
             publicAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
                 @Override

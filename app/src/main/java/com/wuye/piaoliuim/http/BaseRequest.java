@@ -281,6 +281,10 @@ public abstract class BaseRequest<T> {
 //
             MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder();
             multipartBodyBuilder.setType(MultipartBody.FORM);
+                 for (Map.Entry entry : params.getParams().entrySet()) {
+                    Log.e("参数", " ║    " + entry.getKey() + "    ====   " + entry.getValue());
+                }
+
             //遍历map中所有参数到builder
             if (params != null){
                 for (String key : params.getParams().keySet()) {
@@ -289,10 +293,13 @@ public abstract class BaseRequest<T> {
             }
             //遍历paths中所有图片绝对路径到builder，并约定key如“upload”作为后台接受多张图片的key
             if (params.getFiles() != null){
+
                 for (File file : params.getFiles()) {
+
                     multipartBodyBuilder.addFormDataPart(params.getFileName(), file.getName(), RequestBody.create(params.getType(), file));
                 }
             }
+
             //构建请求体
             RequestBody requestBody = multipartBodyBuilder.build();
 
