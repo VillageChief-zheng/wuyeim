@@ -9,12 +9,14 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <application
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+     <application
         android:name=".WuyeApplicatione"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,6 +26,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/wuyeTheam">
+
         <activity android:name=".activity.IndexAct"
             android:launchMode="singleTask"
             >
@@ -35,9 +38,34 @@
         </activity>
         <service
             android:name="com.zlw.main.recorderlib.recorder.RecordService"
-            android:enabled="true"
-            android:exported="false" />
-        <activity android:name=".activity.MyActivity"/>
+            />
+        <activity android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <!--这里填写你申请的app id-->
+                <data android:scheme="wx4b25184c83dbca16" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <!--这里填写你申请的app id-->
+                <data android:scheme="wx4b25184c83dbca16" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.MyActivity"
+            android:launchMode="singleTask"
+            />
         <activity android:name=".activity.RechangeAct"/>
         <activity android:name=".activity.OpinionAct"/>
         <activity android:name=".activity.LiwuAct"/>
@@ -57,9 +85,15 @@
         <activity android:name=".activity.SendYuyinAct"/>
         <activity android:name=".activity.LiwuTsetAct"/>
         <activity android:name=".MainActivity"/>
-        <activity android:name=".login.LoginActivity"/>
+        <activity android:name=".login.LoginActivity"
+            android:launchMode="singleTask"
+            />
         <activity android:name=".activity.SendTextAct"/>
         <activity android:name=".activity.LiuLanAct"/>
+        <activity android:name=".login.PswLogin"/>
+        <activity android:name=".activity.SubMitPay"/>
+         <activity android:name=".activity.TestHeixiu"/>
+         <activity android:name=".activity.BindPhone"/>
     </application>
 
 </manifest>

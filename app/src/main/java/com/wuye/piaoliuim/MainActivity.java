@@ -16,6 +16,8 @@ import com.chaychan.library.BottomBarLayout;
 import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.BaseFragement;
 import com.chuange.basemodule.utils.ActivityTaskManager;
+import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMManager;
 import com.wuye.piaoliuim.activity.EditInfoAct;
 import com.wuye.piaoliuim.activity.FangdaPicAct;
 import com.wuye.piaoliuim.activity.LiwuTsetAct;
@@ -31,6 +33,8 @@ import com.wuye.piaoliuim.fragment.ImFragment;
 import com.wuye.piaoliuim.fragment.MyFragment;
 import com.wuye.piaoliuim.fragment.PiaoliuFragment;
 import com.wuye.piaoliuim.login.LoginActivity;
+import com.wuye.piaoliuim.utils.AppSessionEngine;
+import com.wuye.piaoliuim.utils.GenerateTestUserSig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +83,8 @@ public class MainActivity extends BaseActivity {
     private void changeFragment(int currentPosition) {
         if (currentPosition==2){
 //        startActivity(new Intent(this, TestHeixiu.class));
-        startActivity(new Intent(this, SendTxtAndYuyinAct.class));
+//        startActivity(new Intent(this, SendTxtAndYuyinAct.class));
+            login("1", GenerateTestUserSig.genTestUserSig("1"));
         }else {
             currentPositions=currentPosition;
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -117,5 +122,22 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void processLogic(Bundle savedInstanceState) {
 
+    }
+    public void login(String identifier,String userSig){
+
+         // identifier为用户名，userSig 为用户登录凭证
+        TIMManager.getInstance().login(identifier, userSig, new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                //错误码 code 列表请参见错误码表
+                Log.e("pppp", "login failed. code: " + code + " errmsg: " + desc);
+            }
+
+            @Override
+            public void onSuccess() {
+                Log.e("p[[p", "login succ");
+            }
+        });
     }
 }

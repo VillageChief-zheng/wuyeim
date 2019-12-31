@@ -44,7 +44,7 @@ public class WuyeApplicatione extends BaseApplication {
     private List<Activity> activityList = new ArrayList<>();
 
 //c8c077c246dcbea0e9f2e9270713af1a46404c0bc64ce99c47740d064d380d5f
-private int SDKAPPID=1400298902;
+private int SDKAPPID=1400302511;
     @Override
     public void onCreate() {
         super.onCreate();
