@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#FF191725">
+<com.chuange.basemodule.view.NavigationTopView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:bgColor="#FF191725"
+    app:titleName="支付"
+    >
+
+
+</com.chuange.basemodule.view.NavigationTopView>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/dp_50"
+    >
+   <TextView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:textColor="#FFA7A5AD"
+       android:textSize="@dimen/sp_15"
+       android:text="选择支付方式"
+       android:layout_marginLeft="@dimen/dap20"
+        />
+</LinearLayout>
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/dp_50"
+       android:layout_marginTop="@dimen/pad_10"
+        >
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@mipmap/alipaylogo"
+    android:adjustViewBounds="true"
+    android:scaleType="fitXY"
+    android:layout_marginLeft="@dimen/pad_10"
+     android:layout_centerVertical="true"
+    android:id="@+id/zfblogo"
+
+    />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="@color/white"
+           android:textSize="@dimen/sp_15"
+           android:text="支付宝"
+           android:layout_centerVertical="true"
+           android:layout_toRightOf="@+id/zfblogo"
+           android:layout_marginLeft="@dimen/dap10"
+            />
+       <ImageView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:src="@mipmap/ic_gb"
+           android:layout_centerVertical="true"
+      android:layout_alignParentRight="true"
+           android:layout_marginRight="@dimen/dap10"
+           android:id="@+id/zfb"
+            />
+   </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#FF393D4D"
+        android:layout_marginLeft="@dimen/dap10"
+        android:layout_marginRight="@dimen/dap10"
+
+        />
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_50"
+    android:layout_marginTop="@dimen/pad_10"
+    >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/wxpay_logo"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:layout_marginLeft="@dimen/pad_10"
+        android:layout_centerVertical="true"
+        android:id="@+id/wxlogo"
+
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_15"
+        android:text="微信"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/wxlogo"
+        android:layout_marginLeft="@dimen/dap10"
+        />   <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_gb"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dap10"
+        android:id="@+id/wchat"
+        />
+</RelativeLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dap50"
+        android:text="微信支付"
+        android:background="@drawable/fillet_grbg"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsp18"
+        android:layout_marginTop="@dimen/dap40"
+        android:layout_marginLeft="@dimen/dap26"
+        android:layout_marginRight="@dimen/dap26"
+        android:id="@+id/bt_submit"
+
+        />
+</LinearLayout>

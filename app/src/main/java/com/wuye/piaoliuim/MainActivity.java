@@ -2,6 +2,7 @@ package com.wuye.piaoliuim;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.wuye.piaoliuim.activity.PaihangAct;
 import com.wuye.piaoliuim.activity.RechangeAct;
 import com.wuye.piaoliuim.activity.SendTxtAndYuyinAct;
 import com.wuye.piaoliuim.activity.SendYuyinAct;
+import com.wuye.piaoliuim.activity.TestHeixiu;
 import com.wuye.piaoliuim.activity.UserInfoAct;
 import com.wuye.piaoliuim.fragment.FindFragment;
 import com.wuye.piaoliuim.fragment.ImFragment;
@@ -42,7 +44,7 @@ public class MainActivity extends BaseActivity {
     BottomBarLayout bottomNavigationBar1;
     @BindView(R.id.main_container)
     FrameLayout mainContainer;
-
+  int currentPositions;
 
     private FragmentManager mFragmentManager;
     private List<BaseFragement> mFragmentList = new ArrayList<>();
@@ -65,7 +67,7 @@ public class MainActivity extends BaseActivity {
         mFragmentList.add(ImFragment.newInstance());
          mFragmentList.add(MyFragment.newInstance());
         changeFragment(0);
-        bottomNavigationBar1.setOnItemSelectedListener(new BottomBarLayout.OnItemSelectedListener() {
+         bottomNavigationBar1.setOnItemSelectedListener(new BottomBarLayout.OnItemSelectedListener() {
             @Override
             public void onItemSelected(BottomBarItem bottomBarItem, int i, int currentPosition) {
                 changeFragment(currentPosition);
@@ -76,14 +78,21 @@ public class MainActivity extends BaseActivity {
 
     private void changeFragment(int currentPosition) {
         if (currentPosition==2){
-        startActivity(new Intent(this, LiwuTsetAct.class));
+//        startActivity(new Intent(this, TestHeixiu.class));
+        startActivity(new Intent(this, SendTxtAndYuyinAct.class));
         }else {
+            currentPositions=currentPosition;
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.main_container, mFragmentList.get(currentPosition));
             transaction.commit();
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bottomNavigationBar1.setCurrentItem(currentPositions);
+     }
 
     private long mExitTime;
 

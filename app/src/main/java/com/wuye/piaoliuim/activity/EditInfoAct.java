@@ -32,6 +32,9 @@ import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.GlideLoader;
 import com.wuye.piaoliuim.utils.GsonUtil;
+import com.wuye.piaoliuim.utils.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
@@ -118,15 +121,15 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
        if (userInfoData.res.listList.getGender().equals("1")){
            Drawable drawable= getResources().getDrawable(R.mipmap.ic_nan);
            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-           tvSexs.setCompoundDrawables(drawable,null,null,null);
-           tvSexs.setText("男");
+           tvSexs.setCompoundDrawables(null,null,null,null);
+           tvSexs.setText("男 ");
            sexStr="1";
 
        }else  if (userInfoData.res.listList.getGender().equals("2")){
            Drawable drawable= getResources().getDrawable(R.mipmap.ic_nv);
            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-           tvSexs.setCompoundDrawables(drawable,null,null,null);
-           tvSexs.setText("女");
+           tvSexs.setCompoundDrawables(null,null,drawable,null);
+           tvSexs.setText("女 ");
            sexStr="2";
        }
        tuPianList=userInfoData.res.listList.getLitpic();
@@ -208,8 +211,7 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
    public void subMit(){
         String nichengStr=etNicheng.getText().toString().trim();
         String jianJieStr=etJianjie.getText().toString().trim();
-        sexStr=tvSexs.getText().toString().trim();
-        if (nichengStr.equals("")){
+         if (nichengStr.equals("")){
             loading("请输入昵称").setOnlySure();
             return;
         }if (jianJieStr.equals("")){
@@ -226,11 +228,13 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
 
 
 
-       RequestManager.getInstance().publicPostMap(this, params,UrlConstant.LITPIC, new RequestListener<String>() {
+       RequestManager.getInstance().publicPostMap(this, params,UrlConstant.UPDATEUSERINFO, new RequestListener<String>() {
            @Override
            public void onComplete(String requestEntity) {
             //更新成功
-            finish();
+               EventBus.getDefault().post(new MessageEvent("shuaxin"));
+
+               finish();
             }
 
            @Override
@@ -265,8 +269,8 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
                  sexStr = "1";
                 Drawable drawables= getResources().getDrawable(R.mipmap.ic_nan);
                 drawables.setBounds(0, 0, drawables.getMinimumWidth(), drawables.getMinimumHeight());
-                tvSexs.setCompoundDrawables(drawables,null,null,null);
-                tvSexs.setText("男");
+                tvSexs.setCompoundDrawables(null,null,drawables,null);
+                tvSexs.setText("男 ");
                   cancelLoading();
                 break;
             case R.id.tv_nv:
@@ -274,8 +278,8 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
 
              Drawable drawable= getResources().getDrawable(R.mipmap.ic_nv);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvSexs.setCompoundDrawables(drawable,null,null,null);
-                tvSexs.setText("女");
+            tvSexs.setCompoundDrawables(null,null,drawable,null);
+                tvSexs.setText("女 ");
 
                  sexStr = "2";
 

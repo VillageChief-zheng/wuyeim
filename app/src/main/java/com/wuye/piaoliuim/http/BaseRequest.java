@@ -93,9 +93,9 @@ public abstract class BaseRequest<T> {
             //debug模式  打印参数和请求地址  方便调试
             if (BuildConfig.APP_DEBUG == 0) {
                 Log.e("", "╔═══════════════════════════════════════════════════════════════════════════════════════════════════");
-                Log.e("地址", "║   " + params.getUrl());
+                Log.e("地址GET", "║   " + params.getUrl());
                 for (Map.Entry entry : params.getParams().entrySet()) {
-                    Log.e("参数", " ║    " + entry.getKey() + "    ====   " + entry.getKey() +"  ===  "+"token");
+                    Log.e("参数", " ║    " + entry.getKey() );
                 }
 
                 Log.e("", "╚═══════════════════════════════════════════════════════════════════════════════════════════════════");

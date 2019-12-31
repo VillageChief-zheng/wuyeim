@@ -9,10 +9,22 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.view.NavigationTopView;
 import com.chuange.basemodule.view.SwitchButton;
 import com.wuye.piaoliuim.R;
+import com.wuye.piaoliuim.bean.UserInfoData;
+import com.wuye.piaoliuim.config.Constants;
+import com.wuye.piaoliuim.config.UrlConstant;
+import com.wuye.piaoliuim.http.RequestListener;
+import com.wuye.piaoliuim.http.RequestManager;
+import com.wuye.piaoliuim.login.LoginActivity;
+import com.wuye.piaoliuim.utils.AppSessionEngine;
+import com.wuye.piaoliuim.utils.GsonUtil;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,7 +98,24 @@ public class SettingAct extends BaseActivity {
             case R.id.tv_clear:
                 break;
             case R.id.bg_login:
+                getOutLogin();
+
                 break;
         }
+    }
+    public void getOutLogin(){
+        HashMap<String, String> params = new HashMap<>();
+        RequestManager.getInstance().publicPostMap(this, params, UrlConstant.SINOUT, new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+                 AppSessionEngine.clear();
+                startActivity(new Intent(getBaseContext(), LoginActivity.class));
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
     }
 }

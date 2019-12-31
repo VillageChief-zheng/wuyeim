@@ -1,5 +1,7 @@
 package com.wuye.piaoliuim.utils;
 
+import com.wuye.piaoliuim.bean.WXUserInfo;
+
 /**
  * @ClassName MessageEvent
  * @Description
@@ -12,4 +14,5 @@ public class MessageEvent {
     public MessageEvent(String message) {
         this.message = message;
     }
+
 }

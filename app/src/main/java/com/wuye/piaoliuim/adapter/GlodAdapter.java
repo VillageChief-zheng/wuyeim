@@ -1,6 +1,7 @@
 package com.wuye.piaoliuim.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chuange.basemodule.utils.DateUtils;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.BlackData;
 import com.wuye.piaoliuim.bean.GlodData;
@@ -39,7 +41,7 @@ public class GlodAdapter  extends BaseQuickAdapter<GlodData.Res.GlodList, BaseVi
     @Override
     protected void convert(BaseViewHolder helper, GlodData.Res.GlodList rseckillRow) {
         this.rseckillRow=rseckillRow;
-        helper.setText(R.id.tv_riqi, rseckillRow.getCreate_time()).setText(R.id.tv_riqiyear, rseckillRow.getCreate_time())
+        helper.setText(R.id.tv_riqi,  DateUtils.getDateAndMin( Long.parseLong(rseckillRow.getCreate_time()),"1" )).setText(R.id.tv_riqiyear,  DateUtils.getDateAndMin( Long.parseLong(rseckillRow.getCreate_time()),"2" ))
         .setText(R.id.tv_number, "+"+rseckillRow.getGold())
         ;
         type=helper.getView(R.id.tv_name);

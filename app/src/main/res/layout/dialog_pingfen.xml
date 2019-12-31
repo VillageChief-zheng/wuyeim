@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialogfor_imgcode"
+    android:layout_margin="@dimen/dap50"
+    >
+ <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="@dimen/sp_20"
+    android:textColor="#FF000000"
+    android:text="喜欢午夜漂流瓶吗？"
+    android:gravity="center"
+    android:layout_marginTop="@dimen/dap15"
+    />
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="@dimen/sp_15"
+    android:textColor="#FF666666"
+    android:text="评个分或留个言，告诉我们你的想法！"
+    android:gravity="center"
+    android:layout_marginTop="@dimen/dap15"
+    />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@mipmap/bg_pf"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dap15"
+        />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+<Button
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="@dimen/dap50"
+    android:background="@drawable/dialogfor_imgcode"
+    android:text="我要留言"
+    android:textSize="@dimen/sp_14"
+    android:textColor="#FF000000"
+    android:id="@+id/tv_liuyan"
+    />
+    <Button
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="@dimen/dap50"
+        android:text="我要评分"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/white"
+        android:background="#FF775EFF"
+        android:id="@+id/tv_pf"
+
+        />
+</LinearLayout>
+ </LinearLayout>

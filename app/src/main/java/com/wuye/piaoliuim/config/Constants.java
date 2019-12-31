@@ -39,6 +39,7 @@ public class Constants {
     public static final String BASE_IMAGE_CACHE = BASE_PATH;
 
     public static final String TAG = "rance";
+    public static final String APP_ID = "wx4b25184c83dbca16";
     /**
      * 0x001-接受消息  0x002-发送消息
      **/
@@ -57,7 +58,8 @@ public class Constants {
     //主机(正式)
     public static String VersionName = "";
     public static boolean mIsDebug = false;
-    public static String BASEURL = "http://piaoliu.kuaiyueread.com/";//
+//    public static String BASEURL = "http://piaoliu.kuaiyueread.com/";//
+    public static String BASEURL = "http://ceshi.yesepiaoliu.com/";//
     public static String RTMPPREFIXION = "ODRPxVx";
     public static String EstimateUrl = "http://zlpg.yipan.com/";
     public static String ConsultUrl = "https://robot.odrcloud.cn/";

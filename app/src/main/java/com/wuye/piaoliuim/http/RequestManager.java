@@ -118,6 +118,14 @@ public class RequestManager {
     public void publicPostMap(Context context,  HashMap<String, String> params, String postUrl,  RequestListener<String> rComplete) {
         SimpleRequest request = new SimpleRequest(context, postUrl, params, rComplete);
         request.postDataAsync();
+    } /**
+     *
+     *
+     * @paramMy
+     */
+    public void publicGettMap(Context context,  HashMap<String, String> params, String postUrl,  RequestListener<String> rComplete) {
+        SimpleRequest request = new SimpleRequest(context, postUrl, params, rComplete);
+        request.getDataAsync();
     }
     /**
      *  上传文件

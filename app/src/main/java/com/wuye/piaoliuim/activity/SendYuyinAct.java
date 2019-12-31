@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.chuange.basemodule.BaseActivity;
+import com.chuange.basemodule.utils.ActivityTaskManager;
 import com.chuange.basemodule.utils.ToastUtil;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.WuyeApplicatione;
@@ -27,6 +28,8 @@ import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.MediaPlayerHolder;
 import com.wuye.piaoliuim.utils.PlayUtils;
 import com.wuye.piaoliuim.utils.PlaybackInfoListener;
+import com.wuye.piaoliuim.utils.RoundImageView;
+import com.wuye.piaoliuim.utils.WhewView;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 import com.zlw.main.recorderlib.RecordManager;
@@ -72,8 +75,7 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
     TextView end;
     @BindView(R.id.rl_musci)
     RelativeLayout rlMusci;
-    @BindView(R.id.im_luyin)
-    ImageView imLuyin;
+
 
     @BindView(R.id.restyuyim)
     TextView restyuyim;
@@ -82,17 +84,22 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
     int maxVideo;
     @BindView(R.id.bt_submit)
     Button btSubmit;
+    @BindView(R.id.wv)
+    WhewView wv;
+    @BindView(R.id.my_photo)
+    RoundImageView myPhoto;
     private ArrayList<File> upViedoList = new ArrayList<>(); //上传的图片源文件
     private static final int GET_RECODE_AUDIO = 1;
     private static String[] PERMISSION_AUDIO = {
             Manifest.permission.RECORD_AUDIO
     };
-     @Override
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sendyuyin);
         ButterKnife.bind(this);
-         verifyAudioPermissions(this);
+        verifyAudioPermissions(this);
         RecordManager.getInstance().init(WuyeApplicatione.etdApplication, false);
         AndPermission.with(this)
                 .runtime()
@@ -102,15 +109,15 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
         initRecord();
         mediaPlayerIngHolder = new MediaPlayerHolder();
         mediaPlayerIngHolder.setmPlaybackInfoListener(this);//设置监听
-        imLuyin.setOnTouchListener(new View.OnTouchListener() {
+        myPhoto.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        imLuyin.setImageResource(R.mipmap.ic_yydj);
-                        rlMusci.setVisibility(View.GONE);
-                        restyuyim.setVisibility(View.GONE);
-                        btSubmit.setVisibility(View.GONE);
+ //                        rlMusci.setVisibility(View.GONE);
+//                        restyuyim.setVisibility(View.GONE);
+//                        btSubmit.setVisibility(View.GONE);
+                        wv.start();
                         recordManager.start();
 
                         break;
@@ -118,8 +125,8 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
 
                         break;
                     case MotionEvent.ACTION_UP:
-                        imLuyin.setImageResource(R.mipmap.ic_yy_not);
-                        rlMusci.setVisibility(View.VISIBLE);
+                        wv.chongzhi();
+                         rlMusci.setVisibility(View.VISIBLE);
                         btSubmit.setVisibility(View.VISIBLE);
                         restyuyim.setVisibility(View.VISIBLE);
                         recordManager.stop();
@@ -191,7 +198,7 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
                 mediaPlayerIngHolder.loadMedia(result.getAbsolutePath());
                 start.setText(PlayUtils.getAllTime(0));
                 end.setText(PlayUtils.getAllTime(mediaPlayerIngHolder.getVido()));
-             }
+            }
         });
         recordManager.setRecordFftDataListener(new RecordFftDataListener() {
             @Override
@@ -222,13 +229,13 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
 
     @Override
     public void onDurationChanged(int duration) {
-         maxVideo = duration;
+        maxVideo = duration;
         seekbar.setMax(duration);
     }
 
     @Override
     public void onPositionChanged(final int position) {
-         new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
 
@@ -240,7 +247,7 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
 //                            start.setText(PlayUtils.getAllTime(875));
 
                         } else {
-                             start.setText(PlayUtils.getAllTime(position));
+                            start.setText(PlayUtils.getAllTime(position));
                             end.setText(PlayUtils.getAllTime(maxVideo - position));
                             seekbar.setProgress(position);
 
@@ -271,13 +278,13 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
 
     }
 
-    @OnClick({R.id.im_ztandks,R.id.bt_submit})
+    @OnClick({R.id.im_ztandks, R.id.bt_submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.im_ztandks:
                 if (isPlayAndZant) {
                     isPlayAndZant = false;
-                     mediaPlayerIngHolder.pause();
+                    mediaPlayerIngHolder.pause();
                     imZtandks.setImageResource(R.mipmap.ic_ks);
 
                 } else {
@@ -295,18 +302,20 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
                 break;
         }
     }
-    public void subMit(){
+
+    public void subMit() {
 
         MediaType MEDIA_TYPE_PNG = MediaType.parse("multipart/form-data");
 
         HashMap<String, String> params = new HashMap<>();
 
 
-        RequestManager.getInstance().upYuyin(this, params, upViedoList,UrlConstant.FILEDATA,MEDIA_TYPE_PNG, new RequestListener<String>() {
+        RequestManager.getInstance().upYuyin(this, params, upViedoList, UrlConstant.FILEDATA, MEDIA_TYPE_PNG, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
                 //更新成功
-                ToastUtil.show(getBaseContext(),"发送成功");
+                ActivityTaskManager.getInstance().finishActiviy(SendTxtAndYuyinAct.class);
+                ToastUtil.show(getBaseContext(), "发送成功");
                 finish();
             }
 
@@ -316,6 +325,7 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
             }
         });
     }
+
     /*
      * 申请录音权限*/
     public static void verifyAudioPermissions(Activity activity) {
@@ -326,4 +336,4 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
                     GET_RECODE_AUDIO);
         }
     }
- }
+}

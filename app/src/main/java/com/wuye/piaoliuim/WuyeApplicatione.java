@@ -9,6 +9,11 @@ import android.provider.SyncStateContract;
 import com.chuange.basemodule.BaseApplication;
 import com.chuange.basemodule.BaseData;
 import com.chuange.basemodule.view.DialogView;
+import com.tencent.imsdk.TIMSdkConfig;
+import com.tencent.qcloud.tim.uikit.TUIKit;
+import com.tencent.qcloud.tim.uikit.config.CustomFaceConfig;
+import com.tencent.qcloud.tim.uikit.config.GeneralConfig;
+import com.tencent.qcloud.tim.uikit.config.TUIKitConfigs;
 import com.vise.utils.assist.SSLUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.interceptor.HttpLogInterceptor;
@@ -38,14 +43,20 @@ public class WuyeApplicatione extends BaseApplication {
     public static WuyeApplicatione etdApplication;
     private List<Activity> activityList = new ArrayList<>();
 
-
-
+//c8c077c246dcbea0e9f2e9270713af1a46404c0bc64ce99c47740d064d380d5f
+private int SDKAPPID=1400298902;
     @Override
     public void onCreate() {
         super.onCreate();
         init();
 //        ViewTarget.setTagId(R.id.iv_newsimg);
         mContext = getApplicationContext();
+        TUIKitConfigs configs = TUIKit.getConfigs();
+        configs.setSdkConfig(new TIMSdkConfig(SDKAPPID));
+        configs.setCustomFaceConfig(new CustomFaceConfig());
+        configs.setGeneralConfig(new GeneralConfig());
+
+        TUIKit.init(this, SDKAPPID, configs);
     }
     public void init(){
         etdApplication = this;

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.wuye.piaoliuim.bean.PayData;
 import com.wuye.piaoliuim.bean.PayOrderBean;
 import com.wuye.piaoliuim.config.UrlConstant;
 
@@ -22,8 +23,8 @@ public class WXPayUtil {
     private IWXAPI msgApi;
     private Map<String, String> resultunifiedorder;
     private StringBuffer sb;
-     PayOrderBean payOrderBean;
-    public void payWX(Context context, PayOrderBean payOrderBean, IWXAPI msgApi) {
+    PayData payOrderBean;
+    public void payWX(Context context, PayData payOrderBean, IWXAPI msgApi) {
 
         this.msgApi = msgApi;
 
@@ -86,13 +87,13 @@ public class WXPayUtil {
 //        req.sign = genAppSign(signParams);//genAppSign(signParams);;//genAppSign(signParams);
 //         sb.append("sign\n"+req.sign+"\n\n");
         PayReq payRequest = new PayReq();
-        payRequest.appId =payOrderBean.res.getAppId();
-        payRequest.partnerId =  payOrderBean.res.getMchId();
-        payRequest.prepayId = payOrderBean.res.getPrepayId();
+        payRequest.appId =payOrderBean.res.getAppid();
+        payRequest.partnerId =  payOrderBean.res.getPartnerid();
+        payRequest.prepayId = payOrderBean.res.getPrepayid();
         payRequest.packageValue = "Sign=WXPay";//固定值
-        payRequest.nonceStr =payOrderBean.res.getNonceStr();
-        payRequest.timeStamp =  payOrderBean.res.getTimeStamp();
-        payRequest.sign =payOrderBean.res.getPaySign();
+        payRequest.nonceStr =payOrderBean.res.getNoncestr();
+        payRequest.timeStamp =  payOrderBean.res.getTimestamp();
+        payRequest.sign =payOrderBean.res.getSign();
         msgApi.registerApp(UrlConstant.APP_ID);
         msgApi.sendReq(payRequest);
     }

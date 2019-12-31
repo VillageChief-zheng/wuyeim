@@ -42,7 +42,7 @@
     android:layout_height="wrap_content"
     android:textColor="@color/white"
     android:textSize="33sp"
-    android:text=" 999"
+    android:text=""
      android:drawableLeft="@mipmap/ic_topjb"
     android:layout_centerVertical="true"
     android:id="@+id/tv_myjb"

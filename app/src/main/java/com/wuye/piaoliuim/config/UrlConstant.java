@@ -93,6 +93,8 @@ public class UrlConstant {
     public static String FILEDATA = "filedata";
     public static String GID = "gid";
     public static String NUMLIWU = "num";
+    public static String PAY_TYPE = "pay_type";
+    public static String MPNYTYPE = "money_type";
 
 
 
@@ -117,7 +119,7 @@ public class UrlConstant {
     public static final String MYFOLLW = "User/getUserFollowLists";//我的关注
     public static final String CANCELMYFOLLW = "User/userCancelFollow";//取消我的关注
     public static final String MYGOLDLIST = "User/getUserGoldLists";//账单
-    public static final String UPDATEUSERINFO = "User/updateUserInfo";//修改用户信息
+    public static final String UPDATEUSERINFO = "User/updateUserInfos";//修改用户信息
     public static final String GETUSERINFO = "User/getUserInfos";//获取我的用户信息
     public static final String GETOTHERUSERINFO = "User/getUserDetails";//获取其他的用户信息
     public static final String ADDBLACk = "User/addBlack";//加入黑名单
@@ -136,6 +138,12 @@ public class UrlConstant {
     public static final String JUBAO = "User/userReport";//移除黑名单
     public static final String JILULIEBIAO = "User/getUserBrowLists";//浏览记录
     public static final String SENDLIWU = "User/userGiveGifts";//送礼物
+    public static final String BINDPHONECODE = "Useracc/getBindCode";//绑定手机号获取验证码
+    public static final String BINDPHONE = "Useracc/userBindPhone";//绑定手机号
+    public static final String WECHATLOFIN = "Useracc/userWechatLogin";//微信登录
+    public static final String SINOUT = "Useracc/userLoginOut";//退出登录
+    public static final String PLAYLIST = "Index/getPayLevelLists";//获取充值列表
+    public static final String PAYWACHATANDALI = "Payapi/activityReserve";//支付
 
 
 }

@@ -1,12 +1,15 @@
 package com.wuye.piaoliuim.http;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.chuange.basemodule.BaseData;
- import com.chuange.basemodule.utils.ToastUtil;
+import com.chuange.basemodule.utils.ActivityTaskManager;
+import com.chuange.basemodule.utils.ToastUtil;
 import com.wuye.piaoliuim.config.UrlConstant;
+import com.wuye.piaoliuim.login.LoginActivity;
 import com.wuye.piaoliuim.utils.AppSessionEngine;
 import com.wuye.piaoliuim.utils.GsonUtil;
 import com.wuye.piaoliuim.utils.PhoneUtile;
@@ -98,7 +101,6 @@ public class SimpleRequest  extends BaseRequest<String> {
 
     @Override
     public void parseData(String jsonTxt) {
-        Log.i("返回结果++++++++",jsonTxt);
 
         try {
             JSONObject root = new JSONObject(jsonTxt);
@@ -112,7 +114,17 @@ public class SimpleRequest  extends BaseRequest<String> {
 //                } else {
 //                    rComplete.onComplete("");
 //                }
-            } else {
+            }  else  if (baseData.code.equals("300")) {
+//                if (root.has("data")) {
+                ToastUtil.show(mContext,"登录失效请重新登录");
+                ActivityTaskManager.getInstance().finishAll();
+                AppSessionEngine.clear();
+                Intent intent=new Intent(mContext, LoginActivity.class);
+                mContext.startActivity(intent);
+ //                } else {
+//                    rComplete.onComplete("");
+//                }
+            }else {
                 String message = baseData.info;
                 if (!TextUtils.isEmpty(message)) {
                     rComplete.onError(message);

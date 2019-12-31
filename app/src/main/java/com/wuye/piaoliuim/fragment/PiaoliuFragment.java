@@ -7,12 +7,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuange.basemodule.BaseFragement;
 import com.chuange.basemodule.utils.ViewUtils;
+import com.chuange.basemodule.view.refresh.interfaces.RefreshLayout;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.activity.UserInfoAct;
 import com.wuye.piaoliuim.adapter.FinsAdapter;
@@ -36,7 +38,7 @@ import butterknife.BindView;
  * @Author VillageChief
  * @Date 2019/12/13 16:19
  */
-public class PiaoliuFragment extends BaseFragement {
+public class PiaoliuFragment extends BaseFragement   {
 
 
     PiaoliuAdapter publicAdapter;
@@ -70,7 +72,8 @@ public class PiaoliuFragment extends BaseFragement {
             @Override
             public void onComplete(String requestEntity) {
                 piaoliuData = GsonUtil.getDefaultGson().fromJson(requestEntity, PiaoliuData.class);
-                setAdapter(piaoliuData);
+                boolean isRefresh =mNextRequestPage ==1;
+                setAdapter(isRefresh,piaoliuData);
             }
 
             @Override
@@ -79,7 +82,7 @@ public class PiaoliuFragment extends BaseFragement {
             }
         });
     }
-    public void setAdapter(PiaoliuData dataList){
+    public void setAdapter(boolean isRefresh,PiaoliuData dataList){
         if (mNextRequestPage==1){
              @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
                     getBaseActivity(),
@@ -94,10 +97,17 @@ public class PiaoliuFragment extends BaseFragement {
                     getNetData(mNextRequestPage);
                 }
             });
+        publicAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+
+            }
+        });
         }
         mNextRequestPage++;
         final int size = dataList == null ? 0 : dataList.res.listList.size();
         if (isRefresh) {
+
             publicAdapter.setNewData(dataList.res.listList);
         } else {
             if (size > 0) {
@@ -126,4 +136,6 @@ public class PiaoliuFragment extends BaseFragement {
     public static PiaoliuFragment newInstance() {
         return new PiaoliuFragment();
     }
+
+
 }

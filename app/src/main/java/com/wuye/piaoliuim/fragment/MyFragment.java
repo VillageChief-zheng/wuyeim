@@ -1,13 +1,17 @@
 package com.wuye.piaoliuim.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +20,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuange.basemodule.BaseFragement;
+import com.chuange.basemodule.utils.ToastUtil;
 import com.chuange.basemodule.utils.ViewUtils;
+import com.chuange.basemodule.view.DialogView;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.activity.BlackList;
 import com.wuye.piaoliuim.activity.FinsActivity;
@@ -35,7 +41,12 @@ import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.GsonUtil;
+import com.wuye.piaoliuim.utils.MessageEvent;
 import com.wuye.piaoliuim.utils.RecyclerViewSpacesItemDecoration;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +60,7 @@ import butterknife.BindView;
  * @Author VillageChief
  * @Date 2019/12/13 15:46
  */
-public class MyFragment extends BaseFragement {
+public class MyFragment extends BaseFragement implements DialogView.DialogViewListener {
 
     @ViewUtils.ViewInject(R.id.recommend_gv)
     RecyclerView recommendGv;
@@ -63,13 +74,12 @@ public class MyFragment extends BaseFragement {
     @Override
     protected void initView(Bundle savedInstanceState) {
         setView(R.layout.activity_my, this, false);
-
-        initAdapter();
-        getNetData();
+         initAdapter();
      }
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
+//        EventBus.getDefault().register(this);
 
     }
     public void getNetData(){
@@ -137,13 +147,21 @@ public class MyFragment extends BaseFragement {
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
             if (i==3){
                 //应用评分
+                pingfen();
              }else if(i==4){
                 //守则
+             }else if(i==5){
+                //守则
+                ToastUtil.show(getContext(),"用户守则");
              }else {
                 startActivity(new Intent(getContext(),itemClass[i]));
             }
             }
         });
+
+     }
+     private void pingfen(){
+         loading(R.layout.dialog_pingfen, this).setOutsideClose(true);
 
      }
     public static MyFragment newInstance() {
@@ -166,6 +184,58 @@ public class MyFragment extends BaseFragement {
             case R.id.tv_myinfo:
                 startActivity(new Intent(getActivity(), MyActivity.class));
                   break;
+            case R.id.tv_liuyan:
+                startActivity(new Intent(getActivity(), OpinionAct.class));
+                cancelLoading();
+                  break;
+            case R.id.tv_pf:
+                bySearchOpen(getContext());
+                cancelLoading();
+                   break;
         }
     }
+
+    @Override
+    public void onView(View view) {
+        view.findViewById(R.id.tv_liuyan).setOnClickListener(this);
+        view.findViewById(R.id.tv_pf).setOnClickListener(this);
+     }
+    /**
+     * 方法二  通过应用市场的搜索方法来调用app详情页
+     *
+     * @param context
+     */
+    public static void bySearchOpen(Context context){
+        try {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse("market://search?q="+ context.getPackageName()));
+            context.startActivity(i);
+        } catch (Exception e) {
+            Toast.makeText(context, "您的手机没有安装Android应用市场", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getNetData();
+    }
+    //    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onMessageEvent(MessageEvent event) {
+//
+//        if (event.message.equals("shuaxin")){
+//            Log.i("pppppp","刷新");
+//            getNetData();
+//
+//        }
+//    }
+//
+//
+//
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        EventBus.getDefault().unregister(this);
+//    }
 }

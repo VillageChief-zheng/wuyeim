@@ -24,6 +24,7 @@
         android:numColumns="2"
         android:scrollbars="none"
         android:layout_marginTop="@dimen/dp_10"
+         />
+    <include layout="@layout/nofins" />
 
-        />
 </LinearLayout>

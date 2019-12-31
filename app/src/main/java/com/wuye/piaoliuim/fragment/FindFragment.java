@@ -74,20 +74,19 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
         RequestManager.getInstance().publicPostMap(getContext(), params, UrlConstant.FINDINDEX, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
-                Log.i("ppppppppp","pppppppssssssss");
-                findData = GsonUtil.getDefaultGson().fromJson(requestEntity, FindData.class);
-                initAdapter(findData);
+                 findData = GsonUtil.getDefaultGson().fromJson(requestEntity, FindData.class);
+                boolean isRefresh =mNextRequestPage ==1;
+                initAdapter(isRefresh,findData);
             }
 
             @Override
             public void onError(String message) {
-                Log.i("ppppppppp","ssssqqqqqqqqq");
 
             }
         });
     }
 
-    private void initAdapter(FindData findData) {
+    private void initAdapter(boolean isRefresh,FindData findData) {
         if (mNextRequestPage == 1) {
             headerView = getLayoutInflater().inflate(R.layout.header_find, null);
             LinearLayout llFuhao = headerView.findViewById(R.id.ll_fuhao);

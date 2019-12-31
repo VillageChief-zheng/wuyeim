@@ -11,4 +11,9 @@
         <item>意见反馈</item>
         <item>设置</item>
     </array>
-</resources>
+         <declare-styleable name="roundedimageview">
+            <attr name="border_thickness" format="dimension" />
+            <attr name="border_inside_color" format="color" />
+            <attr name="border_outside_color" format="color"></attr>
+        </declare-styleable>
+ </resources>

@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.chuange.basemodule.BaseActivity;
+import com.chuange.basemodule.utils.ActivityTaskManager;
 import com.chuange.basemodule.utils.ToastUtil;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.UserInfoData;
@@ -74,6 +75,7 @@ public class SendTextAct extends BaseActivity {
             public void onComplete(String requestEntity) {
 
                 ToastUtil.show(getBaseContext(),"发送成功");
+                ActivityTaskManager.getInstance().finishActiviy(SendTxtAndYuyinAct.class);
                 finish();
             }
 

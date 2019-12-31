@@ -3,6 +3,7 @@ package com.wuye.piaoliuim.activity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuange.basemodule.BaseActivity;
 import com.wuye.piaoliuim.R;
-import com.wuye.piaoliuim.adapter.FinsAdapter;
 import com.wuye.piaoliuim.adapter.LoveAdapter;
 import com.wuye.piaoliuim.bean.FinsData;
 import com.wuye.piaoliuim.bean.LoveData;
@@ -39,12 +39,15 @@ public class MyLoveAct extends BaseActivity {
     RecyclerView recommendGv;
 
     private static final int PAGE_SIZE = 10;
+    @BindView(R.id.noDataCommL)
+    LinearLayout noDataCommL;
 
     private int mNextRequestPage = 1;
 
     private List<FinsData.Res.FinsList> newsList = new ArrayList<>();
     LoveData listData;
     LoveAdapter publicAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,28 +56,36 @@ public class MyLoveAct extends BaseActivity {
         getNetData(mNextRequestPage);
     }
 
-    public void getNetData(int page){
+    public void getNetData(int page) {
         HashMap<String, String> params = new HashMap<>();
-        params.put(UrlConstant.PAGE,page+"");
+        params.put(UrlConstant.PAGE, page + "");
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.MYFOLLW, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
-                listData= GsonUtil.getDefaultGson().fromJson(requestEntity,LoveData.class);
-                setAdapter(listData);
-            }
+                listData = GsonUtil.getDefaultGson().fromJson(requestEntity, LoveData.class);
+                boolean isRefresh =mNextRequestPage ==1;
+                if (listData.res.listList.size()>0){
 
+                 setAdapter(isRefresh,listData);
+            }else {
+                    showNoData(listData.res.listList.size());
+                 }
+
+            }
             @Override
             public void onError(String message) {
 
             }
         });
-    } public void cancelLove(final int postione, String id){
+    }
+
+    public void cancelLove(final int postione, String id) {
         HashMap<String, String> params = new HashMap<>();
-        params.put(UrlConstant.PASSID,id );
+        params.put(UrlConstant.PASSID, id);
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.CANCELMYFOLLW, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
-             publicAdapter.remove(postione);
+                publicAdapter.remove(postione);
             }
 
             @Override
@@ -84,11 +95,11 @@ public class MyLoveAct extends BaseActivity {
         });
     }
 
-    public void setAdapter(LoveData dataList){
-        if (mNextRequestPage==1){
-            publicAdapter=new LoveAdapter( this,R.layout.adapter_mylove_item,dataList.res.listList);
+    public void setAdapter(boolean isRefresh,LoveData dataList) {
+        if (mNextRequestPage == 1) {
+            publicAdapter = new LoveAdapter(this, R.layout.adapter_mylove_item, dataList.res.listList);
             @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
-                   this,
+                    this,
                     LinearLayoutManager.VERTICAL, false);
             recommendGv.setLayoutManager(managers);
             recommendGv.setAdapter(publicAdapter);
@@ -117,12 +128,13 @@ public class MyLoveAct extends BaseActivity {
         setAdapterLis();
 
     }
-    public void setAdapterLis(){
+
+    public void setAdapterLis() {
         publicAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
                 int itemViewId = view.getId();
-                String   passId=publicAdapter.getData().get(position).pass_id;
+                String passId = publicAdapter.getData().get(position).pass_id;
                 switch (itemViewId) {
                     case R.id.tv_deleteblove:
                         cancelLove(position, passId);
@@ -131,6 +143,7 @@ public class MyLoveAct extends BaseActivity {
             }
         });
     }
+
     @Override
     protected void initView(Bundle savedInstanceState) {
 
@@ -139,5 +152,16 @@ public class MyLoveAct extends BaseActivity {
     @Override
     protected void processLogic(Bundle savedInstanceState) {
 
+    }
+    private void showNoData(int size) {
+        if (size > 0) {
+            noDataCommL.setVisibility(View.GONE);
+            recommendGv.setVisibility(View.VISIBLE);
+        } else {
+
+            noDataCommL.setVisibility(View.VISIBLE);
+            recommendGv.setVisibility(View.GONE);
+
+        }
     }
 }

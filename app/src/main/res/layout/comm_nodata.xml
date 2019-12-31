@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/noDataCommL"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:visibility="gone"
+    >
+
+    <!--<ImageView-->
+    <!--android:id="@+id/commTipsIcon"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@mipmap/commons_nodata_icon" />-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/bg_nodate"
+        />
+    <TextView
+        android:id="@+id/commTipsTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="哎呀，暂时还没有数据呦~"
+        android:textColor="#FF717486"
+        android:layout_marginTop="@dimen/pad_10"
+        android:textSize="16sp" />
+</LinearLayout>

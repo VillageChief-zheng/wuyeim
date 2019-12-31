@@ -3,6 +3,7 @@ package com.wuye.piaoliuim.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -29,12 +30,24 @@ public class IndexAct extends BaseActivity {
     @Override
     protected void processLogic(Bundle savedInstanceState) {
         String userId = AppSessionEngine.getToken();
+         countDown(Constants.SPLASH_TIME, new CountDownListener() {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                     }
 
-                        if (!TextUtils.isEmpty(userId)) {
+                    @Override
+                    public void onFinish() {
+
+
+                        if (!TextUtils.isEmpty(userId)||userId!=null) {
                             goActivity();
                         } else {
                             goLogin();
                         }
+
+                    }
+                }
+        );
 
 
 

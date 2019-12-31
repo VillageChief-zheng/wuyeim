@@ -76,6 +76,7 @@
             android:textColorHint="@color/logincolor"
             android:textColor="@color/logincolor"
             android:id="@+id/edpsw"
+            android:inputType="textPassword"
             />
         <ImageView
             android:layout_width="wrap_content"
@@ -83,6 +84,7 @@
             android:src="@mipmap/ic_hinpsw"
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/dap26"
+            android:id="@+id/pswshowAndhid"
             />
         <!--输入框-->
     </LinearLayout>

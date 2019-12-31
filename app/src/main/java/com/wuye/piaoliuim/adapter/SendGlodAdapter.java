@@ -2,6 +2,7 @@ package com.wuye.piaoliuim.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,11 +13,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chuange.basemodule.utils.DateUtils;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.FindData;
 import com.wuye.piaoliuim.bean.GlodData;
 import com.wuye.piaoliuim.config.Constants;
 
+import java.text.ParseException;
 import java.util.List;
 
 public class SendGlodAdapter  extends BaseQuickAdapter<GlodData.Res.GlodList, BaseViewHolder> {
@@ -36,9 +39,13 @@ public class SendGlodAdapter  extends BaseQuickAdapter<GlodData.Res.GlodList, Ba
     @Override
     protected void convert(BaseViewHolder helper, GlodData.Res.GlodList rseckillRow) {
         this.rseckillRow=rseckillRow;
-        helper.setText(R.id.tv_riqi, rseckillRow.getCreate_time()).setText(R.id.tv_riqiyear, rseckillRow.getCreate_time())
+        helper.setText(R.id.tv_riqi,  DateUtils.getDateAndMin( Long.parseLong(rseckillRow.getCreate_time()),"1" )).setText(R.id.tv_riqiyear,  DateUtils.getDateAndMin( Long.parseLong(rseckillRow.getCreate_time()),"2" ))
                 .setText(R.id.tv_number, "-"+rseckillRow.getGold())
         ;
+             Log.i("ppppppp", DateUtils.getDateAndMin( Long.parseLong(rseckillRow.getCreate_time()),"1" ));
+             Log.i("ppppppp", DateUtils.getDateAndMin( Long.parseLong(rseckillRow.getCreate_time()),"2" ));
+
+
         type=helper.getView(R.id.tv_name);
 
         if (rseckillRow.getType().equals("1")){

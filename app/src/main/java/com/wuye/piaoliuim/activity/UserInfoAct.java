@@ -77,7 +77,6 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
     UserInfoData userInfoData;
     List<String> mlist = new ArrayList<>();
     List<ImageView> imageList = new ArrayList<>();
-
     String id;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
