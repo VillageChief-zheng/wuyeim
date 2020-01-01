@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.BlackData;
 import com.wuye.piaoliuim.config.Constants;
+import com.wuye.piaoliuim.utils.ImagUrlUtils;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class BlackListAdapter  extends BaseQuickAdapter<BlackData.Res.BlackList,
          ;
         imageView = helper.getView(R.id.clock);
         Glide.with(mContext)
-                .load(Constants.BASEURL+rseckillRow.getLitpic())
+                .load(ImagUrlUtils.getImag(rseckillRow.getLitpic()))
                 .into(imageView);
         helper.addOnClickListener(R.id.tv_deleteblack);
 

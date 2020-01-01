@@ -1,5 +1,6 @@
 package com.wuye.piaoliuim;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,8 +17,6 @@ import com.chaychan.library.BottomBarLayout;
 import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.BaseFragement;
 import com.chuange.basemodule.utils.ActivityTaskManager;
-import com.tencent.imsdk.TIMCallBack;
-import com.tencent.imsdk.TIMManager;
 import com.wuye.piaoliuim.activity.EditInfoAct;
 import com.wuye.piaoliuim.activity.FangdaPicAct;
 import com.wuye.piaoliuim.activity.LiwuTsetAct;
@@ -28,15 +27,21 @@ import com.wuye.piaoliuim.activity.SendTxtAndYuyinAct;
 import com.wuye.piaoliuim.activity.SendYuyinAct;
 import com.wuye.piaoliuim.activity.TestHeixiu;
 import com.wuye.piaoliuim.activity.UserInfoAct;
+import com.wuye.piaoliuim.bean.UserInfoData;
+import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.fragment.FindFragment;
 import com.wuye.piaoliuim.fragment.ImFragment;
 import com.wuye.piaoliuim.fragment.MyFragment;
 import com.wuye.piaoliuim.fragment.PiaoliuFragment;
+import com.wuye.piaoliuim.http.RequestListener;
+import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.login.LoginActivity;
 import com.wuye.piaoliuim.utils.AppSessionEngine;
 import com.wuye.piaoliuim.utils.GenerateTestUserSig;
+import com.wuye.piaoliuim.utils.GsonUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -52,14 +57,14 @@ public class MainActivity extends BaseActivity {
 
     private FragmentManager mFragmentManager;
     private List<BaseFragement> mFragmentList = new ArrayList<>();
-
+    UserInfoData userInfoData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mFragmentManager = getSupportFragmentManager();
-        initData();
+        getNetData();
     }
 
 
@@ -83,13 +88,16 @@ public class MainActivity extends BaseActivity {
     private void changeFragment(int currentPosition) {
         if (currentPosition==2){
 //        startActivity(new Intent(this, TestHeixiu.class));
-//        startActivity(new Intent(this, SendTxtAndYuyinAct.class));
-            login("1", GenerateTestUserSig.genTestUserSig("1"));
-        }else {
-            currentPositions=currentPosition;
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.main_container, mFragmentList.get(currentPosition));
-            transaction.commit();
+        startActivity(new Intent(this, SendTxtAndYuyinAct.class));
+         }else {
+            if (AppSessionEngine.getPhone()!=null||AppSessionEngine.getPhone().equals("")) {
+                currentPositions = currentPosition;
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.main_container, mFragmentList.get(currentPosition));
+                transaction.commit();
+            }else {
+
+            }
         }
     }
 
@@ -123,20 +131,21 @@ public class MainActivity extends BaseActivity {
     protected void processLogic(Bundle savedInstanceState) {
 
     }
-    public void login(String identifier,String userSig){
-
-         // identifier为用户名，userSig 为用户登录凭证
-        TIMManager.getInstance().login(identifier, userSig, new TIMCallBack() {
+    public void getNetData(){
+        HashMap<String, String> params = new HashMap<>();
+        RequestManager.getInstance().publicPostMap(this, params, UrlConstant.GETUSERINFO, new RequestListener<String>() {
             @Override
-            public void onError(int code, String desc) {
-                //错误码 code 和错误描述 desc，可用于定位请求失败原因
-                //错误码 code 列表请参见错误码表
-                Log.e("pppp", "login failed. code: " + code + " errmsg: " + desc);
+            public void onComplete(String requestEntity) {
+                userInfoData= GsonUtil.getDefaultGson().fromJson(requestEntity, UserInfoData.class);
+
+                AppSessionEngine.setUserInfo(userInfoData);
+                initData();
+
             }
 
             @Override
-            public void onSuccess() {
-                Log.e("p[[p", "login succ");
+            public void onError(String message) {
+
             }
         });
     }

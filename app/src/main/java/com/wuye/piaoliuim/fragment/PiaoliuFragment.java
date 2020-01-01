@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuange.basemodule.BaseFragement;
 import com.chuange.basemodule.utils.ViewUtils;
@@ -21,9 +23,12 @@ import com.wuye.piaoliuim.adapter.FinsAdapter;
 import com.wuye.piaoliuim.adapter.PiaoliuAdapter;
 import com.wuye.piaoliuim.bean.FinsData;
 import com.wuye.piaoliuim.bean.PiaoliuData;
+import com.wuye.piaoliuim.bean.UserInfoData;
+import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
+import com.wuye.piaoliuim.utils.AppSessionEngine;
 import com.wuye.piaoliuim.utils.GsonUtil;
 
 import java.util.ArrayList;
@@ -53,7 +58,7 @@ public class PiaoliuFragment extends BaseFragement   {
     private int mNextRequestPage = 1;
 
     private List<PiaoliuData.Res.PiaoliuList> newsList = new ArrayList<>();
-
+    UserInfoData userInfoData;
     @Override
     protected void initView(Bundle savedInstanceState) {
         setView(R.layout.fragment_piaoliu, this, false);
@@ -123,6 +128,7 @@ public class PiaoliuFragment extends BaseFragement   {
         setAdapterLis();
 
     }
+
     public void setAdapterLis(){
         publicAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

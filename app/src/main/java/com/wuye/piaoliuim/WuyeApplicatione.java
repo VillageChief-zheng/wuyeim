@@ -6,14 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.provider.SyncStateContract;
 
+import androidx.multidex.MultiDex;
+
 import com.chuange.basemodule.BaseApplication;
 import com.chuange.basemodule.BaseData;
 import com.chuange.basemodule.view.DialogView;
-import com.tencent.imsdk.TIMSdkConfig;
-import com.tencent.qcloud.tim.uikit.TUIKit;
-import com.tencent.qcloud.tim.uikit.config.CustomFaceConfig;
-import com.tencent.qcloud.tim.uikit.config.GeneralConfig;
-import com.tencent.qcloud.tim.uikit.config.TUIKitConfigs;
 import com.vise.utils.assist.SSLUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.interceptor.HttpLogInterceptor;
@@ -51,12 +48,14 @@ private int SDKAPPID=1400302511;
         init();
 //        ViewTarget.setTagId(R.id.iv_newsimg);
         mContext = getApplicationContext();
-        TUIKitConfigs configs = TUIKit.getConfigs();
-        configs.setSdkConfig(new TIMSdkConfig(SDKAPPID));
-        configs.setCustomFaceConfig(new CustomFaceConfig());
-        configs.setGeneralConfig(new GeneralConfig());
+//        TUIKitConfigs configs = TUIKitt.getConfigs();
+//        configs.setSdkConfig(new TIMSdkConfig(SDKAPPID));
+//        configs.setCustomFaceConfig(new CustomFaceConfig());
+//        configs.setGeneralConfig(new GeneralConfig());
+//
+//        TUIKit.init(this, SDKAPPID, configs);
+        MultiDex.install(this);
 
-        TUIKit.init(this, SDKAPPID, configs);
     }
     public void init(){
         etdApplication = this;

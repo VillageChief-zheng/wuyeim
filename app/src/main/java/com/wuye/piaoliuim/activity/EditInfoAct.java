@@ -32,6 +32,7 @@ import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.GlideLoader;
 import com.wuye.piaoliuim.utils.GsonUtil;
+import com.wuye.piaoliuim.utils.ImagUrlUtils;
 import com.wuye.piaoliuim.utils.MessageEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -111,7 +112,7 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
             RequestOptions options = new RequestOptions()//圆形图片
                     .circleCrop();
             Glide.with(this)
-                    .load(Constants.BASEURL+userInfoData.res.listList.getLitpic())
+                    .load(ImagUrlUtils.getImag(userInfoData.res.listList.getLitpic()))
                     .apply(options)
                     .into((clock));
         }

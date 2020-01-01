@@ -23,4 +23,5 @@
     <color name="progressbar">#92D0FA</color>
     <color name="themcolor">#FF775EFF</color>
     <color name="redthemcolor">#FFFF5B63</color>
+    <color name="font_grey">#9D9D9D</color>
 </resources>

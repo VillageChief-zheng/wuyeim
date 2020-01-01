@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.wuye.piaoliuim.WuyeApplicatione;
 import com.wuye.piaoliuim.bean.TokenUserInfo;
 import com.wuye.piaoliuim.bean.UserData;
+import com.wuye.piaoliuim.bean.UserInfoData;
 import com.wuye.piaoliuim.config.UrlConstant;
 
 /**
@@ -124,5 +125,37 @@ public class AppSessionEngine {
             defaultGson = new Gson();
         }
         return defaultGson;
+    }
+    public static void setUserInfo(UserInfoData userInfo) {
+        if (userInfo == null) return;
+        try {
+            String json = getDefaultGson().toJson(userInfo);
+            if (!TextUtils.isEmpty(json)) {
+                setString(json, UrlConstant.USERINFOS);
+            }
+        } catch (Exception e) {
+            LogUtils.e(e);
+        }
+    }
+    public static UserInfoData getMyUserInfo() {
+        String userInfo = getString(UrlConstant.USERINFOS);
+        if (userInfo == null) {
+            return null;
+        }
+        try {
+            return getDefaultGson().fromJson(userInfo, UserInfoData.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public static String getPhone() {
+        UserInfoData tokenUserInfo = AppSessionEngine.getMyUserInfo();
+        return (null != tokenUserInfo && !TextUtils.isEmpty(tokenUserInfo.res.getListList().getPhone())) ? tokenUserInfo.res.getListList().getPhone() : null;
+
+    }public static void setPhone(UserInfoData userInfo) {
+        String json = getDefaultGson().toJson(userInfo);
+        if (!TextUtils.isEmpty(json)) {
+            setString(json, UrlConstant.USERINFOS);
+        }
     }
 }

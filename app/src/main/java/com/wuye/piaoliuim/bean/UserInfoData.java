@@ -40,6 +40,15 @@ public class UserInfoData extends BaseData {
             @SerializedName("is_follow")
             public String is_follow ;//用户相册 多个以","分割
             public String user_gold ;//用户相册 多个以","分割
+            public String phone ;//是否绑定
+
+            public String getPhone() {
+                return phone;
+            }
+
+            public void setPhone(String phone) {
+                this.phone = phone;
+            }
 
             public String getId() {
                 return id;

@@ -18,6 +18,7 @@ import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.FindData;
 import com.wuye.piaoliuim.bean.PiaoliuData;
 import com.wuye.piaoliuim.config.Constants;
+import com.wuye.piaoliuim.utils.ImagUrlUtils;
 
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class PiaoliuAdapter  extends BaseQuickAdapter<PiaoliuData.Res.PiaoliuLis
         RequestOptions options = new RequestOptions()//圆形图片
                 .circleCrop();
         Glide.with(mContext)
-                .load(Constants.BASEURL +rseckillRow.getLitpic()).apply(options)
+                .load(ImagUrlUtils.getImag(rseckillRow.getLitpic())).apply(options)
                 .into(header);
         helper.addOnClickListener(R.id.tv_love);
     }

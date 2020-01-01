@@ -25,4 +25,17 @@
                 <!--显示软件盘-->
 
             </style>
+    <style name="AppThemes" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/font_grey</item>
+                <!--背景-->
+                <item name="android:windowFrame">@null</item>
+                <!--设置无边框-->
+                <item name="android:windowNoTitle">true</item>
+                <!-- 无标题 -->
+                <item name="android:backgroundDimEnabled">true</item>
+                <!-- 模糊 -->
+                <item name="android:windowSoftInputMode">stateAlwaysVisible</item>
+                <!--显示软件盘-->
+    </style>
 </resources>

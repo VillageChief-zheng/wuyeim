@@ -20,6 +20,7 @@ import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.GsonUtil;
+import com.wuye.piaoliuim.utils.ImagUrlUtils;
 
 import java.util.HashMap;
 
@@ -100,7 +101,7 @@ public class MyActivity extends BaseActivity {
         RequestOptions options = new RequestOptions()//圆形图片
                 .circleCrop();
         Glide.with(this)
-                .load(Constants.BASEURL+userInfoData.res.listList.getLitpic()).apply(options)
+                .load(ImagUrlUtils.getImag(userInfoData.res.listList.getLitpic())).apply(options)
                 .into(imHeader);
 tvToedit.setOnClickListener(new View.OnClickListener() {
     @Override

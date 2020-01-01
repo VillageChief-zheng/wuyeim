@@ -22,9 +22,11 @@ import com.chuange.basemodule.utils.ActivityTaskManager;
 import com.chuange.basemodule.utils.ToastUtil;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.WuyeApplicatione;
+import com.wuye.piaoliuim.bean.UpFileData;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
+import com.wuye.piaoliuim.utils.GsonUtil;
 import com.wuye.piaoliuim.utils.MediaPlayerHolder;
 import com.wuye.piaoliuim.utils.PlayUtils;
 import com.wuye.piaoliuim.utils.PlaybackInfoListener;
@@ -62,7 +64,6 @@ import static com.wuye.piaoliuim.utils.MediaPlayerHolder.PLAYSTATUS3;
 public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
 
 
-    final RecordManager recordManager = RecordManager.getInstance();
 
     MediaPlayerHolder mediaPlayerIngHolder;
     @BindView(R.id.im_ztandks)
@@ -93,14 +94,13 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
     private static String[] PERMISSION_AUDIO = {
             Manifest.permission.RECORD_AUDIO
     };
-
+    final RecordManager recordManager = RecordManager.getInstance();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sendyuyin);
         ButterKnife.bind(this);
         verifyAudioPermissions(this);
-        RecordManager.getInstance().init(WuyeApplicatione.etdApplication, false);
         AndPermission.with(this)
                 .runtime()
                 .permission(new String[]{Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE,
@@ -144,12 +144,12 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
 
 
     private void initRecord() {
-        RecordManager.getInstance().changeFormat(RecordConfig.RecordFormat.MP3);
-        recordManager.changeFormat(RecordConfig.RecordFormat.MP3);
+         recordManager.changeFormat(RecordConfig.RecordFormat.MP3);
         String recordDir = String.format(Locale.getDefault(), "%s/Record/com.piaoliu.main/",
                 Environment.getExternalStorageDirectory().getAbsolutePath());
+        recordManager.init(WuyeApplicatione.etdApplication, false);
         recordManager.changeRecordDir(recordDir);
-        initRecordEvent();
+         initRecordEvent();
     }
 
     private void initRecordEvent() {
@@ -305,7 +305,7 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
 
     public void subMit() {
 
-        MediaType MEDIA_TYPE_PNG = MediaType.parse("multipart/form-data");
+        MediaType MEDIA_TYPE_PNG = MediaType.parse("audio/mp3");
 
         HashMap<String, String> params = new HashMap<>();
 
@@ -314,8 +314,25 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
             @Override
             public void onComplete(String requestEntity) {
                 //更新成功
+                UpFileData upFileData= GsonUtil.getDefaultGson().fromJson(requestEntity,UpFileData.class);
+                subMits(upFileData.getFilename());
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    } public void subMits(String filname) {
+        HashMap<String, String> params = new HashMap<>();
+          params.put(UrlConstant.TYPE,"2");
+        params.put(UrlConstant.CONTENT,filname);
+        RequestManager.getInstance().publicPostMap(this, params, UrlConstant.SENDTEXT, new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+
+                ToastUtil.show(getBaseContext(),"发送成功");
                 ActivityTaskManager.getInstance().finishActiviy(SendTxtAndYuyinAct.class);
-                ToastUtil.show(getBaseContext(), "发送成功");
                 finish();
             }
 

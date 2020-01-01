@@ -35,6 +35,7 @@ public class UrlConstant {
     public static String IS_WEB_TITLE = "isWebTitle";
     public static String URL = "url";
     public static String USERTOKEN = "token";
+    public static String USERINFOS = "userinfo";
     public static String CHANNEL = "channel";
     public static String PLANTYPE = "platform_type";
     public static String PHONEMODEL = "phone_model";
@@ -144,6 +145,9 @@ public class UrlConstant {
     public static final String SINOUT = "Useracc/userLoginOut";//退出登录
     public static final String PLAYLIST = "Index/getPayLevelLists";//获取充值列表
     public static final String PAYWACHATANDALI = "Payapi/activityReserve";//支付
+    public static final String GETVERSION = "Index/getVersionInfo";//支付
+    public static final String RENGPINGZI = "User/getGoldInsufficient";//扔瓶子
+    public static final String SYSMESSAGE = "Index/getNoticeLists";//系统消息
 
 
 }

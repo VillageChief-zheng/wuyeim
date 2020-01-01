@@ -33,6 +33,7 @@ import com.wuye.piaoliuim.activity.MyLoveAct;
 import com.wuye.piaoliuim.activity.OpinionAct;
 import com.wuye.piaoliuim.activity.RechangeAct;
 import com.wuye.piaoliuim.activity.SettingAct;
+import com.wuye.piaoliuim.activity.SysMessageAct;
 import com.wuye.piaoliuim.adapter.FragmnetMyAdapter;
 import com.wuye.piaoliuim.bean.ItemBean;
 import com.wuye.piaoliuim.bean.UserInfoData;
@@ -40,7 +41,9 @@ import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
+import com.wuye.piaoliuim.utils.AppSessionEngine;
 import com.wuye.piaoliuim.utils.GsonUtil;
+import com.wuye.piaoliuim.utils.ImagUrlUtils;
 import com.wuye.piaoliuim.utils.MessageEvent;
 import com.wuye.piaoliuim.utils.RecyclerViewSpacesItemDecoration;
 
@@ -96,8 +99,9 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
                 RequestOptions options = new RequestOptions()//圆形图片
                         .circleCrop();
                 Glide.with(getBaseActivity())
-                        .load(Constants.BASEURL+userInfoData.res.listList.getLitpic()).apply(options)
+                        .load(ImagUrlUtils.getImag(userInfoData.res.listList.getLitpic())).apply(options)
                         .into(header);
+                AppSessionEngine.setUserInfo(userInfoData);
              }
 
             @Override
@@ -152,6 +156,7 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
                 //守则
              }else if(i==5){
                 //守则
+                startActivity(new Intent(getContext(), SysMessageAct.class));
                 ToastUtil.show(getContext(),"用户守则");
              }else {
                 startActivity(new Intent(getContext(),itemClass[i]));

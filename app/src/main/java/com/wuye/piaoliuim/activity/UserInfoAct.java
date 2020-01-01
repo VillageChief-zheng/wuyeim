@@ -23,6 +23,7 @@ import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.GsonUtil;
+import com.wuye.piaoliuim.utils.ImagUrlUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -224,7 +225,7 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
         RequestOptions options = new RequestOptions()//圆形图片
                 .circleCrop();
         Glide.with(this)
-                .load(Constants.BASEURL + userInfoData.res.listList.getLitpic()).apply(options)
+                .load(ImagUrlUtils.getImag(userInfoData.res.listList.getLitpic())).apply(options)
                 .into(imHeader);
         if (!userInfoData.res.listList.getUser_imgs().equals("")) {
             mlist = getimagList(userInfoData.res.listList.getUser_imgs());

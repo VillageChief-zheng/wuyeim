@@ -10,6 +10,13 @@ import androidx.annotation.Nullable;
 
 import com.chuange.basemodule.BaseActivity;
 import com.wuye.piaoliuim.R;
+import com.wuye.piaoliuim.bean.PiaoliuData;
+import com.wuye.piaoliuim.config.UrlConstant;
+import com.wuye.piaoliuim.http.RequestListener;
+import com.wuye.piaoliuim.http.RequestManager;
+import com.wuye.piaoliuim.utils.GsonUtil;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,15 +57,35 @@ public class SendTxtAndYuyinAct extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_wz:
-                startActivity(new Intent(getBaseContext(),SendTextAct.class));
+                getNetData("1");
                 break;
             case R.id.ll_yuyin:
-                startActivity(new Intent(getBaseContext(),SendYuyinAct.class));
-
+   getNetData("2");
                 break;
             case R.id.canle_tv:
                 finish();
                 break;
         }
+    }
+    public void getNetData(String type) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(UrlConstant.TYPE,   "1");
+        RequestManager.getInstance().publicPostMap(this, params, UrlConstant.RENGPINGZI, new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+         if (type.equals("1")){
+             startActivity(new Intent(getBaseContext(),SendTextAct.class));
+
+         }else {
+             startActivity(new Intent(getBaseContext(),SendYuyinAct.class));
+
+         }
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
     }
 }
