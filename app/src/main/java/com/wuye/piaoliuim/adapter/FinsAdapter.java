@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.FinsData;
 import com.wuye.piaoliuim.config.Constants;
+import com.wuye.piaoliuim.utils.ImagUrlUtils;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class FinsAdapter extends BaseQuickAdapter<FinsData.Res.FinsList, BaseVie
          RequestOptions options = new RequestOptions()//圆形图片
                 .circleCrop();
         Glide.with(mContext)
-                .load(Constants.BASEURL+rseckillRow.getLitpic()).apply(options)
+                .load(ImagUrlUtils.getImag(rseckillRow.getLitpic())).apply(options)
                 .into(imageView);
          helper.addOnClickListener(R.id.tv_love);
 

@@ -156,7 +156,6 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
                 //守则
              }else if(i==5){
                 //守则
-                startActivity(new Intent(getContext(), SysMessageAct.class));
                 ToastUtil.show(getContext(),"用户守则");
              }else {
                 startActivity(new Intent(getContext(),itemClass[i]));

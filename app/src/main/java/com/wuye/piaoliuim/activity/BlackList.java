@@ -12,6 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuange.basemodule.BaseActivity;
+import com.tencent.imsdk.TIMFriendshipManager;
+import com.tencent.imsdk.TIMValueCallBack;
+import com.tencent.imsdk.friendship.TIMFriendResult;
+import com.tencent.qcloud.tim.uikit.utils.TUIKitLog;
+import com.tencent.qcloud.tim.uikit.utils.ToastUtil;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.adapter.BlackListAdapter;
 import com.wuye.piaoliuim.bean.BlackData;
@@ -126,6 +131,7 @@ public class BlackList extends BaseActivity {
             @Override
             public void onComplete(String requestEntity) {
                 publicAdapter.remove(postione);
+                deleteBlack(id);
             }
 
             @Override
@@ -142,5 +148,26 @@ public class BlackList extends BaseActivity {
     @Override
     protected void processLogic(Bundle savedInstanceState) {
 
+    }
+
+    private void deleteBlack(String mId) {
+        String[] idStringList = mId.split(",");
+
+        List<String> idList = new ArrayList<>();
+        for (String id : idStringList) {
+            idList.add(id);
+        }
+        TIMFriendshipManager.getInstance().deleteBlackList(idList, new TIMValueCallBack<List<TIMFriendResult>>() {
+            @Override
+            public void onError(int i, String s) {
+                TUIKitLog.e("TAG", "deleteBlackList err code = " + i + ", desc = " + s);
+                ToastUtil.toastShortMessage("Error code = " + i + ", desc = " + s);
+            }
+
+            @Override
+            public void onSuccess(List<TIMFriendResult> timFriendResults) {
+                TUIKitLog.i("TAG", "deleteBlackList success");
+            }
+        });
     }
 }

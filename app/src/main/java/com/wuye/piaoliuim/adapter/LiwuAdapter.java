@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.LiwuData;
 import com.wuye.piaoliuim.config.Constants;
+import com.wuye.piaoliuim.utils.ImagUrlUtils;
 
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class LiwuAdapter  extends BaseQuickAdapter<LiwuData.Res.LiwuList, BaseVi
         RequestOptions options = new RequestOptions()//圆形图片
                 .circleCrop();
         Glide.with(mContext)
-                .load(Constants.BASEURL+rseckillRow.getLitpic()).apply(options)
+                .load(ImagUrlUtils.getImag(rseckillRow.getLitpic())).apply(options)
                 .into(imageView);
         Glide.with(mContext)
                 .load(Constants.BASEURL+rseckillRow.getG_litpic())

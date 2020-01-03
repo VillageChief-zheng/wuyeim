@@ -1,6 +1,8 @@
 package com.wuye.piaoliuim.login;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,17 +22,22 @@ import com.chuange.basemodule.view.DialogView;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.qcloud.tim.uikit.TUIKit;
+import com.tencent.qcloud.tim.uikit.base.IUIKitCallBack;
 import com.vise.xsnow.common.GsonUtil;
 import com.wuye.piaoliuim.MainActivity;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.activity.BindPhone;
 import com.wuye.piaoliuim.activity.ResetPswAct;
+import com.wuye.piaoliuim.bean.SingData;
 import com.wuye.piaoliuim.bean.TokenUserInfo;
 import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.AppSessionEngine;
+import com.wuye.piaoliuim.utils.DemoLog;
+import com.wuye.piaoliuim.utils.GenerateTestUserSig;
 import com.wuye.piaoliuim.utils.ImgcodeDialog;
 import com.wuye.piaoliuim.utils.MessageEvent;
 import com.wuye.piaoliuim.utils.TelNumMatch;
@@ -71,6 +78,9 @@ public class LoginActivity extends BaseActivity {
     ImageView qqLogin;
     @BindView(R.id.wx_login)
     ImageView wxLogin;
+
+
+    TokenUserInfo tokenUserInfo;
     /**
      * 微信的登录
      */
@@ -182,11 +192,11 @@ public class LoginActivity extends BaseActivity {
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.LOGIN, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
-                TokenUserInfo tokenUserInfo = GsonUtil.gson().fromJson(requestEntity, TokenUserInfo.class);
+                  tokenUserInfo = GsonUtil.gson().fromJson(requestEntity, TokenUserInfo.class);
                 AppSessionEngine.setTokenUserInfo(tokenUserInfo);
                 startActivity(new Intent(getBaseContext(), MainActivity.class));
                 finish();
-            }
+             }
 
             @Override
             public void onError(String message) {
@@ -200,7 +210,7 @@ public class LoginActivity extends BaseActivity {
         RequestManager.getInstance().publicGettMap(this, params, UrlConstant.WECHATLOFIN, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
-                TokenUserInfo tokenUserInfo = GsonUtil.gson().fromJson(requestEntity, TokenUserInfo.class);
+                  tokenUserInfo = GsonUtil.gson().fromJson(requestEntity, TokenUserInfo.class);
                 AppSessionEngine.setTokenUserInfo(tokenUserInfo);
                 startActivity(new Intent(getBaseContext(), BindPhone.class));
                 finish();
@@ -254,4 +264,7 @@ public class LoginActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
+
  }

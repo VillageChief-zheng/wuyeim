@@ -4,20 +4,46 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.provider.SyncStateContract;
+import android.util.Log;
 
-import androidx.multidex.MultiDex;
 
 import com.chuange.basemodule.BaseApplication;
 import com.chuange.basemodule.BaseData;
+import com.chuange.basemodule.utils.ToastUtil;
 import com.chuange.basemodule.view.DialogView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.meizu.cloud.pushsdk.PushManager;
+import com.meizu.cloud.pushsdk.util.MzSystemUtils;
+import com.tencent.imsdk.TIMBackgroundParam;
+import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMOfflinePushNotification;
+import com.tencent.imsdk.session.SessionWrapper;
+import com.tencent.imsdk.utils.IMFunc;
+import com.tencent.qcloud.tim.uikit.TUIKit;
+import com.tencent.qcloud.tim.uikit.base.IMEventListener;
 import com.vise.utils.assist.SSLUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.interceptor.HttpLogInterceptor;
+import com.vivo.push.PushClient;
+import com.wuye.piaoliuim.activity.IndexAct;
 import com.wuye.piaoliuim.config.AppConfig;
 import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
+import com.wuye.piaoliuim.helper.ConfigHelper;
+import com.wuye.piaoliuim.helper.CustomAVCallUIController;
+import com.wuye.piaoliuim.helper.CustomMessage;
+import com.wuye.piaoliuim.utils.DemoLog;
+import com.wuye.piaoliuim.utils.GenerateTestUserSig;
 import com.wuye.piaoliuim.utils.WebActivity;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -42,6 +68,9 @@ public class WuyeApplicatione extends BaseApplication {
 
 //c8c077c246dcbea0e9f2e9270713af1a46404c0bc64ce99c47740d064d380d5f
 private int SDKAPPID=1400302511;
+    private static WuyeApplicatione instance;
+    private static final String TAG = WuyeApplicatione.class.getSimpleName();
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -54,8 +83,12 @@ private int SDKAPPID=1400302511;
 //        configs.setGeneralConfig(new GeneralConfig());
 //
 //        TUIKit.init(this, SDKAPPID, configs);
-        MultiDex.install(this);
+        instance=this;
+         initIm();
 
+    }
+    public static WuyeApplicatione instance() {
+        return instance;
     }
     public void init(){
         etdApplication = this;
@@ -256,4 +289,169 @@ private int SDKAPPID=1400302511;
     public void clear() {
     }
 
+
+    class StatisticActivityLifecycleCallback implements ActivityLifecycleCallbacks {
+        private int foregroundActivities = 0;
+        private boolean isChangingConfiguration;
+        private IMEventListener mIMEventListener = new IMEventListener() {
+            @Override
+            public void onNewMessages(List<TIMMessage> msgs) {
+                if (CustomMessage.convert2VideoCallData(msgs) != null) {
+                    // 会弹出接电话的对话框，不再需要通知
+                    return;
+                }
+                for (TIMMessage msg : msgs) {
+                    // 小米手机需要在设置里面把demo的"后台弹出权限"打开才能点击Notification跳转。TIMOfflinePushNotification后续不再维护，如有需要，建议应用自己调用系统api弹通知栏消息。
+                    TIMOfflinePushNotification notification = new TIMOfflinePushNotification(WuyeApplicatione.this, msg);
+                    notification.doNotify(WuyeApplicatione.this, R.drawable.default_user_icon);
+                }
+            }
+        };
+
+        @Override
+        public void onActivityCreated(Activity activity, Bundle bundle) {
+            Log.i("腾讯", "onActivityCreated bundle: " + bundle);
+            if (bundle != null) { // 若bundle不为空则程序异常结束
+                // 重启整个程序
+                ToastUtil.show(getContext(),"Im聊天信息登出请重新登录");
+                Intent intent = new Intent(activity, IndexAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+            foregroundActivities++;
+            if (foregroundActivities == 1 && !isChangingConfiguration) {
+                // 应用切到前台
+                Log.i("腾讯", "application enter foreground");
+                TIMManager.getInstance().doForeground(new TIMCallBack() {
+                    @Override
+                    public void onError(int code, String desc) {
+                        Log.i("腾讯", "doForeground err = " + code + ", desc = " + desc);
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        Log.i("腾讯", "doForeground success");
+                    }
+                });
+                TUIKit.removeIMEventListener(mIMEventListener);
+            }
+            isChangingConfiguration = false;
+        }
+
+        @Override
+        public void onActivityResumed(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+            foregroundActivities--;
+            if (foregroundActivities == 0) {
+                // 应用切到后台
+                Log.i("腾讯", "application enter background");
+                int unReadCount = 0;
+                List<TIMConversation> conversationList = TIMManager.getInstance().getConversationList();
+                for (TIMConversation timConversation : conversationList) {
+                    unReadCount += timConversation.getUnreadMessageNum();
+                }
+                TIMBackgroundParam param = new TIMBackgroundParam();
+                param.setC2cUnread(unReadCount);
+                TIMManager.getInstance().doBackground(param, new TIMCallBack() {
+                    @Override
+                    public void onError(int code, String desc) {
+                        Log.i("腾讯", "doBackground err = " + code + ", desc = " + desc);
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        Log.i("腾讯", "doBackground success");
+                    }
+                });
+                // 应用退到后台，消息转化为系统通知
+                TUIKit.addIMEventListener(mIMEventListener);
+            }
+            isChangingConfiguration = activity.isChangingConfigurations();
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+
+        }
+    }
+  private void initIm(){
+      if (SessionWrapper.isMainProcess(getApplicationContext())) {
+          /**
+           * TUIKit的初始化函数
+           *
+           * @param context  应用的上下文，一般为对应应用的ApplicationContext
+           * @param sdkAppID 您在腾讯云注册应用时分配的sdkAppID
+           * @param configs  TUIKit的相关配置项，一般使用默认即可，需特殊配置参考API文档
+           */
+          TUIKit.init(this, GenerateTestUserSig.SDKAPPID, new ConfigHelper().getConfigs());
+
+//          if (ThirdPushTokenMgr.USER_GOOGLE_FCM) {
+//              FirebaseInstanceId.getInstance().getInstanceId()
+//                      .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//                          @Override
+//                          public void onComplete(Task<InstanceIdResult> task) {
+//                              if (!task.isSuccessful()) {
+//                                  DemoLog.w(TAG, "getInstanceId failed exception = " + task.getException());
+//                                  return;
+//                              }
+//
+//                              // Get new Instance ID token
+//                              String token = task.getResult().getToken();
+//                              DemoLog.i(TAG, "google fcm getToken = " + token);
+//
+//                              ThirdPushTokenMgr.getInstance().setThirdPushToken(token);
+//                          }
+//                      });
+//          } else if (IMFunc.isBrandXiaoMi()) {
+//              // 小米离线推送
+////              MiPushClient.registerPush(this, PrivateConstants.XM_PUSH_APPID, PrivateConstants.XM_PUSH_APPKEY);
+//          }
+//          else if (IMFunc.isBrandHuawei()) {
+//              // 华为离线推送
+//              HMSAgent.init(this);
+//          } else if (MzSystemUtils.isBrandMeizu(this)) {
+//              // 魅族离线推送
+//              PushManager.register(this, PrivateConstants.MZ_PUSH_APPID, PrivateConstants.MZ_PUSH_APPKEY);
+//          }
+//          else if (IMFunc.isBrandVivo()) {
+//              // vivo离线推送
+//              PushClient.getInstance(getApplicationContext()).initialize();
+//          }
+
+          registerActivityLifecycleCallbacks(new StatisticActivityLifecycleCallback());
+      }
+//        if (BuildConfig.DEBUG) {
+//            if (LeakCanary.isInAnalyzerProcess(this)) {
+//                return;
+//            }
+//            LeakCanary.install(this);
+//        }
+      CustomAVCallUIController.getInstance().onCreate();
+      IMEventListener imEventListener = new IMEventListener() {
+          @Override
+          public void onNewMessages(List<TIMMessage> msgs) {
+              DemoLog.i(TAG, "onNewMessages");
+              CustomAVCallUIController.getInstance().onNewMessage(msgs);
+          }
+      };
+      TUIKit.addIMEventListener(imEventListener);
+  }
 }

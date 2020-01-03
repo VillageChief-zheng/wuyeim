@@ -51,7 +51,7 @@ public class Constants {
     public static final int CHAT_ITEM_SENDING = 0x003;
     public static final int CHAT_ITEM_SEND_ERROR = 0x004;
     public static final int CHAT_ITEM_SEND_SUCCESS = 0x005;
-    public static long SPLASH_TIME = 5;
+    public static long SPLASH_TIME = 3;
     public static long COUNT_DOWN = 60;
 
     //线上环境
@@ -68,7 +68,21 @@ public class Constants {
 
     public static String FLFG = "https://lawsearch.odrcloud.cn/lawSearch?areas=zhejiang";//法规检索
     public static String DXAL = "https://lawsearch.odrcloud.cn/caseSearch?areas=zhejiang";//案例检索
+   //im 开始
 
+
+    // 存储
+    public static final String USERINFO = "userInfo";
+    public static final String ACCOUNT = "account";
+    public static final String PWD = "password";
+    public static final String ROOM = "room";
+    public static final String AUTO_LOGIN = "auto_login";
+    public static final String LOGOUT = "logout";
+    public static final String ICON_URL = "icon_url";
+
+    public static final String CHAT_INFO = "chatInfo";
+
+    //im结束
     public static final int DEBUG = 111;
 
     public static void setBaseurl() {

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -23,6 +24,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.view.DialogView;
 import com.lcw.library.imagepicker.ImagePicker;
+import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMFriendshipManager;
+import com.tencent.imsdk.TIMUserProfile;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.UpFileData;
 import com.wuye.piaoliuim.bean.UserInfoData;
@@ -30,6 +34,7 @@ import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
+import com.wuye.piaoliuim.utils.DemoLog;
 import com.wuye.piaoliuim.utils.GlideLoader;
 import com.wuye.piaoliuim.utils.GsonUtil;
 import com.wuye.piaoliuim.utils.ImagUrlUtils;
@@ -234,7 +239,7 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
            public void onComplete(String requestEntity) {
             //更新成功
                EventBus.getDefault().post(new MessageEvent("shuaxin"));
-
+               setImMyImaege(ImagUrlUtils.getImag(tuPianList));
                finish();
             }
 
@@ -328,4 +333,20 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
 //            }
 //        });
 //    }
+private void setImMyImaege(String mIconUrl){
+    HashMap<String, Object> hashMap = new HashMap<>();
+// 头像，mIconUrl 就是您上传头像后的 URL，可以参考 Demo 中的随机头像作为示例
+    if (!TextUtils.isEmpty(mIconUrl)) {
+        hashMap.put(TIMUserProfile.TIM_PROFILE_TYPE_KEY_FACEURL, mIconUrl);
+    }
+    TIMFriendshipManager.getInstance().modifySelfProfile(hashMap, new TIMCallBack() {
+        @Override
+        public void onError(int i, String s) {
+            DemoLog.d("初始化头像","初始化头像失败");
+        }
+        @Override
+        public void onSuccess() {
+        }
+    });
+}
 }

@@ -133,7 +133,7 @@ public class IndexAct extends BaseActivity implements DialogView.DialogViewListe
 
                                   @Override
                                   public void onFinish() {
-                       tiaozhugan();
+                          tiaozhugan();
                                   }
                               }
                       );

@@ -148,6 +148,8 @@ public class UrlConstant {
     public static final String GETVERSION = "Index/getVersionInfo";//支付
     public static final String RENGPINGZI = "User/getGoldInsufficient";//扔瓶子
     public static final String SYSMESSAGE = "Index/getNoticeLists";//系统消息
+    public static final String SIN = "Useracc/getTlv2UserSig";//系统消息
+    public static final String LAOPINGZI = "User/userDeductionGold";//捞瓶子
 
 
 }

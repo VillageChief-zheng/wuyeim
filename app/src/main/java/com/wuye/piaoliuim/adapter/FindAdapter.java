@@ -81,7 +81,7 @@ public class FindAdapter   extends BaseQuickAdapter<FindData.Res.FIndList, BaseV
         RequestOptions options = new RequestOptions()//圆形图片
                 .circleCrop();
         Glide.with(mContext)
-                .load(ImagUrlUtils.getImag(rseckillRow.getLitpic()) ).apply(options)
+                .load(ImagUrlUtils.getImag(ImagUrlUtils.getImag(rseckillRow.getLitpic())) ).apply(options)
                 .into(header);
 
 
