@@ -31,6 +31,8 @@ public class TopListData extends BaseData {
             public int id;
             public String money;
             public String gold;
+            public String ori_gold;
+            public String give_gold;
 
             public int getId() {
                 return id;
@@ -54,6 +56,22 @@ public class TopListData extends BaseData {
 
             public void setGold(String gold) {
                 this.gold = gold;
+            }
+
+            public String getOri_gold() {
+                return ori_gold;
+            }
+
+            public void setOri_gold(String ori_gold) {
+                this.ori_gold = ori_gold;
+            }
+
+            public String getGive_gold() {
+                return give_gold;
+            }
+
+            public void setGive_gold(String give_gold) {
+                this.give_gold = give_gold;
             }
         }
     }

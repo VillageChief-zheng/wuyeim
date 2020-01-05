@@ -35,6 +35,7 @@
             android:textColor="#FF999999"
             android:id="@+id/tv"
             android:text="可获得"
+            android:visibility="gone"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -42,6 +43,8 @@
             android:id="@+id/jinbi"
             android:textSize="@dimen/sp_14"
             android:layout_toRightOf="@+id/tv"
+            android:layout_marginLeft="@dimen/pad_14"
+
             android:layout_below="@+id/selected_text_view"
             android:gravity="center"
             android:text="可获得500金币"

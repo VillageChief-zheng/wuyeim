@@ -24,6 +24,7 @@ import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.BaseFragement;
 import com.chuange.basemodule.utils.ActivityTaskManager;
 import com.chuange.basemodule.utils.ToastUtil;
+import com.meizu.cloud.pushsdk.notification.MPushMessage;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMManager;
@@ -31,6 +32,7 @@ import com.tencent.imsdk.TIMUserProfile;
 import com.tencent.qcloud.tim.uikit.TUIKit;
 import com.tencent.qcloud.tim.uikit.base.IMEventListener;
 import com.tencent.qcloud.tim.uikit.base.IUIKitCallBack;
+import com.umeng.message.PushAgent;
 import com.vise.xsnow.common.GsonUtil;
 import com.wuye.piaoliuim.activity.BaseImActivity;
 import com.wuye.piaoliuim.activity.EditInfoAct;
@@ -89,8 +91,8 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         mFragmentManager = getSupportFragmentManager();
         initData();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        PushAgent.getInstance(this).onAppStart();
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             getWindow().setStatusBarColor(getResources().getColor(R.color.status_bar_color));
             getWindow().setNavigationBarColor(getResources().getColor(R.color.navigation_bar_color));
@@ -170,6 +172,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onComplete(String requestEntity) {
                 userInfoData= com.wuye.piaoliuim.utils.GsonUtil.getDefaultGson().fromJson(requestEntity, UserInfoData.class);
+                AppSessionEngine.setUserInfo(userInfoData);
                 if (TIMManager.getInstance().getLoginStatus()==TIM_STATUS_LOGINED){
                     Log.i("------","已经");
                 }else {

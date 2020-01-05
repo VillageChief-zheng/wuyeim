@@ -204,7 +204,7 @@ public class LoginActivity extends BaseActivity {
             }
         });
     } public void wchatLogin(String code) {
-          HashMap<String, String> params = new HashMap<>();
+           HashMap<String, String> params = new HashMap<>();
          params.put(UrlConstant.CODE, code);
         params.put(UrlConstant.SINGNINREGION, "");
         RequestManager.getInstance().publicGettMap(this, params, UrlConstant.WECHATLOFIN, new RequestListener<String>() {

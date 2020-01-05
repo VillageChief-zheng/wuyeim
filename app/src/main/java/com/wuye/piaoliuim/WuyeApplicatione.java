@@ -29,6 +29,9 @@ import com.tencent.imsdk.session.SessionWrapper;
 import com.tencent.imsdk.utils.IMFunc;
 import com.tencent.qcloud.tim.uikit.TUIKit;
 import com.tencent.qcloud.tim.uikit.base.IMEventListener;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
 import com.vise.utils.assist.SSLUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.interceptor.HttpLogInterceptor;
@@ -85,6 +88,28 @@ private int SDKAPPID=1400302511;
 //        TUIKit.init(this, SDKAPPID, configs);
         instance=this;
          initIm();
+         initUmengSdk();
+
+    }
+    private void initUmengSdk(){
+        UMConfigure.init(this, "5e0185c0570df34b85000959", "oppo",
+                UMConfigure.DEVICE_TYPE_PHONE, "sssssss");
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+
+//注册推送服务，每次调用register方法都会回调该接口
+
+        mPushAgent.register(new IUmengRegisterCallback() {
+            @Override
+            public void onSuccess(String deviceToken) {
+                //注册成功会返回deviceToken deviceToken是推送消息的唯一标志
+                Log.i(TAG,"注册成功：deviceToken：-------->  " + deviceToken);
+            }
+            @Override
+            public void onFailure(String s, String s1) {
+                Log.e(TAG,"注册失败：-------->  " + "s:" + s + ",s1:" + s1);
+            }
+        });
+        Log.e(TAG,"注册：-------->  " + "s:" + mPushAgent.getRegistrationId());
 
     }
     public static WuyeApplicatione instance() {

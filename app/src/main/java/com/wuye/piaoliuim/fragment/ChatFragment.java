@@ -45,6 +45,7 @@ import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.WuyeApplicatione;
 import com.wuye.piaoliuim.activity.JubaoAct;
 import com.wuye.piaoliuim.activity.OpinionAct;
+import com.wuye.piaoliuim.activity.UserInfoAct;
 import com.wuye.piaoliuim.activity.imactivity.FriendProfileActivity;
 import com.wuye.piaoliuim.adapter.DialogLiwuAdapter;
 import com.wuye.piaoliuim.bean.ChannelModel;
@@ -53,6 +54,7 @@ import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.helper.ChatLayoutHelper;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
+import com.wuye.piaoliuim.utils.AppSessionEngine;
 import com.wuye.piaoliuim.utils.KeyMapDailog;
 
 import java.util.ArrayList;
@@ -149,12 +151,21 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
                 if (null == messageInfo) {
                     return;
                 }
-                ChatInfo info = new ChatInfo();
-                info.setId(messageInfo.getFromUser());
-                Intent intent = new Intent(WuyeApplicatione.instance(), FriendProfileActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(TUIKitConstants.ProfileType.CONTENT, info);
-                WuyeApplicatione.instance().startActivity(intent);
+                Log.i("--------","头像点击"+mId+""+AppSessionEngine.getMyUserInfo().res.getListList().getId());
+
+                if (!mId.equals(AppSessionEngine.getMyUserInfo().res.getListList().getId())){
+            Intent intent = new Intent(getContext(), UserInfoAct.class);
+            intent.putExtra("id",mId);
+            startActivity(intent);
+        }else {
+            Log.i("--------","点击自己"+mId+""+AppSessionEngine.getMyUserInfo().res.getListList().getId());
+        }
+//                 ChatInfo info = new ChatInfo();
+//                info.setId(messageInfo.getFromUser());
+//                Intent intent = new Intent(WuyeApplicatione.instance(), FriendProfileActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.putExtra(TUIKitConstants.ProfileType.CONTENT, info);
+//                WuyeApplicatione.instance().startActivity(intent);
             }
         });
         initBg();
@@ -184,8 +195,8 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
         initView();
 
         // TODO 通过api设置ChatLayout各种属性的样例
-        ChatLayoutHelper helper = new ChatLayoutHelper(getActivity());
-        helper.customizeChatLayout(mChatLayout);
+//        ChatLayoutHelper helper = new ChatLayoutHelper(getActivity());
+//        helper.customizeChatLayout(mChatLayout);
     }
 
     @Override
@@ -206,20 +217,20 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
         mTitleBar.setRightIcon(R.mipmap.ic_zi_maore);
         mTitleBar.setLeftIcon(R.mipmap.ic_back);
         mNoticeLayout.setBackgroundColor(Color.parseColor("#262339"));
-        mTitleBar.setBackgroundColor(Color.parseColor("#262339"));
-        mTitleBar.getMiddleTitle().setText(mChatInfo.getChatName());
-        mTitleBar.getMiddleTitle().setTextColor(Color.parseColor("#FFFFFF"));
-        mTitleBar.getMiddleTitle().setTextSize(R.dimen.sp_18);
-         mInputLayout.setBackgroundColor(Color.parseColor("#262339"));
-        mInputLayout.disableCaptureAction(true);
+         mTitleBar.getMiddleTitle().setText(mChatInfo.getChatName());
+         mInputLayout.disableCaptureAction(false);
 // 隐藏发送文件
         mInputLayout.disableSendFileAction(true);
 // 隐藏发送图片
-        mInputLayout.disableSendPhotoAction(true);
+        mInputLayout.disableSendPhotoAction(false);
 // 隐藏摄像并发送
-        mInputLayout.disableVideoRecordAction(true);
+        mInputLayout.disableVideoRecordAction(false);
         //自定义一个发送礼物
         InputMoreActionUnit unit = new InputMoreActionUnit();
+//        InputMoreActionUnit units = new InputMoreActionUnit();
+//        InputMoreActionUnit unitss = new InputMoreActionUnit();
+//        InputMoreActionUnit unitsss = new InputMoreActionUnit();
+
         unit.setIconResId(R.mipmap.ic_liwu_item); // 设置单元的图标
         unit.setTitleId(R.string.liwu); // 设置单元的文字标题
         unit.setOnClickListener(new View.OnClickListener() { // 定义点击事件
@@ -233,6 +244,9 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
 // 把定义好的单元增加到更多面板
 
         mInputLayout.addAction(unit);
+//        mInputLayout.addAction(units);
+//        mInputLayout.addAction(unitss);
+//        mInputLayout.addAction(unitsss);
     }
 
     @Override
@@ -272,6 +286,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
             recommendGv = view.findViewById(R.id.rv_comment);
             tvNumber = view.findViewById(R.id.tv_num);
             tvJinbi = view.findViewById(R.id.tv_jb);
+            tvJinbi.setText(AppSessionEngine.getMyUserInfo().res.getListList().getUser_gold());
             tvTop = view.findViewById(R.id.tv_top);
             tvSend = view.findViewById(R.id.bt_send);
             tvSend.setOnClickListener(new View.OnClickListener() {
@@ -312,8 +327,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
 
     private void sendLiwu(String gid, String number) {
         HashMap<String, String> params = new HashMap<>();
-        params.put(UrlConstant.TYPE, "1");
-        params.put(UrlConstant.USER_ID, mChatInfo.getId());
+         params.put(UrlConstant.USER_ID, mChatInfo.getId());
         params.put(UrlConstant.GID, gid);
         params.put(UrlConstant.NUMLIWU, number);
         RequestManager.getInstance().publicPostMap(getContext(), params, UrlConstant.SENDLIWU, new RequestListener<String>() {
@@ -322,7 +336,6 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
                 Toast toast = showToastFree("1", list.get(postione).imgSrc);
                 toast.setDuration(Toast.LENGTH_LONG);
 //                Uri uri = resourceIdToUris(getContext(), list.get(postione).imgSrc);
-                Log.i("ppppppppp", "发送礼物数据");
 //                MessageInfo info = MessageInfoUtil.buildImageMessage(uri, false);
 //                mChatLayout.sendMessage(info, false);
             }

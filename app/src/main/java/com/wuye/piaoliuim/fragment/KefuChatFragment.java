@@ -200,15 +200,11 @@ public class KefuChatFragment extends BaseImFragment implements  DialogView.Dial
     }
 
     private void initBg() {
-         mTitleBar.setLeftIcon(R.mipmap.ic_back);
-        mNoticeLayout.setBackgroundColor(Color.parseColor("#262339"));
+        mTitleBar.getRightIcon().setVisibility(View.GONE);
+         mNoticeLayout.setBackgroundColor(Color.parseColor("#262339"));
         mTitleBar.setBackgroundColor(Color.parseColor("#262339"));
         mTitleBar.getMiddleTitle().setText(mChatInfo.getChatName());
-        mTitleBar.getMiddleTitle().setTextColor(Color.parseColor("#FFFFFF"));
-        mTitleBar.getMiddleTitle().setTextSize(R.dimen.sp_18);
-        mMessageLayout.setBackgroundColor(Color.parseColor("#262339"));
-        mInputLayout.setBackgroundColor(Color.parseColor("#262339"));
-         //自定义一个发送礼物
+          //自定义一个发送礼物
 
     }
 

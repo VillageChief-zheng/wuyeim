@@ -144,4 +144,12 @@ public class RequestManager {
         SimpleRequest request = new SimpleRequest(context, UrlConstant.PIAOLIUYUYIN, params,files,fileName,type, rComplete);
         request.upFile();
     }
+      /*  上传文件
+     *
+             * @paramMy
+     */
+    public void upUpMypic(Context context, HashMap<String, String> params,List<File> files, String fileName , MediaType type, RequestListener<String> rComplete) {
+        SimpleRequest request = new SimpleRequest(context, UrlConstant.UPFILE, params,files,fileName,type, rComplete);
+        request.upFile();
+    }
 }

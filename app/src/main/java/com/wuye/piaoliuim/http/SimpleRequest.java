@@ -81,10 +81,10 @@ public class SimpleRequest  extends BaseRequest<String> {
     @Override
     public RequestParams makeParams() {
         RequestParams pas = new RequestParams();
-        params.put(UrlConstant.CHANNEL,"1");
+        params.put(UrlConstant.CHANNEL,UrlConstant.QUDAOHAO);
         params.put(UrlConstant.PLANTYPE,"1");
         params.put(UrlConstant.PHONEMODEL, PhoneUtile.getModel());
-        params.put(UrlConstant.DEVICEID,"1");
+        params.put(UrlConstant.DEVICEID,PhoneUtile.getIMEI(mContext));
         params.put(UrlConstant.DEVICE_BRAND,PhoneUtile.getDeviceBrand());
         if (AppSessionEngine.getToken()!=null){
             params.put(UrlConstant.TOKEN,AppSessionEngine.getToken());

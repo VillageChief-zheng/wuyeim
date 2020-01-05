@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/people_bg"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/people_bg"
+        >
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="@dimen/dap150"
@@ -19,7 +25,7 @@
     android:id="@+id/im_back"
     />
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dap40"
         android:layout_height="wrap_content"
          android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/dap15"
@@ -208,7 +214,7 @@
             android:adjustViewBounds="true"
            android:scaleType="fitXY"
            android:id="@+id/im2"
-           android:visibility="gone"
+           android:visibility="invisible"
 
            />
        <ImageView
@@ -218,7 +224,7 @@
             android:adjustViewBounds="true"
            android:scaleType="fitXY"
             android:id="@+id/im3"
-           android:visibility="gone"
+           android:visibility="invisible"
 
            />
    </LinearLayout>
@@ -243,6 +249,7 @@
                android:layout_height="match_parent"
                android:orientation="vertical"
                android:gravity="center"
+
                >
             <ImageView
                 android:layout_width="match_parent"
@@ -250,7 +257,7 @@
                  android:id="@+id/im4"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:visibility="gone"
+                android:visibility="invisible"
 
                 />
            </LinearLayout>
@@ -269,7 +276,7 @@
                   android:id="@+id/im5"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:visibility="gone"
+                android:visibility="invisible"
 
                 />
             </LinearLayout>
@@ -289,9 +296,10 @@
               android:id="@+id/im6"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            android:visibility="gone"
+            android:visibility="invisible"
 
             />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
+</ScrollView>

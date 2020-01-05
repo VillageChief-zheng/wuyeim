@@ -51,7 +51,7 @@
             android:gravity="center_vertical"
             android:textSize="@dimen/sp_24"
             android:textColor="#FFFFFFFF"
-            android:text="300"
+            android:text=""
              />
         <TextView
             android:layout_width="wrap_content"

@@ -32,6 +32,7 @@
             android:textColor="#FF999999"
             android:id="@+id/tv"
             android:text="可获得"
+            android:visibility="gone"
             />
         <TextView
             android:layout_width="wrap_content"

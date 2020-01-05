@@ -7,17 +7,16 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -30,7 +29,6 @@ import com.tencent.imsdk.TIMUserProfile;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.UpFileData;
 import com.wuye.piaoliuim.bean.UserInfoData;
-import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
@@ -43,21 +41,13 @@ import com.wuye.piaoliuim.utils.MessageEvent;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * @ClassName EditInfoAct
@@ -91,10 +81,12 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
 
     UserInfoData userInfoData;
     private static final int REQUEST_SELECT_IMAGES_CODE = 0x022;
+    @BindView(R.id.xuanzenan)
+    RelativeLayout xuanzenan;
 
-     private ArrayList<String> mPicList = new ArrayList<>(); //上传的图片凭证的数据源
+    private ArrayList<String> mPicList = new ArrayList<>(); //上传的图片凭证的数据源
     private ArrayList<File> upPicList = new ArrayList<>(); //上传的图片源文件
-   String tuPianList="";
+    String tuPianList = "";
     String sexStr;
     UpFileData upFileData;
 
@@ -103,17 +95,19 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-     @Override
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myinfo);
         ButterKnife.bind(this);
-         verifyStoragePermissions(this);
+        verifyStoragePermissions(this);
         initView();
     }
-   private void initView(){
-        userInfoData= (UserInfoData) getIntent().getSerializableExtra("user");
-        if (!userInfoData.res.listList.getLitpic().equals("")){
+
+    private void initView() {
+        userInfoData = (UserInfoData) getIntent().getSerializableExtra("user");
+        if (!userInfoData.res.listList.getLitpic().equals("")) {
             RequestOptions options = new RequestOptions()//圆形图片
                     .circleCrop();
             Glide.with(this)
@@ -121,25 +115,26 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
                     .apply(options)
                     .into((clock));
         }
-      etNicheng.setText(userInfoData.res.listList.getName());
-      etJianjie.setText(userInfoData.res.listList.getSignature());
-      tvIds.setText(userInfoData.res.listList.getId());
-       if (userInfoData.res.listList.getGender().equals("1")){
-           Drawable drawable= getResources().getDrawable(R.mipmap.ic_nan);
-           drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-           tvSexs.setCompoundDrawables(null,null,null,null);
-           tvSexs.setText("男 ");
-           sexStr="1";
+        etNicheng.setText(userInfoData.res.listList.getName());
+        etJianjie.setText(userInfoData.res.listList.getSignature());
+        tvIds.setText(userInfoData.res.listList.getId());
+        if (userInfoData.res.listList.getGender().equals("1")) {
+            Drawable drawable = getResources().getDrawable(R.mipmap.ic_nan);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            tvSexs.setCompoundDrawables(null, null, null, null);
+            tvSexs.setText("男 ");
+            sexStr = "1";
 
-       }else  if (userInfoData.res.listList.getGender().equals("2")){
-           Drawable drawable= getResources().getDrawable(R.mipmap.ic_nv);
-           drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-           tvSexs.setCompoundDrawables(null,null,drawable,null);
-           tvSexs.setText("女 ");
-           sexStr="2";
-       }
-       tuPianList=userInfoData.res.listList.getLitpic();
-   }
+        } else if (userInfoData.res.listList.getGender().equals("2")) {
+            Drawable drawable = getResources().getDrawable(R.mipmap.ic_nv);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            tvSexs.setCompoundDrawables(null, null, drawable, null);
+            tvSexs.setText("女 ");
+            sexStr = "2";
+        }
+        tuPianList = userInfoData.res.listList.getLitpic();
+    }
+
     @Override
     protected void initView(Bundle savedInstanceState) {
 
@@ -150,7 +145,7 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
 
     }
 
-    @OnClick({R.id.clock, R.id.tv_sexs, R.id.bt_submit})
+    @OnClick({R.id.clock, R.id.bt_submit,R.id.xuanzenan})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.clock:
@@ -162,17 +157,18 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
                         .setMaxCount(1)//设置最大选择图片数目(默认为1，单选)
                         .setSingleType(true)//设置图片视频不能同时选择
                         .setImageLoader(new GlideLoader())
-                         .start(EditInfoAct.this, REQUEST_SELECT_IMAGES_CODE);//REQEST_SELECT_IMAGES_CODE为Intent调用的requestCod
+                        .start(EditInfoAct.this, REQUEST_SELECT_IMAGES_CODE);//REQEST_SELECT_IMAGES_CODE为Intent调用的requestCod
                 break;
-            case R.id.tv_sexs:
+            case R.id.xuanzenan:
                 loading(R.layout.dialog_nanandnv, this).setOutsideClose(true).setGravity(Gravity.BOTTOM);
 
                 break;
             case R.id.bt_submit:
                 subMit();
-                 break;
-       }
+                break;
+        }
     }
+
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have read or write permission
         int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -188,23 +184,24 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
         }
 
     }
-    public void upFile(){
+
+    public void upFile() {
 
         MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png/jpg");
 
         HashMap<String, String> params = new HashMap<>();
-        params.put(UrlConstant.TYPE,"1" );
+        params.put(UrlConstant.TYPE, "1");
         upPicList.clear();
         for (int i = 0; i < mPicList.size(); i++) {
             upPicList.add(new File(mPicList.get(i)));
         }
-          RequestManager.getInstance().upUpFile(this, params,upPicList,UrlConstant.FILEDATA, MEDIA_TYPE_PNG,new RequestListener<String>() {
+        RequestManager.getInstance().upUpFile(this, params, upPicList, UrlConstant.FILEDATA, MEDIA_TYPE_PNG, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
                 //更新成功
-                upFileData= GsonUtil.getDefaultGson().fromJson(requestEntity, UpFileData.class);
-                tuPianList=upFileData.getFilename();
-             }
+                upFileData = GsonUtil.getDefaultGson().fromJson(requestEntity, UpFileData.class);
+                tuPianList = upFileData.getFilename();
+            }
 
             @Override
             public void onError(String message) {
@@ -214,55 +211,56 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
     }
 
 
-   public void subMit(){
-        String nichengStr=etNicheng.getText().toString().trim();
-        String jianJieStr=etJianjie.getText().toString().trim();
-         if (nichengStr.equals("")){
+    public void subMit() {
+        String nichengStr = etNicheng.getText().toString().trim();
+        String jianJieStr = etJianjie.getText().toString().trim();
+        if (nichengStr.equals("")) {
             loading("请输入昵称").setOnlySure();
             return;
-        }if (jianJieStr.equals("")){
+        }
+        if (jianJieStr.equals("")) {
             loading("请输入简介").setOnlySure();
             return;
         }
 
-       HashMap<String, String> params = new HashMap<>();
-       params.put(UrlConstant.NAME,nichengStr );
-       params.put(UrlConstant.SINNTURE,jianJieStr );
-       params.put(UrlConstant.AGE,userInfoData.res.listList.getAge() );
-       params.put(UrlConstant.GENDER,sexStr );
-       params.put(UrlConstant.LITPIC,tuPianList );
+        HashMap<String, String> params = new HashMap<>();
+        params.put(UrlConstant.NAME, nichengStr);
+        params.put(UrlConstant.SINNTURE, jianJieStr);
+        params.put(UrlConstant.AGE, userInfoData.res.listList.getAge());
+        params.put(UrlConstant.GENDER, sexStr);
+        params.put(UrlConstant.LITPIC, tuPianList);
 
 
-
-       RequestManager.getInstance().publicPostMap(this, params,UrlConstant.UPDATEUSERINFO, new RequestListener<String>() {
-           @Override
-           public void onComplete(String requestEntity) {
-            //更新成功
-               EventBus.getDefault().post(new MessageEvent("shuaxin"));
-               setImMyImaege(ImagUrlUtils.getImag(tuPianList));
-               finish();
+        RequestManager.getInstance().publicPostMap(this, params, UrlConstant.UPDATEUSERINFO, new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+                //更新成功
+                EventBus.getDefault().post(new MessageEvent("shuaxin"));
+                setImMyImaege(ImagUrlUtils.getImag(tuPianList));
+                finish();
             }
 
-           @Override
-           public void onError(String message) {
+            @Override
+            public void onError(String message) {
 
-           }
-       });
+            }
+        });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-  if (requestCode == REQUEST_SELECT_IMAGES_CODE && resultCode == RESULT_OK) {
-      mPicList.clear();
-      mPicList = data.getStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES);
-      RequestOptions options = new RequestOptions()//圆形图片
-              .circleCrop();
-      Glide.with(this)
-              .load(mPicList.get(0))
-              .apply(options)
-              .into((clock));
-      upFile();
-    }
+        if (requestCode == REQUEST_SELECT_IMAGES_CODE && resultCode == RESULT_OK) {
+            mPicList.clear();
+            mPicList = data.getStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES);
+            RequestOptions options = new RequestOptions()//圆形图片
+                    .circleCrop();
+            Glide.with(this)
+                    .load(mPicList.get(0))
+                    .apply(options)
+                    .into((clock));
+            upFile();
+        }
 
     }
 
@@ -270,36 +268,38 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
     @Override
     public void onClick(View v) {
         super.onClick(v);
-         switch (v.getId()) {
+        switch (v.getId()) {
             case R.id.tv_nan:
-                 sexStr = "1";
-                Drawable drawables= getResources().getDrawable(R.mipmap.ic_nan);
+                sexStr = "1";
+                Drawable drawables = getResources().getDrawable(R.mipmap.ic_nan);
                 drawables.setBounds(0, 0, drawables.getMinimumWidth(), drawables.getMinimumHeight());
-                tvSexs.setCompoundDrawables(null,null,drawables,null);
+                tvSexs.setCompoundDrawables(null, null, drawables, null);
                 tvSexs.setText("男 ");
-                  cancelLoading();
+                cancelLoading();
                 break;
             case R.id.tv_nv:
 
 
-             Drawable drawable= getResources().getDrawable(R.mipmap.ic_nv);
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvSexs.setCompoundDrawables(null,null,drawable,null);
+                Drawable drawable = getResources().getDrawable(R.mipmap.ic_nv);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tvSexs.setCompoundDrawables(null, null, drawable, null);
                 tvSexs.setText("女 ");
 
-                 sexStr = "2";
+                sexStr = "2";
 
                 cancelLoading();
                 break;
         }
-     }
+    }
+
     @Override
     public void onView(View view) {
         view.findViewById(R.id.tv_nv).setOnClickListener(this);
         view.findViewById(R.id.tv_nan).setOnClickListener(this);
         view.findViewById(R.id.tv_all).setOnClickListener(this);
     }
-//    private void getFile(){
+
+    //    private void getFile(){
 //        OkHttpClient client = new OkHttpClient.Builder()
 //                .build();
 //   File file=new File(mPicList.get(0));
@@ -333,20 +333,21 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
 //            }
 //        });
 //    }
-private void setImMyImaege(String mIconUrl){
-    HashMap<String, Object> hashMap = new HashMap<>();
+    private void setImMyImaege(String mIconUrl) {
+        HashMap<String, Object> hashMap = new HashMap<>();
 // 头像，mIconUrl 就是您上传头像后的 URL，可以参考 Demo 中的随机头像作为示例
-    if (!TextUtils.isEmpty(mIconUrl)) {
-        hashMap.put(TIMUserProfile.TIM_PROFILE_TYPE_KEY_FACEURL, mIconUrl);
+        if (!TextUtils.isEmpty(mIconUrl)) {
+            hashMap.put(TIMUserProfile.TIM_PROFILE_TYPE_KEY_FACEURL, mIconUrl);
+        }
+        TIMFriendshipManager.getInstance().modifySelfProfile(hashMap, new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+                DemoLog.d("初始化头像", "初始化头像失败");
+            }
+
+            @Override
+            public void onSuccess() {
+            }
+        });
     }
-    TIMFriendshipManager.getInstance().modifySelfProfile(hashMap, new TIMCallBack() {
-        @Override
-        public void onError(int i, String s) {
-            DemoLog.d("初始化头像","初始化头像失败");
-        }
-        @Override
-        public void onSuccess() {
-        }
-    });
-}
 }

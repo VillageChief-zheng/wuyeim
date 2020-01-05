@@ -26,7 +26,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     private static final String TAG = "WXPayEntryActivity";
 
     private IWXAPI api;
-    private String app_id = "wx50dcfe13487b008f";//微信开发后台申请的app_id
+    private String app_id = "wx4b25184c83dbca16";//微信开发后台申请的app_id
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

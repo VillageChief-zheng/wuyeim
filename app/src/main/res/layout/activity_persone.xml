@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/people_bg"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/people_bg"
+        >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dap150"
@@ -26,6 +32,7 @@
             android:layout_marginTop="@dimen/dap30"
             android:src="@mipmap/ic_whitemore"
             android:id="@+id/im_more"
+            android:visibility="gone"
             />
     </RelativeLayout>
     <LinearLayout
@@ -142,15 +149,180 @@
         android:layout_marginLeft="@dimen/dap15"
         android:layout_marginRight="@dimen/dap15"
         />
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="@dimen/textsp16"
-        android:text="精选相册"
-        android:layout_marginLeft="@dimen/dap20"
-        android:layout_marginTop="@dimen/dap5"
 
-        />
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsp18"
+            android:text="精选相册"
+            android:layout_marginLeft="@dimen/dap20"
+            android:layout_marginTop="@dimen/dap5"
+            android:layout_alignParentLeft="true"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsp16"
+            android:id="@+id/toupPic"
+            android:text="上传相册"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dap5"
+            android:layout_marginRight="@dimen/dap10"
+            />
+    </RelativeLayout>
+<!--        相册开始-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/dap15"
+            android:layout_marginRight="@dimen/dap15"
+            android:layout_marginTop="@dimen/dap15"
+            android:visibility="gone"
+            android:id="@+id/img_lin1"
 
-</LinearLayout>
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
+                android:layout_height="match_parent"
+                android:gravity="center"
+
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:id="@+id/im1"
+                    android:visibility="invisible"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/dap5"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="85dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:id="@+id/im2"
+                    android:visibility="invisible"
+
+                    />
+                <ImageView
+                    android:layout_marginTop="@dimen/dap10"
+                    android:layout_width="match_parent"
+                    android:layout_height="85dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:id="@+id/im3"
+                    android:visibility="invisible"
+
+                    />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/dap15"
+            android:layout_marginRight="@dimen/dap15"
+            android:id="@+id/img_lin2"
+            android:visibility="gone"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="0.3"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+
+                    >
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="95dp"
+                        android:id="@+id/im4"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        android:visibility="invisible"
+
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="0.3"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dap5"
+                    android:orientation="vertical"
+                    android:gravity="center"
+
+                    >
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="95dp"
+                        android:id="@+id/im5"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        android:visibility="invisible"
+
+                        />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dap5"
+                android:orientation="vertical"
+                android:gravity="center"
+
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="95dp"
+                    android:id="@+id/im6"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:visibility="invisible"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_margin="@dimen/dap20"
+            android:layout_height="@dimen/pad_200"
+            android:src="@mipmap/bg_nodate"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:id="@+id/nodatpic"
+             />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textsp12"
+            android:textColor="#666666"
+            android:text="最多可上传6张相片哦~"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dap10"
+            />
+ </LinearLayout>
+</ScrollView>

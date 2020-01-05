@@ -57,7 +57,7 @@ public class ChatActivity extends BaseImActivity{
                 startSplashActivity();
                 return;
             }
-            if (mChatInfo.getId().equals("100")){
+            if (mChatInfo.getId().equals("26")){
                 kefuChatFragment = new KefuChatFragment();
                 kefuChatFragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.empty_view, kefuChatFragment).commitAllowingStateLoss();

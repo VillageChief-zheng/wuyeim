@@ -26,6 +26,8 @@ import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
+import com.wuye.piaoliuim.pay.WXPayUtil;
+import com.wuye.piaoliuim.utils.AppSessionEngine;
 import com.wuye.piaoliuim.utils.GsonUtil;
 
 import java.util.ArrayList;
@@ -62,7 +64,6 @@ public class RechangeAct extends BaseActivity implements ChannelAdapter.OnChecke
         setContentView(R.layout.activity_top);
         ButterKnife.bind(this);
         getTopList();
-         loading(R.layout.dialog_pay, this).setOutsideClose(true).setGravity(Gravity.BOTTOM);
 
      }
 
@@ -89,6 +90,7 @@ public class RechangeAct extends BaseActivity implements ChannelAdapter.OnChecke
         channelAdapter.changetShowDelImage(true, 5);
         channelAdapter.setOnCheckChangedListener(this);
         top.setRightName("账单");
+        tvMyjb.setText( AppSessionEngine.getMyUserInfo().res.getListList().getUser_gold());
         postione=0;
         top.setOnRightClick(new View.OnClickListener() {
             @Override
@@ -118,11 +120,17 @@ public class RechangeAct extends BaseActivity implements ChannelAdapter.OnChecke
       channelModels=new ArrayList<>();
       for (int i=0;i<topListData.res.getPuList().size();i++){
           TopListData.Res.TopList topList=topListData.res.getPuList().get(i);
-          ChannelModel channelModelss = new ChannelModel(ChannelModel.THREE, "10元", "1000金币", "+60金币", "10",1);
-          if (i<=1){
+//          ChannelModel channelModelss = new ChannelModel(ChannelModel.THREE, "10元", "1000金币", "+60金币", "10",1);
+          if (i==0){
               channelModels.add(new ChannelModel(ChannelModel.ONE,getMoney(topList.getMoney())+"元",topList.getGold()+"金币","",topList.getMoney(),topList.getId()));
            }else {
-              channelModels.add(new ChannelModel(ChannelModel.THREE,getMoney(topList.getMoney())+"元",topList.getGold()+"金币","+60金币",topList.getMoney(),topList.getId()));
+              if (topList.getGive_gold().equals("0")){
+                  channelModels.add(new ChannelModel(ChannelModel.THREE,getMoney(topList.getMoney())+"元",topList.getGold()+"金币","",topList.getMoney(),topList.getId()));
+
+              }else {
+                  channelModels.add(new ChannelModel(ChannelModel.THREE,getMoney(topList.getMoney())+"元",topList.getGold()+"金币","+"+topList.getGive_gold()+"金币",topList.getMoney(),topList.getId()));
+
+              }
 
           }
       }

@@ -18,7 +18,7 @@ public class WXUserInfo {
     private String headimgurl;
     private String unionid;
 
-    private WXUserInfo(){}
+    public WXUserInfo(){}
     public String getOpenid() {
         return openid;
     }

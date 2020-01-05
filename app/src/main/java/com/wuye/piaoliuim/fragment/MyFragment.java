@@ -212,7 +212,7 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
     public static void bySearchOpen(Context context){
         try {
             Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse("market://search?q="+ context.getPackageName()));
+            i.setData(Uri.parse("market://search?q="+ "夜色漂流瓶"));
             context.startActivity(i);
         } catch (Exception e) {
             Toast.makeText(context, "您的手机没有安装Android应用市场", Toast.LENGTH_SHORT).show();

@@ -16,7 +16,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.utils.ToastUtil;
 import com.chuange.basemodule.view.DialogView;
+import com.tencent.imsdk.TIMConversationType;
+import com.tencent.qcloud.tim.uikit.modules.chat.base.ChatInfo;
+import com.tencent.qcloud.tim.uikit.modules.conversation.base.ConversationInfo;
 import com.wuye.piaoliuim.R;
+import com.wuye.piaoliuim.WuyeApplicatione;
 import com.wuye.piaoliuim.bean.UserInfoData;
 import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
@@ -79,6 +83,8 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
     List<String> mlist = new ArrayList<>();
     List<ImageView> imageList = new ArrayList<>();
     String id;
+    List<Object> imcList=new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +131,7 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
 
     public void toFlow() {
         HashMap<String, String> params = new HashMap<>();
-        params.put(UrlConstant.BLICKID, userInfoData.res.listList.getId());
+        params.put(UrlConstant.PASSID, userInfoData.res.listList.getId());
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.ADDFOLLOW, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
@@ -155,13 +161,20 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
 
     }
 
-    @OnClick({R.id.im_more, R.id.tv_tosx, R.id.tv_togz, R.id.im_back})
+    @OnClick({R.id.im_more, R.id.tv_tosx, R.id.tv_togz, R.id.im_back,R.id.im1, R.id.im2, R.id.im3, R.id.im4, R.id.im5, R.id.im6})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.im_more:
                 loading(R.layout.dialog_black, this).setOutsideClose(true).setGravity(Gravity.BOTTOM);
                 break;
             case R.id.tv_tosx:
+                ConversationInfo conversationInfo = new ConversationInfo();
+                conversationInfo.setId(userInfoData.res.getListList().getId());
+                imcList.add(ImagUrlUtils.getImag(userInfoData.res.getListList().getLitpic()));
+                conversationInfo.setIconUrlList(imcList);
+                conversationInfo.setGroup(false);
+                conversationInfo.setTitle(userInfoData.res.getListList().getName());
+                startChatActivity(conversationInfo);
                 break;
             case R.id.tv_togz:
                 toFlow();
@@ -169,11 +182,38 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
             case R.id.im_back:
                 finish();
                 break;
+            case R.id.im1:
+                starPicsee(0);
+                break;
+            case R.id.im2:
+                starPicsee(1);
 
+                break;
+            case R.id.im3:
+                starPicsee(2);
+
+                break;
+            case R.id.im4:
+                starPicsee(3);
+
+                break;
+            case R.id.im5:
+                starPicsee(4);
+
+                break;
+            case R.id.im6:
+                starPicsee(5);
+
+                break;
 
         }
     }
+private void starPicsee(int postione){
+        Intent intent=new Intent(this,UserPicSeeAct.class);
+        intent.putExtra("picurl",mlist.get(postione));
+        startActivity(intent);
 
+}
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -184,7 +224,7 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
                 break;
             case R.id.tv_jubao:
                 Intent intent = new Intent(this, JubaoAct.class);
-                intent.putExtra("uid",userInfoData.res.listList.getId());
+                intent.putExtra("uid", userInfoData.res.listList.getId());
                 startActivity(intent);
                 cancelLoading();
                 break;
@@ -195,23 +235,23 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
     }
 
     public void setUser(UserInfoData userInfoData) {
-       imageList.add(im1);
-       imageList.add(im2);
-       imageList.add(im3);
-       imageList.add(im4);
-       imageList.add(im5);
-       imageList.add(im6);
+        imageList.add(im1);
+        imageList.add(im2);
+        imageList.add(im3);
+        imageList.add(im4);
+        imageList.add(im5);
+        imageList.add(im6);
         if (userInfoData.res.listList.getGender().equals("1")) {
             Drawable drawable = getResources().getDrawable(R.mipmap.ic_nan);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             tvName.setCompoundDrawables(drawable, null, null, null);
-            tvName.setText(userInfoData.res.listList.name);
         } else if (userInfoData.res.listList.getGender().equals("2")) {
             Drawable drawable = getResources().getDrawable(R.mipmap.ic_nv);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             tvName.setCompoundDrawables(drawable, null, null, null);
-            tvName.setText(userInfoData.res.listList.name);
         }
+        tvName.setText(userInfoData.res.listList.name);
+
         if (userInfoData.res.listList.getIs_follow().equals("1")) {
             tvYiguanzhu.setVisibility(View.VISIBLE);
             tvTogz.setVisibility(View.GONE);
@@ -229,12 +269,12 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
                 .into(imHeader);
         if (!userInfoData.res.listList.getUser_imgs().equals("")) {
             mlist = getimagList(userInfoData.res.listList.getUser_imgs());
-            for (int i=0;i<mlist.size();i++){
-                Log.i("tupianaaa",mlist.get(i));
+            for (int i = 0; i < mlist.size(); i++) {
+                Log.i("tupianaaa", mlist.get(i));
                 imageList.get(i).setVisibility(View.VISIBLE);
                 Glide.with(this)
                         .load(Constants.BASEURL + mlist.get(i))
-                        .into( imageList.get(i));
+                        .into(imageList.get(i));
             }
         }
 
@@ -253,4 +293,17 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
 
         return idList;
     }
+
+
+    private void startChatActivity(ConversationInfo conversationInfo) {
+        ChatInfo chatInfo = new ChatInfo();
+        chatInfo.setType(conversationInfo.isGroup() ? TIMConversationType.Group : TIMConversationType.C2C);
+        chatInfo.setId(conversationInfo.getId());
+        chatInfo.setChatName(conversationInfo.getTitle());
+        Intent intent = new Intent(WuyeApplicatione.getContext(), ChatActivity.class);
+        intent.putExtra(Constants.CHAT_INFO, chatInfo);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        WuyeApplicatione.instance().startActivity(intent);
+    }
+
 }

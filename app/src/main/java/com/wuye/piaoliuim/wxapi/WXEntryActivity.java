@@ -85,7 +85,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                      ///< 用户换取access_token的code，仅在ErrCode为0时有效
                     String code = ((SendAuth.Resp) baseResp).code;
                     ///< 这里拿到了这个code，去做2次网络请求获取access_token和用户个人信息
-                    getAccessToken(code);
+                    WXUserInfo wxUserInfo = new WXUserInfo();
+                    wxUserInfo.setCity(code);
+                    ///< 发送广播到登录界面，把数据带过去; 可用EventBus
+                    EventBus.getDefault().post(new postMessageWx(wxUserInfo ));
+                     finish();
+//                    getAccessToken(code);
                 } else if (type == RETURN_MSG_TYPE_SHARE) {
                     ///< "微信分享成功"
                     finish();
@@ -108,7 +113,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         //                .add("code", code)
         //                .add("grant_type", "authorization_code")
         //                .build();
-        url += "?appid=" + "wx4b25184c83dbca16" + "&secret=ef87f1cd8f0c4af7228a816b4d111be3"
+        url += "?appid=" + "wx4b25184c83dbca16" + "&secret=45a746222c61f51c5e038cbf865809a2"
                 + "&code=" + code + "&grant_type=authorization_code";
         final Request request = new Request.Builder()
                 .url(url)
@@ -125,6 +130,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             public void onResponse(Call call, Response response) throws IOException {
                 String json = response.body().string();
                 AccessToken accessToken= GsonUtil.getDefaultGson().fromJson(json,AccessToken.class);
+                Log.i("---------",accessToken.getAccess_token()+"XXXXXXXXXXX"+accessToken.getRefresh_token());
                  getUserInfo(accessToken.getAccess_token(), accessToken.getOpenid());
             }
         });

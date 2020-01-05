@@ -197,7 +197,7 @@
    <TextView
        android:layout_width="wrap_content"
        android:layout_height="match_parent"
-       android:text="一元特惠"
+       android:text="充值特惠"
        android:textColor="#FF5A2902"
         android:textSize="@dimen/textsp13"
        android:gravity="center"
@@ -214,7 +214,7 @@
          android:gravity="center|left"
          android:textSize="@dimen/sp_15"
          android:textColor="#FF5A2902"
-         android:text="首冲 1元可以获得500金币"
+         android:text="爆！充值送豪礼，限时抢购！"
          />
      <TextView
          android:layout_width="wrap_content"

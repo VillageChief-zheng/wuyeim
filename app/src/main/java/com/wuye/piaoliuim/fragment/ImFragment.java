@@ -57,8 +57,7 @@ public class ImFragment extends BaseImFragment {
     TitleBarLayout titleBarLayout;//title
     TextView tvKefu;
     LinearLayout sysAct;
-    ConversationListLayout listLayout;
-    @Nullable
+     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mBaseView = inflater.inflate(R.layout.conversation_fragment, container, false);
@@ -185,7 +184,7 @@ public class ImFragment extends BaseImFragment {
         showItemPopMenu(position, info, view.getX(), view.getY() + view.getHeight() / 2);
     }
 
-    private void startChatActivity(ConversationInfo conversationInfo) {
+        private void startChatActivity(ConversationInfo conversationInfo) {
         ChatInfo chatInfo = new ChatInfo();
         chatInfo.setType(conversationInfo.isGroup() ? TIMConversationType.Group : TIMConversationType.C2C);
         chatInfo.setId(conversationInfo.getId());
@@ -201,17 +200,14 @@ public class ImFragment extends BaseImFragment {
     }
     private void setTitle(){
         titleBarLayout=mConversationLayout.getTitleBar();
-           listLayout = mConversationLayout.getConversationList();
-          listLayout.setItemAvatarRadius(60);
-         listLayout.setBackground(Color.parseColor("#775EFF"));
-           tvKefu=mBaseView.findViewById(R.id.kfu);
+             tvKefu=mBaseView.findViewById(R.id.kfu);
         sysAct=mBaseView.findViewById(R.id.syssm);
         titleBarLayout.setVisibility(View.GONE);
          tvKefu.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                ConversationInfo conversationInfo=new ConversationInfo();
-               conversationInfo.setId("100");
+               conversationInfo.setId("26");
                conversationInfo.setGroup(false);
                conversationInfo.setTitle("客服");
                startChatActivity(conversationInfo);

@@ -41,6 +41,8 @@ public class UrlConstant {
     public static String PHONEMODEL = "phone_model";
     public static String DEVICEID = "device_id";
     public static String DEVICE_BRAND = "divece_brand";
+    //渠道
+    public static String QUDAOHAO = "1";
      /**
      * the net params
      */
@@ -150,6 +152,7 @@ public class UrlConstant {
     public static final String SYSMESSAGE = "Index/getNoticeLists";//系统消息
     public static final String SIN = "Useracc/getTlv2UserSig";//系统消息
     public static final String LAOPINGZI = "User/userDeductionGold";//捞瓶子
+    public static final String GETLIWULIST = "User/getGiftLists";//礼物
 
 
 }

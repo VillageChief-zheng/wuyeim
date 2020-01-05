@@ -26,5 +26,6 @@
         android:numColumns="2"
         android:scrollbars="none"
         />
+    <include layout="@layout/comm_nodata" />
 
 </LinearLayout>
