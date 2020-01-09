@@ -1,13 +1,17 @@
 package com.wuye.piaoliuim.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -36,6 +40,7 @@ public class IndexAct extends BaseActivity implements DialogView.DialogViewListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 //        goActivity();
+//        goToNotificationSetting(this);
     }
 
     @Override
@@ -81,6 +86,8 @@ public class IndexAct extends BaseActivity implements DialogView.DialogViewListe
                 break;
             case R.id.dialogSure:
                 if (upList.res.getAndroid_isdownload().equals("1")){
+                    bySearchOpen(this);
+
                     cancelLoading();
 
                     Log.i("ppppp","去市场");
@@ -147,5 +154,34 @@ public class IndexAct extends BaseActivity implements DialogView.DialogViewListe
             }
         });
     }
+    public static void bySearchOpen(Context context) {
+        try {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse("market://search?q=" + "夜色漂流瓶"));
+            context.startActivity(i);
+        } catch (Exception e) {
+            Toast.makeText(context, "您的手机没有安装Android应用市场", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
 
+    private void goToNotificationSetting(Context context) {
+        Intent intent = new Intent();
+        if (Build.VERSION.SDK_INT >= 26) {
+            // android 8.0引导
+            intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+            intent.putExtra("android.provider.extra.APP_PACKAGE", context.getPackageName());
+        } else if (Build.VERSION.SDK_INT >= 21) {
+            // android 5.0-7.0
+            intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+            intent.putExtra("app_package", context.getPackageName());
+            intent.putExtra("app_uid", context.getApplicationInfo().uid);
+        } else {
+            // 其他
+            intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+            intent.setData(Uri.fromParts("package", context.getPackageName(), null));
+        }
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 }

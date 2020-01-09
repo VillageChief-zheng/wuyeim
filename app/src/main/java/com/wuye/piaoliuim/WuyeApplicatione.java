@@ -2,12 +2,20 @@ package com.wuye.piaoliuim;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.RemoteViews;
+import android.widget.Toast;
 
+
+import androidx.core.app.NotificationCompat;
 
 import com.chuange.basemodule.BaseApplication;
 import com.chuange.basemodule.BaseData;
@@ -17,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.huawei.android.hms.agent.HMSAgent;
 import com.meizu.cloud.pushsdk.PushManager;
 import com.meizu.cloud.pushsdk.util.MzSystemUtils;
 import com.tencent.imsdk.TIMBackgroundParam;
@@ -24,29 +33,41 @@ import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMMessageOfflinePushSettings;
 import com.tencent.imsdk.TIMOfflinePushNotification;
+import com.tencent.imsdk.TIMOfflinePushSettings;
+import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.session.SessionWrapper;
 import com.tencent.imsdk.utils.IMFunc;
 import com.tencent.qcloud.tim.uikit.TUIKit;
 import com.tencent.qcloud.tim.uikit.base.IMEventListener;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
+import com.umeng.message.UmengMessageHandler;
+import com.umeng.message.UmengNotificationClickHandler;
+import com.umeng.message.entity.UMessage;
 import com.vise.utils.assist.SSLUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.interceptor.HttpLogInterceptor;
 import com.vivo.push.PushClient;
 import com.wuye.piaoliuim.activity.IndexAct;
+import com.wuye.piaoliuim.activity.imactivity.MipushTestActivity;
 import com.wuye.piaoliuim.config.AppConfig;
 import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.helper.ConfigHelper;
 import com.wuye.piaoliuim.helper.CustomAVCallUIController;
 import com.wuye.piaoliuim.helper.CustomMessage;
+import com.wuye.piaoliuim.thirdpush.ThirdPushTokenMgr;
 import com.wuye.piaoliuim.utils.DemoLog;
 import com.wuye.piaoliuim.utils.GenerateTestUserSig;
+import com.wuye.piaoliuim.utils.PrivateConstants;
 import com.wuye.piaoliuim.utils.WebActivity;
 import com.xiaomi.mipush.sdk.MiPushClient;
+
+import org.bouncycastle.asn1.x509.Time;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -68,8 +89,17 @@ public class WuyeApplicatione extends BaseApplication {
 
     public static WuyeApplicatione etdApplication;
     private List<Activity> activityList = new ArrayList<>();
+    public static final String UPDATE_STATUS_ACTION = "com.umeng.message.example.action.UPDATE_STATUS";
 
 //c8c077c246dcbea0e9f2e9270713af1a46404c0bc64ce99c47740d064d380d5f
+//    5e12960f0cafb2b4690002d1
+
+
+//       d3e4d91c1818405d1506069d0055e9d8
+
+
+//    eqtuc8anbj8ugzohnt6w9rniigskrxab
+
 private int SDKAPPID=1400302511;
     private static WuyeApplicatione instance;
     private static final String TAG = WuyeApplicatione.class.getSimpleName();
@@ -80,36 +110,51 @@ private int SDKAPPID=1400302511;
         init();
 //        ViewTarget.setTagId(R.id.iv_newsimg);
         mContext = getApplicationContext();
-//        TUIKitConfigs configs = TUIKitt.getConfigs();
-//        configs.setSdkConfig(new TIMSdkConfig(SDKAPPID));
-//        configs.setCustomFaceConfig(new CustomFaceConfig());
-//        configs.setGeneralConfig(new GeneralConfig());
-//
-//        TUIKit.init(this, SDKAPPID, configs);
+
         instance=this;
          initIm();
          initUmengSdk();
 
     }
-    private void initUmengSdk(){
-        UMConfigure.init(this, "5e0185c0570df34b85000959", "oppo",
-                UMConfigure.DEVICE_TYPE_PHONE, "sssssss");
+    private void initUmengSdk() {
+        UMConfigure.init(this, "5e12960f0cafb2b4690002d1", "oppo",
+                UMConfigure.DEVICE_TYPE_PHONE, "d3e4d91c1818405d1506069d0055e9d8");
         PushAgent mPushAgent = PushAgent.getInstance(this);
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+
+        UMConfigure.setLogEnabled(true);
 
 //注册推送服务，每次调用register方法都会回调该接口
+        mPushAgent.setNotificaitonOnForeground(false);
 
         mPushAgent.register(new IUmengRegisterCallback() {
             @Override
             public void onSuccess(String deviceToken) {
                 //注册成功会返回deviceToken deviceToken是推送消息的唯一标志
-                Log.i(TAG,"注册成功：deviceToken：-------->  " + deviceToken);
+                sendBroadcast(new Intent(UPDATE_STATUS_ACTION));
+
+                Log.i(TAG, "友盟注册成功：deviceToken：-------->  " + deviceToken);
+
             }
+
             @Override
             public void onFailure(String s, String s1) {
-                Log.e(TAG,"注册失败：-------->  " + "s:" + s + ",s1:" + s1);
+                sendBroadcast(new Intent(UPDATE_STATUS_ACTION));
+                Log.e(TAG, "友盟注册失败：-------->  " + "s:" + s + ",s1:" + s1);
             }
         });
-        Log.e(TAG,"注册：-------->  " + "s:" + mPushAgent.getRegistrationId());
+        mPushAgent.setDisplayNotificationNumber(5);
+         Log.e(TAG, "注册：-------->  " + "s:" + mPushAgent.getRegistrationId());
+        UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler() {
+
+            public void dealWithCustomAction(Context context, UMessage msg) {
+                Intent intent=new Intent(context, MipushTestActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                Toast.makeText(context, msg.custom, Toast.LENGTH_LONG).show();
+            }
+        };
+        mPushAgent.setNotificationClickHandler(notificationClickHandler);
 
     }
     public static WuyeApplicatione instance() {
@@ -310,7 +355,6 @@ private int SDKAPPID=1400302511;
     }
 
 
-
     public void clear() {
     }
 
@@ -327,8 +371,10 @@ private int SDKAPPID=1400302511;
                 }
                 for (TIMMessage msg : msgs) {
                     // 小米手机需要在设置里面把demo的"后台弹出权限"打开才能点击Notification跳转。TIMOfflinePushNotification后续不再维护，如有需要，建议应用自己调用系统api弹通知栏消息。
-                    TIMOfflinePushNotification notification = new TIMOfflinePushNotification(WuyeApplicatione.this, msg);
-                    notification.doNotify(WuyeApplicatione.this, R.drawable.default_user_icon);
+//                    TIMOfflinePushNotification notification = new TIMOfflinePushNotification(WuyeApplicatione.this, msg);
+//                    notification.doNotify(WuyeApplicatione.this, R.drawable.default_user_icon);
+                    Log.i("腾讯im 我是新消息通知","pppppppp"+msg);
+                    notifsy(msg);
                 }
             }
         };
@@ -428,38 +474,38 @@ private int SDKAPPID=1400302511;
            */
           TUIKit.init(this, GenerateTestUserSig.SDKAPPID, new ConfigHelper().getConfigs());
 
-//          if (ThirdPushTokenMgr.USER_GOOGLE_FCM) {
-//              FirebaseInstanceId.getInstance().getInstanceId()
-//                      .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-//                          @Override
-//                          public void onComplete(Task<InstanceIdResult> task) {
-//                              if (!task.isSuccessful()) {
-//                                  DemoLog.w(TAG, "getInstanceId failed exception = " + task.getException());
-//                                  return;
-//                              }
-//
-//                              // Get new Instance ID token
-//                              String token = task.getResult().getToken();
-//                              DemoLog.i(TAG, "google fcm getToken = " + token);
-//
-//                              ThirdPushTokenMgr.getInstance().setThirdPushToken(token);
-//                          }
-//                      });
-//          } else if (IMFunc.isBrandXiaoMi()) {
-//              // 小米离线推送
-////              MiPushClient.registerPush(this, PrivateConstants.XM_PUSH_APPID, PrivateConstants.XM_PUSH_APPKEY);
-//          }
-//          else if (IMFunc.isBrandHuawei()) {
-//              // 华为离线推送
-//              HMSAgent.init(this);
-//          } else if (MzSystemUtils.isBrandMeizu(this)) {
-//              // 魅族离线推送
-//              PushManager.register(this, PrivateConstants.MZ_PUSH_APPID, PrivateConstants.MZ_PUSH_APPKEY);
-//          }
-//          else if (IMFunc.isBrandVivo()) {
-//              // vivo离线推送
-//              PushClient.getInstance(getApplicationContext()).initialize();
-//          }
+          if (ThirdPushTokenMgr.USER_GOOGLE_FCM) {
+              FirebaseInstanceId.getInstance().getInstanceId()
+                      .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                          @Override
+                          public void onComplete(Task<InstanceIdResult> task) {
+                              if (!task.isSuccessful()) {
+                                  DemoLog.w(TAG, "getInstanceId failed exception = " + task.getException());
+                                  return;
+                              }
+
+                              // Get new Instance ID token
+                              String token = task.getResult().getToken();
+                              DemoLog.i(TAG, "google fcm getToken = " + token);
+
+                              ThirdPushTokenMgr.getInstance().setThirdPushToken(token);
+                          }
+                      });
+          } else if (IMFunc.isBrandXiaoMi()) {
+              // 小米离线推送
+//              MiPushClient.registerPush(this, PrivateConstants.XM_PUSH_APPID, PrivateConstants.XM_PUSH_APPKEY);
+          }
+          else if (IMFunc.isBrandHuawei()) {
+              // 华为离线推送
+              HMSAgent.init(this);
+          } else if (MzSystemUtils.isBrandMeizu(this)) {
+              // 魅族离线推送
+              PushManager.register(this, PrivateConstants.MZ_PUSH_APPID, PrivateConstants.MZ_PUSH_APPKEY);
+          }
+          else if (IMFunc.isBrandVivo()) {
+              // vivo离线推送
+              PushClient.getInstance(getApplicationContext()).initialize();
+          }
 
           registerActivityLifecycleCallbacks(new StatisticActivityLifecycleCallback());
       }
@@ -473,10 +519,40 @@ private int SDKAPPID=1400302511;
       IMEventListener imEventListener = new IMEventListener() {
           @Override
           public void onNewMessages(List<TIMMessage> msgs) {
-              DemoLog.i(TAG, "onNewMessages");
+              DemoLog.i(TAG, "onNewMessages"+msgs.size());
               CustomAVCallUIController.getInstance().onNewMessage(msgs);
           }
       };
       TUIKit.addIMEventListener(imEventListener);
+       TIMManager.getInstance().getOfflinePushSettings(new TIMValueCallBack<TIMOfflinePushSettings>() {
+          @Override
+          public void onError(int i, String s) {
+              Log.e("sss", "get offline push setting error " + s);
+          }
+
+          @Override
+          public void onSuccess(TIMOfflinePushSettings timOfflinePushSettings) {
+              Log.e("sss", "get offline push setting success "+ timOfflinePushSettings.isEnabled()+"" );
+//                timOfflinePushSettings.isEnabled();
+          }
+      });
+  }
+  private void notifsy(TIMMessage msg){
+      NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
+      NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext);
+      Intent notificationIntent = new Intent(mContext, MainActivity.class);
+      notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+      PendingIntent intent = PendingIntent.getActivity(mContext, 0, notificationIntent, 0);
+      mBuilder.setContentTitle(msg.getSenderNickname())//设置通知栏标题
+              .setContentText( "您有一条消息")
+              .setContentIntent(intent) //设置通知栏单击意图
+//              .setNumber(5) //设置通知集合的数量
+              .setTicker(msg.getSenderNickname()+":"+msg.getCustomStr()) //通知首次出现在通知栏，带上升动画效果的
+              .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示，一般是系统获取到的时间
+              .setDefaults(Notification.DEFAULT_ALL)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用 defaults 属性，可以组合
+              .setSmallIcon(R.mipmap.app_ico);//设置通知小 ICON
+      Notification notify = mBuilder.build();
+      notify.flags |= Notification.FLAG_AUTO_CANCEL;
+      mNotificationManager.notify(1, notify);
   }
 }

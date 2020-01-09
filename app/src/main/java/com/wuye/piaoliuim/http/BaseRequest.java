@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.blankj.utilcode.util.StringUtils;
+import com.chuange.basemodule.utils.DialogUtils;
 import com.chuange.basemodule.utils.LogUtils;
+import com.chuange.basemodule.view.DialogView;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -43,6 +45,7 @@ public abstract class BaseRequest<T> {
     private String message = "正在请求网络，请稍后...";
     private boolean isShowDialog = true;
     private boolean needToJson = true;
+    protected DialogUtils mDialogUtils;
 
     public BaseRequest(Context context) {
         mContext = context;
@@ -75,7 +78,9 @@ public abstract class BaseRequest<T> {
         if (params != null) {
             if (!mContext.equals(mContext.getApplicationContext())) {
                 if (isShowDialog) {
-                    showProgressDialog(mContext, message);
+                         loading(mContext, com.chuange.basemodule.R.layout.default_loading);
+
+//                    showProgressDialog(mContext, message);
                 }
             }
             getAsync(params);
@@ -106,20 +111,23 @@ public abstract class BaseRequest<T> {
                     .request(new ACallback<String>() {
                         @Override
                         public void onSuccess(String data) {
-                            dismissProgressDialog();
+                            cancelLoading();
+//                            dismissProgressDialog();
                             parseData(data);
                         }
 
                         @Override
                         public void onFail(int errCode, String errMsg) {
-                            dismissProgressDialog();
+                            cancelLoading();
+//                            dismissProgressDialog();
                             ViseLog.i("RequestError", "errCode:" + errCode + ",   errMsg:" + errMsg);
                             parseError(errMsg);
                         }
                     });
 
         } catch (Exception e) {
-            dismissProgressDialog();
+//            dismissProgressDialog();
+            cancelLoading();
             parseError(mContext.getResources()
                     .getString(R.string.generic_error));
             ViseLog.e("NETERROR getAsync", "Current URL is:" + params.getUrl());
@@ -136,7 +144,9 @@ public abstract class BaseRequest<T> {
         if (params != null) {
             if (!mContext.equals(mContext.getApplicationContext())) {
                 if (isShowDialog) {
-                    showProgressDialog(mContext, message);
+                    loading(mContext, com.chuange.basemodule.R.layout.default_loading);
+
+//                    showProgressDialog(mContext, message);
                 }
             }
             postAsync(params);
@@ -151,7 +161,9 @@ public abstract class BaseRequest<T> {
         if (params != null) {
             if (!mContext.equals(mContext.getApplicationContext())) {
                 if (isShowDialog) {
-                    showProgressDialog(mContext, message);
+                    loading(mContext, com.chuange.basemodule.R.layout.default_loading);
+
+//                    showProgressDialog(mContext, message);
                 }
             }
             upFilepostAsync(params);
@@ -214,19 +226,22 @@ public abstract class BaseRequest<T> {
                     .request(new ACallback<String>() {
                         @Override
                         public void onSuccess(String data) {
-                            dismissProgressDialog();
+                            cancelLoading();
+//                            dismissProgressDialog();
                             parseData(data);
                         }
                         //ddHeader("token", token)
                         @Override
                         public void onFail(int errCode, String errMsg) {
-                            dismissProgressDialog();
+                            cancelLoading();
+//                            dismissProgressDialog();
                             ViseLog.i("RequestError", "errCode:" + errCode + ",   errMsg:" + errMsg);
                             parseError(errMsg);
                         }
                     });
         } catch (Exception e) {
-            dismissProgressDialog();
+            cancelLoading();
+//            dismissProgressDialog();
             parseError("网络异常,请稍后再试！");
             ViseLog.e("NETERROR postAsync", "Current URL is:" + params.getUrl());
             ViseLog.e("NETERROR postAsync", mContext.getResources()
@@ -310,19 +325,22 @@ public abstract class BaseRequest<T> {
                     .request(new ACallback<String>() {
                         @Override
                         public void onSuccess(String data) {
-                            dismissProgressDialog();
+                            cancelLoading();
+//                            dismissProgressDialog();
                             parseData(data);
                         }
                         //ddHeader("token", token)
                         @Override
                         public void onFail(int errCode, String errMsg) {
-                            dismissProgressDialog();
+                            cancelLoading();
+//                            dismissProgressDialog();
                             ViseLog.i("RequestError", "errCode:" + errCode + ",   errMsg:" + errMsg);
                             parseError(errMsg);
                         }
                     });
         } catch (Exception e) {
-            dismissProgressDialog();
+            cancelLoading();
+//            dismissProgressDialog();
             parseError("网络异常,请稍后再试！");
             ViseLog.e("NETERROR postAsync", "Current URL is:" + params.getUrl());
             ViseLog.e("NETERROR postAsync", mContext.getResources()
@@ -330,5 +348,25 @@ public abstract class BaseRequest<T> {
             e.printStackTrace();
         }
     }
+    public DialogView loading(Context context, String msg) {
+        cancelLoading();
+        return (mDialogUtils = new DialogUtils(context)).loading(msg);
+    }
 
+    public DialogView loading(Context context, int layout) {
+        cancelLoading();
+        return (mDialogUtils = new DialogUtils(context)).loading(layout);
+    }
+
+    public DialogView loading(Context context, int layout, DialogView.DialogViewListener dialogViewListener) {
+        cancelLoading();
+        return (mDialogUtils = new DialogUtils(context)).loading(layout, dialogViewListener);
+    }
+
+    public void cancelLoading() {
+        if (mDialogUtils != null) {
+            mDialogUtils.cancelLoading();
+            mDialogUtils = null;
+        }
+    }
 }

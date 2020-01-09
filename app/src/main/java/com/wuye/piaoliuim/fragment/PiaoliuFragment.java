@@ -2,21 +2,30 @@ package com.wuye.piaoliuim.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuange.basemodule.BaseFragement;
 import com.chuange.basemodule.utils.ViewUtils;
+import com.chuange.basemodule.view.refresh.interfaces.RefreshLayout;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
+import com.tencent.qcloud.tim.uikit.component.AudioPlayer;
 import com.tencent.qcloud.tim.uikit.modules.chat.base.ChatInfo;
 import com.tencent.qcloud.tim.uikit.modules.conversation.base.ConversationInfo;
+import com.tencent.qcloud.tim.uikit.utils.ToastUtil;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.WuyeApplicatione;
 import com.wuye.piaoliuim.activity.ChatActivity;
@@ -55,23 +64,34 @@ public class PiaoliuFragment extends BaseFragement {
     RecyclerView recommendGv;
     @ViewUtils.ViewInject(R.id.noDataCommL)
     LinearLayout noDataCommL;
+    @ViewUtils.ViewInject(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefresh;
 
     private int mNextRequestPage = 1;
 
     private List<PiaoliuData.Res.PiaoliuList> newsList = new ArrayList<>();
     PiaoliuData.Res.PiaoliuList imUserInfo;
     TIMManager timManager;
-    List<Object> imcList=new ArrayList<>();
+    List<Object> imcList = new ArrayList<>();
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        setView(R.layout.fragment_piaoliu, this, false);
+        setView(R.layout.fragment_piaoliu, this);
         getNetData(mNextRequestPage);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefresh.setRefreshing(false);
+                mNextRequestPage=1;
+                getNetData(mNextRequestPage);
+            }
+
+
+        });
     }
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
-
     }
 
     public void getNetData(int page) {
@@ -81,11 +101,12 @@ public class PiaoliuFragment extends BaseFragement {
             @Override
             public void onComplete(String requestEntity) {
                 piaoliuData = GsonUtil.getDefaultGson().fromJson(requestEntity, PiaoliuData.class);
-                boolean isRefresh = mNextRequestPage == 1;
-                if (piaoliuData.res.listList.size()>0){
 
-                    initAdapter(isRefresh, piaoliuData);
-                }else {
+                boolean isRefresh = mNextRequestPage == 1;
+                if (piaoliuData.res.listList.size() > 0) {
+
+                     initAdapter(isRefresh, piaoliuData);
+                } else {
                     showNoData(piaoliuData.res.listList.size());
                 }
 
@@ -119,6 +140,8 @@ public class PiaoliuFragment extends BaseFragement {
 
                 }
             });
+
+
         }
         mNextRequestPage++;
         final int size = dataList == null ? 0 : dataList.res.listList.size();
@@ -156,7 +179,12 @@ public class PiaoliuFragment extends BaseFragement {
                     getNetData(mNextRequestPage);
                 }
             });
+            if (swipeRefresh.isRefreshing()) {
+                Log.i("-----","取消刷新");
+                swipeRefresh.setRefreshing(false);
+            }
         }
+
         mNextRequestPage++;
         final int size = dataList == null ? 0 : dataList.res.getListList().size();
         if (isRefresh) {
@@ -185,6 +213,18 @@ public class PiaoliuFragment extends BaseFragement {
                 laoPingzi(publicAdapter.getData().get(position).getUser_id());
             }
         });
+        publicAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                switch (view.getId()) {
+                    case R.id.bofang:
+                        Log.i("ssssss", "点击了播放");
+                        ImageView imageView = view.findViewById(R.id.audioPlayImage);
+                        playMedia(ImagUrlUtils.getImag(publicAdapter.getData().get(i).getContent()), imageView);
+                        break;
+                }
+            }
+        });
     }
 
     public static PiaoliuFragment newInstance() {
@@ -203,7 +243,7 @@ public class PiaoliuFragment extends BaseFragement {
                 conversationInfo.setId(imUserInfo.getUser_id());
                 imcList.add(ImagUrlUtils.getImag(imUserInfo.getLitpic()));
                 conversationInfo.setIconUrlList(imcList);
-                 conversationInfo.setGroup(false);
+                conversationInfo.setGroup(false);
                 conversationInfo.setTitle(imUserInfo.getName());
                 startChatActivity(conversationInfo);
             }
@@ -225,6 +265,7 @@ public class PiaoliuFragment extends BaseFragement {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         WuyeApplicatione.instance().startActivity(intent);
     }
+
     private void showNoData(int size) {
         if (size > 0) {
             noDataCommL.setVisibility(View.GONE);
@@ -236,4 +277,42 @@ public class PiaoliuFragment extends BaseFragement {
 
         }
     }
+
+    private void playMedia(String path, ImageView audioPlayImage) {
+        if (AudioPlayer.getInstance().isPlaying()) {
+            AudioPlayer.getInstance().stopPlay();
+            return;
+        }
+        if (TextUtils.isEmpty(path)) {
+            ToastUtil.toastLongMessage("语音文件还未下载完成");
+            return;
+        }
+        audioPlayImage.setImageResource(com.tencent.qcloud.tim.uikit.R.drawable.play_voice_message);
+        final AnimationDrawable animationDrawable = (AnimationDrawable) audioPlayImage.getDrawable();
+        animationDrawable.start();
+//        msg.setCustomInt(READ);
+//        unreadAudioText.setVisibility(View.GONE);
+        AudioPlayer.getInstance().startPlay(path, new AudioPlayer.Callback() {
+            @Override
+            public void onCompletion(Boolean success) {
+                audioPlayImage.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        animationDrawable.stop();
+                        audioPlayImage.setImageResource(com.tencent.qcloud.tim.uikit.R.drawable.voice_msg_playing_3);
+                    }
+                });
+            }
+        });
+
+    }
+
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        super.onRefresh(refreshLayout);
+        mNextRequestPage = 1;
+        getNetData(mNextRequestPage);
+    }
+
+
 }

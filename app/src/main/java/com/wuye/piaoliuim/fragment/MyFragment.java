@@ -70,7 +70,7 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
 
     View headerView;
    FragmnetMyAdapter fragmnetMyAdapter;
-    private Class[] itemClass = {LiwuAct.class, RechangeAct.class, LiuLanAct.class, BlackList.class, BlackList.class, OpinionAct.class, OpinionAct.class, SettingAct.class};
+    private Class[] itemClass = {LiwuAct.class, RechangeAct.class, LiuLanAct.class, BlackList.class, BlackList.class,  OpinionAct.class, SettingAct.class};
     UserInfoData userInfoData;
     ImageView header;
     TextView tvname,sigeConetn,fians,jinbi,guanzhu;
@@ -112,8 +112,8 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
     }
     private void initAdapter(){
         String[] name = getResources().getStringArray(R.array.main_account_list);
-        int[] nameIcon = {R.mipmap.ic_myliwu, R.mipmap.ic_myjbi,R.mipmap.ic_myjbi,
-                R.mipmap.ic_myyy, R.mipmap.ic_myheimd, R.mipmap.ic_mysz, R.mipmap.ic_myfk, R.mipmap.ic_myset};
+        int[] nameIcon = {R.mipmap.ic_myliwu, R.mipmap.ic_myjbi,R.mipmap.ic_jlu,
+                R.mipmap.ic_myyy, R.mipmap.ic_myheimd,   R.mipmap.ic_myfk, R.mipmap.ic_myset};
         List<ItemBean> accountDataList = new ArrayList<>();
         int length = name.length;
         for (int i = 0; i < length; i++) {
@@ -152,12 +152,7 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
             if (i==3){
                 //应用评分
                 pingfen();
-             }else if(i==4){
-                //守则
-             }else if(i==5){
-                //守则
-                ToastUtil.show(getContext(),"用户守则");
-             }else {
+             } else {
                 startActivity(new Intent(getContext(),itemClass[i]));
             }
             }

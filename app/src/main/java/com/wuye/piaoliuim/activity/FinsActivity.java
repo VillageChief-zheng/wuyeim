@@ -1,6 +1,7 @@
 package com.wuye.piaoliuim.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,13 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuange.basemodule.BaseActivity;
+import com.tencent.imsdk.TIMConversationType;
+import com.tencent.qcloud.tim.uikit.modules.chat.base.ChatInfo;
+import com.tencent.qcloud.tim.uikit.modules.conversation.base.ConversationInfo;
 import com.wuye.piaoliuim.R;
+import com.wuye.piaoliuim.WuyeApplicatione;
 import com.wuye.piaoliuim.adapter.FinsAdapter;
 import com.wuye.piaoliuim.bean.FinsData;
+import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.GsonUtil;
+import com.wuye.piaoliuim.utils.ImagUrlUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +53,7 @@ public class FinsActivity extends BaseActivity {
     private List<FinsData.Res.FinsList> newsList = new ArrayList<>();
     FinsData listData;
     FinsAdapter publicAdapter;
+    List<Object> imcList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,6 +121,14 @@ public class FinsActivity extends BaseActivity {
     }
 
     public void setAdapterLis() {
+        publicAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
+                Intent intent=new Intent(getBaseContext(), UserInfoAct.class);
+                intent.putExtra("id",publicAdapter.getData().get(position).getUser_id());
+                startActivity(intent);
+            }
+        });
         publicAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
@@ -164,5 +180,15 @@ public class FinsActivity extends BaseActivity {
             recommendGv.setVisibility(View.GONE);
 
         }
+    }
+    private void startChatActivity(ConversationInfo conversationInfo) {
+        ChatInfo chatInfo = new ChatInfo();
+        chatInfo.setType(conversationInfo.isGroup() ? TIMConversationType.Group : TIMConversationType.C2C);
+        chatInfo.setId(conversationInfo.getId());
+        chatInfo.setChatName(conversationInfo.getTitle());
+        Intent intent = new Intent(WuyeApplicatione.getContext(), ChatActivity.class);
+        intent.putExtra(Constants.CHAT_INFO, chatInfo);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        WuyeApplicatione.instance().startActivity(intent);
     }
 }

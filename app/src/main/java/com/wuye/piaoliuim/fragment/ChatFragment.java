@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chuange.basemodule.utils.ScreenUtils;
 import com.chuange.basemodule.view.DialogView;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMFriendshipManager;
@@ -56,6 +59,10 @@ import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.AppSessionEngine;
 import com.wuye.piaoliuim.utils.KeyMapDailog;
+import com.wuye.piaoliuim.utils.PopupOrderPriceDetail;
+import com.zyyoona7.popup.EasyPopup;
+import com.zyyoona7.popup.XGravity;
+import com.zyyoona7.popup.YGravity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -95,7 +102,9 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
     public static final String FOREWARD_SLASH = "/";
 
     String mId;
+    private EasyPopup mCirclePop;
 
+    PopupOrderPriceDetail popupOrderPriceDetail;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -119,7 +128,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
         mTitleBar = mChatLayout.getTitleBar();
         mNoticeLayout = mChatLayout.getNoticeLayout();
         mMessageLayout = mChatLayout.getMessageLayout();
-        mInputLayout = mChatLayout.getInputLayout();
+         mInputLayout = mChatLayout.getInputLayout();
         //单聊面板标记栏返回按钮点击事件，这里需要开发者自行控制
         mTitleBar.setOnLeftClickListener(new View.OnClickListener() {
             @Override
@@ -151,15 +160,15 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
                 if (null == messageInfo) {
                     return;
                 }
-                Log.i("--------","头像点击"+mId+""+AppSessionEngine.getMyUserInfo().res.getListList().getId());
+                Log.i("--------","头像点击"+messageInfo.getId()+""+AppSessionEngine.getMyUserInfo().res.getListList().getId());
 
-                if (!mId.equals(AppSessionEngine.getMyUserInfo().res.getListList().getId())){
-            Intent intent = new Intent(getContext(), UserInfoAct.class);
-            intent.putExtra("id",mId);
-            startActivity(intent);
-        }else {
-            Log.i("--------","点击自己"+mId+""+AppSessionEngine.getMyUserInfo().res.getListList().getId());
-        }
+//                if (messageInfo.getId().equals(AppSessionEngine.getMyUserInfo().res.getListList().getId())){
+//
+//                    }else {
+//                    Intent intent = new Intent(getContext(), UserInfoAct.class);
+//                    intent.putExtra("id",mId);
+//                    startActivity(intent);
+//        }
 //                 ChatInfo info = new ChatInfo();
 //                info.setId(messageInfo.getFromUser());
 //                Intent intent = new Intent(WuyeApplicatione.instance(), FriendProfileActivity.class);
@@ -167,6 +176,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
 //                intent.putExtra(TUIKitConstants.ProfileType.CONTENT, info);
 //                WuyeApplicatione.instance().startActivity(intent);
             }
+
         });
         initBg();
     }
@@ -214,11 +224,12 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
     }
 
     private void initBg() {
+        int[] a={50,50};
         mTitleBar.setRightIcon(R.mipmap.ic_zi_maore);
         mTitleBar.setLeftIcon(R.mipmap.ic_back);
-        mNoticeLayout.setBackgroundColor(Color.parseColor("#262339"));
+         mNoticeLayout.setBackgroundColor(Color.parseColor("#262339"));
          mTitleBar.getMiddleTitle().setText(mChatInfo.getChatName());
-         mInputLayout.disableCaptureAction(false);
+           mInputLayout.disableCaptureAction(false);
 // 隐藏发送文件
         mInputLayout.disableSendFileAction(true);
 // 隐藏发送图片
@@ -248,7 +259,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
 //        mInputLayout.addAction(unitss);
 //        mInputLayout.addAction(unitsss);
     }
-
+//礼物的逻辑
     @Override
     public void onView(View view) {
         if (type == 0) {
@@ -281,6 +292,14 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
                     cancelLoading();
 
                 }
+            }); view.findViewById(R.id.tv_ziliao).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), UserInfoAct.class);
+                    intent.putExtra("id",mId);
+                    startActivity(intent);
+
+                }
             });
         } else {
             recommendGv = view.findViewById(R.id.rv_comment);
@@ -305,6 +324,11 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
             tvNumber.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+//                    popupOrderPriceDetail=new PopupOrderPriceDetail(getActivity(),12,false);
+//                    popupOrderPriceDetail.showUp(tvNumber);
+//                    showTipPopupWindow4(tvNumber);
+//                    showLiwuNum();
+                    //暂时注释 是那个弹框输入
                     dialog = new KeyMapDailog("", new KeyMapDailog.SendBackListener() {
                         @Override
                         public void sendBack(String inputText) {
@@ -319,6 +343,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
                         }
                     });
                     dialog.show(getFragmentManager(), "kk");
+
                 }
             });
             initRec();
@@ -443,5 +468,66 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
             }
         });
     }
+ private void showLiwuNum(){
+     mCirclePop = EasyPopup.create()
+             .setContentView(getContext(), R.layout.layout_circle_comment)
+             //是否允许点击PopupWindow之外的地方消失
+             .setFocusAndOutsideEnable(true)
+             .apply();
+     TextView tvOne=mCirclePop.findViewById(R.id.tv_num_one);
+     TextView tvTen=mCirclePop.findViewById(R.id.tv_num_ten);
+     TextView tvBai=mCirclePop.findViewById(R.id.tv_num_bai);
+      mCirclePop.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+      mCirclePop.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+     mCirclePop.showAtAnchorView(tvSend, YGravity.ABOVE, XGravity.CENTER, 0, 0);
 
+     tvOne.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             liwuNumber = "1";
+               liwuNUmbers = liwuNumber;
+               tvNumber.setText("X" + liwuNumber);
+              mCirclePop.dismiss();
+         }
+     });
+
+     tvTen.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             liwuNumber = "10";
+             liwuNUmbers = liwuNumber;
+             tvNumber.setText("X" + liwuNumber);
+              mCirclePop.dismiss();
+         }
+     });
+     tvBai.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+             liwuNumber = "100";
+             liwuNUmbers = liwuNumber;
+             tvNumber.setText("X" + liwuNumber);
+             mCirclePop.dismiss();
+
+         }
+     });
+ }
+    public PopupWindow showTipPopupWindow4(final View anchorView) {
+        final View contentView = createPopupContentView(anchorView.getContext());
+        final int pos[] = new int[2];
+        anchorView.getLocationOnScreen(pos);
+        int windowHeight = ScreenUtils.getScreenHeight(getContext()) - pos[1];
+        final PopupWindow popupWindow = new PopupWindow(contentView,
+                ViewGroup.LayoutParams.WRAP_CONTENT, windowHeight, true);
+        // anchorView 下面的空间不够，Window显示时会显示在 anchorView 上面
+        popupWindow.showAsDropDown(anchorView);
+        return popupWindow;
+    }
+    private View createPopupContentView(Context context) {
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LinearLayout linearLayout = new LinearLayout(context);
+        View mView = inflater.inflate(R.layout.layout_circle_comment, linearLayout);
+ //        contentView.setOnClickListener(mClickContentCancelListener);
+        return mView;
+    }
  }

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dap10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dap15"
+            android:layout_marginTop="@dimen/dap10"
+            android:layout_marginRight="@dimen/dap15"
+            android:background="@mipmap/bg_bangdans"
+            android:orientation="horizontal"
+
+            >
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dap7"
+                android:id="@+id/rl_tow"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/im_htrj"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/rq_tow" />
+
+                <LinearLayout
+                    android:id="@+id/bg_notow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/im_htrj"
+                    android:gravity="center"
+                    android:orientation="vertical"
+
+                    >
+
+                    <ImageView
+                        android:id="@+id/img_tow"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="7dp"
+                        android:src="@mipmap/defal_head"
+
+                        />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-15dp"
+                        android:src="@mipmap/ic_bdtow" />`
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bg_notow"
+                    android:layout_marginTop="@dimen/dap15"
+                    android:gravity="center"
+                    android:text="哆啦A梦"
+                    android:textColor="@color/textcolorffb6"
+                    android:textSize="@dimen/dap15"
+                    android:id="@+id/tow_name"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/rl_one"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/im_fjyf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-10dp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/ll_fjyf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/im_fjyf"
+                    android:layout_marginTop="@dimen/dap10"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/img_one"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="7dp"
+                        android:src="@mipmap/defal_head" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-15dp"
+                        android:src="@mipmap/ic_bdnone" />`
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_fjyf"
+                    android:layout_marginTop="@dimen/dap5"
+                    android:gravity="center"
+                    android:text="哆啦A梦"
+                    android:textColor="@color/textcolorffb6"
+                    android:textSize="@dimen/dap15"
+                    android:id="@+id/one_name"
+
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/rl_three"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/im_dfdg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dap20"
+                    android:src="@mipmap/rq_three" />
+
+                <LinearLayout
+                    android:id="@+id/bg_nothree"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/im_dfdg"
+                    android:gravity="center"
+                    android:orientation="vertical"
+
+                    >
+
+                    <ImageView
+                        android:id="@+id/img_three"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="7dp"
+                        android:src="@mipmap/defal_head" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-15dp"
+                        android:src="@mipmap/ic_bdthree" />`
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bg_nothree"
+                    android:layout_marginTop="@dimen/dap10"
+                    android:gravity="center"
+                    android:text="哆啦A梦"
+                    android:textColor="@color/textcolorffb6"
+                    android:id="@+id/threename"
+                    android:textSize="@dimen/dap15" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/rq_one" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dap30"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/dap10"
+        android:background="#CC6E57FF"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="14dp"
+            android:src="@mipmap/ic_bdbei"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="@dimen/dap12"
+            android:id="@+id/im_jbei"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前榜单：女榜"
+            android:textSize="@dimen/textsp13"
+            android:textColor="@color/white"
+            android:layout_toRightOf="@+id/im_jbei"
+            android:layout_marginLeft="@dimen/dap6"
+            android:id="@+id/tv_bdname"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  切换榜单"
+            android:textSize="@dimen/textsp13"
+            android:textColor="@color/white"
+            android:layout_marginRight="@dimen/dap12"
+            android:layout_alignParentRight="true"
+            android:id="@+id/tv_qiehuan"
+            android:drawableLeft="@mipmap/ic_bdqh"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -18,6 +18,7 @@ import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.FindData;
 import com.wuye.piaoliuim.bean.GlodData;
 import com.wuye.piaoliuim.config.Constants;
+import com.wuye.piaoliuim.utils.DateSm;
 
 import java.text.ParseException;
 import java.util.List;
@@ -39,7 +40,7 @@ public class SendGlodAdapter  extends BaseQuickAdapter<GlodData.Res.GlodList, Ba
     @Override
     protected void convert(BaseViewHolder helper, GlodData.Res.GlodList rseckillRow) {
         this.rseckillRow=rseckillRow;
-        helper.setText(R.id.tv_riqi,  DateUtils.getDateAndMin( Long.parseLong(rseckillRow.getCreate_time()),"1" )).setText(R.id.tv_riqiyear,  DateUtils.getDateAndMin( Long.parseLong(rseckillRow.getCreate_time()),"2" ))
+        helper.setText(R.id.tv_riqi, DateSm.getDateAndMin(Long.parseLong(rseckillRow.getCreate_time()),"1")).setText(R.id.tv_riqiyear, DateSm.getDateAndMin(Long.parseLong(rseckillRow.getCreate_time()),"2"))
                 .setText(R.id.tv_number, "-"+rseckillRow.getGold())
         ;
              Log.i("ppppppp", DateUtils.getDateAndMin( Long.parseLong(rseckillRow.getCreate_time()),"1" ));

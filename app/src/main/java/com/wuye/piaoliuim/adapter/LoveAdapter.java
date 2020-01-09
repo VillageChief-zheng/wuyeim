@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chuange.basemodule.utils.DateUtils;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.FinsData;
 import com.wuye.piaoliuim.bean.LiwuData;
@@ -39,8 +40,7 @@ public class LoveAdapter extends BaseQuickAdapter<LoveData.Res.LoveList, BaseVie
     public LoveAdapter(Context context, @LayoutRes int layoutResId, @Nullable List<LoveData.Res.LoveList> data) {
         super(layoutResId, data);
         mContext = context;
-
-    }
+     }
     // 日 分
     @Override
     protected void convert(BaseViewHolder helper, LoveData.Res.LoveList rseckillRow) {

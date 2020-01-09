@@ -41,6 +41,8 @@ public class UrlConstant {
     public static String PHONEMODEL = "phone_model";
     public static String DEVICEID = "device_id";
     public static String DEVICE_BRAND = "divece_brand";
+    public static String LOCATIONE = "locatione";
+    public static String TENCENIM = "tencenIm";
     //渠道
     public static String QUDAOHAO = "1";
      /**
@@ -98,6 +100,8 @@ public class UrlConstant {
     public static String NUMLIWU = "num";
     public static String PAY_TYPE = "pay_type";
     public static String MPNYTYPE = "money_type";
+    public static String QQTOKEN = "access_token";
+    public static String QQOPENID = "openid";
 
 
 
@@ -153,6 +157,8 @@ public class UrlConstant {
     public static final String SIN = "Useracc/getTlv2UserSig";//系统消息
     public static final String LAOPINGZI = "User/userDeductionGold";//捞瓶子
     public static final String GETLIWULIST = "User/getGiftLists";//礼物
+    public static final String SYSTEMSM = "User/getUserNoticeReadRecord";//站内消息
+    public static final String SYSTEMSMs = "User/userNoticeRead";//站内消息
 
 
 }

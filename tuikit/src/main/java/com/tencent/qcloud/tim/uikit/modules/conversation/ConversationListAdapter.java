@@ -23,7 +23,7 @@ import java.util.List;
 public class ConversationListAdapter extends IConversationAdapter {
 
     private boolean mHasShowUnreadDot = true;
-    private int mItemAvatarRadius = ScreenUtil.getPxByDp(50);
+    private int mItemAvatarRadius = ScreenUtil.getPxByDp(5);
     private int mTopTextSize;
     private int mBottomTextSize;
     private int mDateTextSize;

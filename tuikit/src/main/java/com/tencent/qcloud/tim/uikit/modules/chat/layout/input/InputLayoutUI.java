@@ -118,7 +118,7 @@ abstract class InputLayoutUI extends LinearLayout implements IInputLayout {
         mInputMoreActionList.clear();
         InputMoreActionUnit action = new InputMoreActionUnit();
         if (!mSendPhotoDisable) {
-            action.setIconResId(R.drawable.ic_more_picture);
+            action.setIconResId(R.drawable.wy_ios_pz);
             action.setTitleId(R.string.pic);
             action.setOnClickListener(new OnClickListener() {
                 @Override
@@ -131,7 +131,7 @@ abstract class InputLayoutUI extends LinearLayout implements IInputLayout {
 
         if (!mCaptureDisable) {
             action = new InputMoreActionUnit();
-            action.setIconResId(R.drawable.ic_more_camera);
+            action.setIconResId(R.drawable.wy_pz);
             action.setTitleId(R.string.photo);
             action.setOnClickListener(new OnClickListener() {
                 @Override
@@ -144,7 +144,7 @@ abstract class InputLayoutUI extends LinearLayout implements IInputLayout {
 
         if (!mVideoRecordDisable) {
             action = new InputMoreActionUnit();
-            action.setIconResId(R.drawable.ic_more_video);
+            action.setIconResId(R.drawable.wy_lux);
             action.setTitleId(R.string.video);
             action.setOnClickListener(new OnClickListener() {
                 @Override

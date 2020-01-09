@@ -26,4 +26,6 @@
         android:layout_marginTop="@dimen/dp_10"
 
         />
+    <include layout="@layout/comm_nodata" />
+
 </LinearLayout>

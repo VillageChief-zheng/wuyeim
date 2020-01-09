@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuange.basemodule.BaseFragement;
@@ -45,7 +46,8 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
     TextView imShaixuan;
     @ViewUtils.ViewInject(R.id.recommend_gv)
     RecyclerView recommendGv;
-
+    @ViewUtils.ViewInject(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefresh;
     private static final int PAGE_SIZE = 10;
 
 
@@ -60,6 +62,16 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
         setView(R.layout.activity_find, this, false);
         imShaixuan.setOnClickListener(this);
         getNetData(mNextRequestPage);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefresh.setRefreshing(false);
+                mNextRequestPage=1;
+                getNetData(mNextRequestPage);
+            }
+
+
+        });
     }
 
     @Override
@@ -109,7 +121,12 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
                     getNetData(mNextRequestPage);
                 }
             });
+            if (swipeRefresh.isRefreshing()) {
+                Log.i("-----","取消刷新");
+                swipeRefresh.setRefreshing(false);
+            }
         }
+
         mNextRequestPage++;
         final int size = findData == null ? 0 : findData.res.getPublicLists().size();
         if (isRefresh) {
@@ -152,18 +169,23 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
                 break;
             case R.id.tv_all:
                 mNextRequestPage=1;
+                imShaixuan.setText("全部");
                 sexStr="0";
                 getNetData(mNextRequestPage);
 
                 cancelLoading();
                 break;
             case R.id.tv_nan:
+                imShaixuan.setText("男生");
+
                 mNextRequestPage=1;
                 sexStr="1";
                 getNetData(mNextRequestPage);
                 cancelLoading();
                 break;
             case R.id.tv_nv:
+                imShaixuan.setText("女生");
+
                 mNextRequestPage=1;
                 sexStr="2";
                 getNetData(mNextRequestPage);

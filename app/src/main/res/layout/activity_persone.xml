@@ -16,14 +16,22 @@
         android:layout_height="@dimen/dap150"
         android:background="@mipmap/bg_peopleinfo"
         >
+        <RelativeLayout
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:id="@+id/im_back"
+
+            >
+
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dap15"
             android:layout_marginTop="@dimen/dap30"
             android:src="@mipmap/ic_back"
-            android:id="@+id/im_back"
             />
+        </RelativeLayout>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

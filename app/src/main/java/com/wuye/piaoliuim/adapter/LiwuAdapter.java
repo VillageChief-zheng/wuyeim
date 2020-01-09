@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.LiwuData;
 import com.wuye.piaoliuim.config.Constants;
+import com.wuye.piaoliuim.utils.DateSm;
 import com.wuye.piaoliuim.utils.ImagUrlUtils;
 
 import java.util.List;
@@ -43,20 +44,20 @@ public class LiwuAdapter  extends BaseQuickAdapter<LiwuData.Res.LiwuList, BaseVi
     @Override
     protected void convert(BaseViewHolder helper, LiwuData.Res.LiwuList rseckillRow) {
         this.rseckillRow=rseckillRow;
-        helper.setText(R.id.tv_riqi, rseckillRow.getCreate_time()).setText(R.id.tv_riqiyear,rseckillRow.getName())
+        helper.setText(R.id.tv_riqi, DateSm.getDateAndMin(Long.parseLong(rseckillRow.getCreate_time()),"1")).setText(R.id.tv_riqiyear, DateSm.getDateAndMin(Long.parseLong(rseckillRow.getCreate_time()),"2"))
          .setText(R.id.tv_number,"x"+rseckillRow.getNum())
         ;
         tvName=helper.getView(R.id.tv_name);
         if (rseckillRow.getGender().equals("1")) {
             Drawable drawable = mContext.getResources().getDrawable(R.mipmap.ic_nan);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvName.setCompoundDrawables(drawable, null, null, null);
+            tvName.setCompoundDrawables(null, null, drawable, null);
         } else if (rseckillRow.getGender().equals("2")) {
             Drawable drawable = mContext.getResources().getDrawable(R.mipmap.ic_nv);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvName.setCompoundDrawables(drawable, null, null, null);
+            tvName.setCompoundDrawables(null, null, drawable, null);
          }
-        tvName.setText(rseckillRow.getName());
+        tvName.setText(rseckillRow.getName()+" ");
 
         imageView = helper.getView(R.id.clock);
         imLiwu = helper.getView(R.id.im_liwu);

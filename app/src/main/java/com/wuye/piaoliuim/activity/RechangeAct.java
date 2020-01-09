@@ -90,7 +90,6 @@ public class RechangeAct extends BaseActivity implements ChannelAdapter.OnChecke
         channelAdapter.changetShowDelImage(true, 5);
         channelAdapter.setOnCheckChangedListener(this);
         top.setRightName("账单");
-        tvMyjb.setText( AppSessionEngine.getMyUserInfo().res.getListList().getUser_gold());
         postione=0;
         top.setOnRightClick(new View.OnClickListener() {
             @Override
@@ -99,7 +98,15 @@ public class RechangeAct extends BaseActivity implements ChannelAdapter.OnChecke
             }
         });
     }
-  private void getTopList(){
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        tvMyjb.setText("  "+ AppSessionEngine.getMyUserInfo().res.getListList().getUser_gold());
+
+    }
+
+    private void getTopList(){
            HashMap<String, String> params = new HashMap<>();
           RequestManager.getInstance().publicPostMap(this, params, UrlConstant.PLAYLIST, new RequestListener<String>() {
               @Override

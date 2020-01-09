@@ -65,7 +65,9 @@ public class LiwuSendFragment extends BaseFragement {
             @Override
             public void onComplete(String requestEntity) {
                 listData= GsonUtil.getDefaultGson().fromJson(requestEntity,LiwuData.class);
-                 setAdapter(listData);
+                boolean isRefresh = mNextRequestPage == 1;
+
+                 setAdapter(isRefresh,listData);
             }
 
             @Override
@@ -75,7 +77,7 @@ public class LiwuSendFragment extends BaseFragement {
         });
     }
 
-    public void setAdapter(LiwuData  listData){
+    public void setAdapter( boolean isRefresh,LiwuData  listData){
         if (mNextRequestPage==1){
             publicAdapter=new LiwuAdapter( getContext(),R.layout.adapter_gift_item,listData.res.listList);
             @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(

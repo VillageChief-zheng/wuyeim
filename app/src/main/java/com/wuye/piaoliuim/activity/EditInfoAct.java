@@ -26,6 +26,7 @@ import com.lcw.library.imagepicker.ImagePicker;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMUserProfile;
+import com.tencent.qcloud.tim.uikit.utils.ToastUtil;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.UpFileData;
 import com.wuye.piaoliuim.bean.UserInfoData;
@@ -237,6 +238,7 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
                 //更新成功
                 EventBus.getDefault().post(new MessageEvent("shuaxin"));
                 setImMyImaege(ImagUrlUtils.getImag(tuPianList));
+                updateProfile(nichengStr);
                 finish();
             }
 
@@ -347,6 +349,27 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
 
             @Override
             public void onSuccess() {
+            }
+        });
+    }
+    private void updateProfile(String name) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+
+
+        // 昵称
+         hashMap.put(TIMUserProfile.TIM_PROFILE_TYPE_KEY_NICK, name);
+
+
+
+        TIMFriendshipManager.getInstance().modifySelfProfile(hashMap, new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+                DemoLog.e("sdsdsd", "modifySelfProfile err code = " + i + ", desc = " + s);
+             }
+
+            @Override
+            public void onSuccess() {
+                DemoLog.i("ooooo", "modifySelfProfile success");
             }
         });
     }

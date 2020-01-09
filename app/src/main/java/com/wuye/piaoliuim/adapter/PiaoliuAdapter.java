@@ -1,10 +1,13 @@
 package com.wuye.piaoliuim.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
@@ -14,6 +17,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.tencent.qcloud.tim.uikit.component.AudioPlayer;
+import com.tencent.qcloud.tim.uikit.utils.ToastUtil;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.FindData;
 import com.wuye.piaoliuim.bean.PiaoliuData;
@@ -37,7 +42,8 @@ public class PiaoliuAdapter  extends BaseQuickAdapter<PiaoliuData.Res.PiaoliuLis
     ImageView header;
     int viedoZanNumber = 0;
     TextView inLine,tvName,tvContent,tvContents;
-
+    LinearLayout bofang;
+    ImageView audioPlayImage;
     public PiaoliuAdapter(Context context, @LayoutRes int layoutResId, @Nullable List<PiaoliuData.Res.PiaoliuList> data) {
         super(layoutResId, data);
         mContext = context;
@@ -52,6 +58,8 @@ public class PiaoliuAdapter  extends BaseQuickAdapter<PiaoliuData.Res.PiaoliuLis
         tvName= helper.getView(R.id.tv_name);
         tvContent= helper.getView(R.id.tv_drif_content);
         tvContents= helper.getView(R.id.tv_drif_contents);
+        bofang= helper.getView(R.id.bofang);
+        audioPlayImage= helper.getView(R.id.audioPlayImage);
         if (rseckillRow.getOnline().equals("1")){
             inLine.setVisibility(View.VISIBLE);
         }else {
@@ -60,20 +68,20 @@ public class PiaoliuAdapter  extends BaseQuickAdapter<PiaoliuData.Res.PiaoliuLis
         if (rseckillRow.getGender().equals("1")){
             Drawable drawable= mContext.getResources().getDrawable(R.mipmap.ic_nan);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvName.setCompoundDrawables(drawable,null,null,null);
+            tvName.setCompoundDrawables(null,null,drawable,null);
         }else  if (rseckillRow.getGender().equals("2")){
             Drawable drawable= mContext.getResources().getDrawable(R.mipmap.ic_nv);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvName.setCompoundDrawables(drawable,null,null,null);
+            tvName.setCompoundDrawables(null,null,drawable,null);
          }
         if (rseckillRow.getType().equals("1")){
             tvContents.setVisibility(View.VISIBLE);
             tvContents.setText(rseckillRow.getContent());
-            tvContent.setVisibility(View.GONE);
+            bofang.setVisibility(View.GONE);
         }else {
             tvContents.setVisibility(View.GONE);
-            tvContent.setVisibility(View.VISIBLE);
-            tvContent.setText("(点击进入瓶子，即可听语音)");
+            bofang.setVisibility(View.VISIBLE);
+//            tvContent.setText("(点击进入瓶子，即可听语音)");
         }
 
         tvName.setText(rseckillRow.getName()+"  ");
@@ -82,6 +90,8 @@ public class PiaoliuAdapter  extends BaseQuickAdapter<PiaoliuData.Res.PiaoliuLis
         Glide.with(mContext)
                 .load(ImagUrlUtils.getImag(rseckillRow.getLitpic())).apply(options)
                 .into(header);
-        helper.addOnClickListener(R.id.tv_love);
+        helper.addOnClickListener(R.id.bofang);
+
+
     }
-}
+    }

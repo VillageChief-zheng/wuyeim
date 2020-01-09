@@ -2,11 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <com.chuange.basemodule.view.NavigationTopView
         android:id="@+id/topView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:bgColor="#191725"
+        />
     <ProgressBar
         android:id="@+id/webViewProgressBar"
         style="?android:attr/progressBarStyleHorizontal"

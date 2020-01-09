@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuange.basemodule.BaseActivity;
+import com.chuange.basemodule.utils.ToastUtil;
 import com.lcw.library.imagepicker.ImagePicker;
 import com.lcw.library.imagepicker.manager.SelectionManager;
 import com.wuye.piaoliuim.R;
@@ -81,7 +82,8 @@ public class OpinionAct extends BaseActivity implements YiJIanTypeAdapter.OnChec
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.USEROPINION, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
-
+                ToastUtil.show(getBaseContext(),"感谢您的反馈!");
+                finish();
             }
 
             @Override

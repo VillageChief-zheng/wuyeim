@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class ConversationIconView extends RelativeLayout {
 
-    private static final int icon_size = ScreenUtil.getPxByDp(50);
+    private static final int icon_size = ScreenUtil.getPxByDp(80);
     private ImageView mIconView;
 
 

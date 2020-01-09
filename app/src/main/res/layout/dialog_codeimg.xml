@@ -26,7 +26,8 @@
     android:layout_marginRight="@dimen/pad_20"
     android:background="@drawable/dailogimgcodefored"
     android:layout_marginTop="@dimen/pad_20"
-    >
+    android:gravity="center_vertical"
+     >
 <EditText
     android:layout_width="@dimen/pad_100"
     android:layout_height="match_parent"
@@ -43,6 +44,7 @@
     android:id="@+id/imgcode"
     android:layout_alignParentRight="true"
     android:layout_margin="@dimen/dap5"
+      android:layout_marginTop="@dimen/dap15"
      />
 </RelativeLayout>
     <Button

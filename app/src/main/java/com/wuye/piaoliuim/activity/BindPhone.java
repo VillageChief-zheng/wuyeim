@@ -13,10 +13,12 @@ import androidx.annotation.Nullable;
 import com.chuange.basemodule.BaseActivity;
 import com.wuye.piaoliuim.MainActivity;
 import com.wuye.piaoliuim.R;
+import com.wuye.piaoliuim.bean.UserInfoData;
 import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
+import com.wuye.piaoliuim.utils.AppSessionEngine;
 import com.wuye.piaoliuim.utils.ImgcodeDialog;
 import com.wuye.piaoliuim.utils.TelNumMatch;
 
@@ -135,6 +137,9 @@ public class BindPhone extends BaseActivity {
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.BINDPHONECODE, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
+                UserInfoData userInfoData=AppSessionEngine.getMyUserInfo();
+                userInfoData.res.getListList().setPhone(phoneStr);
+                AppSessionEngine.setUserInfo(userInfoData);
                 startActivity(new Intent(getBaseContext(), MainActivity.class));
                 finish();
             }
@@ -152,11 +157,13 @@ public class BindPhone extends BaseActivity {
         countDown(Constants.COUNT_DOWN, new CountDownListener() {
             @Override
             public void onTick(long millisUntilFinished) {
+                tvSendcode.setClickable(false);
                 tvSendcode.setText(millisUntilFinished / 1000 + "s");
             }
 
             @Override
             public void onFinish() {
+                tvSendcode.setClickable(true);
                 tvSendcode.setText(getString(R.string.reSend));
             }
         });

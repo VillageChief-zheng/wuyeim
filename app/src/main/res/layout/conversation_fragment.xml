@@ -48,21 +48,36 @@
 
        <LinearLayout
            android:layout_width="match_parent"
-           android:layout_height="@dimen/dp_60"
+           android:layout_height="70dp"
            android:gravity="center"
            android:id="@+id/syssm"
 
 
            >
-           <ImageView
-               android:layout_width="49.35dp"
-               android:layout_height="49.35dp"
-               android:layout_marginLeft="@dimen/dp_10"
-               android:id="@+id/im_ic"
-               android:src="@mipmap/ic_sysitem"
-               android:scaleType="fitXY"
-               android:adjustViewBounds="true"
-               />
+           <com.chaychan.library.BottomBarLayout
+               android:id="@+id/bottom_navigation_bar2"
+               android:layout_width="65dp"
+               android:layout_height="65dp"
+               android:orientation="horizontal"
+               android:gravity="center"
+               android:layout_gravity="center"
+               android:layout_alignParentBottom="true"
+               android:background="#191725"
+               android:layout_marginLeft="@dimen/pad_10"
+               >
+
+               <com.chaychan.library.BottomBarItem
+                   android:layout_width="49.35dp"
+                    android:layout_height="55dp"
+                   app:iconNormal="@mipmap/ic_sysitem"
+                   app:iconSelected="@mipmap/ic_sysitem"
+                    app:itemTextSize="9sp"
+                   app:itemMarginTop="2dp"
+                   app:textColorNormal="#FF7C72AD"
+                   app:textColorSelected="@color/white"
+                   />
+           </com.chaychan.library.BottomBarLayout>
+
            <TextView
                android:id="@+id/tv_ziti"
                android:textSize="@dimen/sp_16"

@@ -7,8 +7,7 @@
         <item>浏览记录</item>
         <item>应用评分</item>
         <item>黑名单</item>
-        <item>用户守则</item>
-        <item>意见反馈</item>
+         <item>意见反馈</item>
         <item>设置</item>
     </array>
          <declare-styleable name="roundedimageview">

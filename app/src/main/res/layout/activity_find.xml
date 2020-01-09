@@ -29,11 +29,15 @@
              android:id="@+id/im_shaixuan"
             android:layout_centerVertical="true"
             android:textSize="@dimen/sp_15"
-            android:text=" 筛选"
+            android:text=" 全部"
             android:drawableLeft="@mipmap/ic_find_sx"
              android:textColor="@color/white"
              />
     </RelativeLayout>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recommend_gv"
@@ -43,5 +47,6 @@
         android:numColumns="2"
         android:scrollbars="none"
         />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

@@ -74,30 +74,45 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dap30"
         android:background="@drawable/drift_content"
+        android:orientation="vertical"
          >
-      <TextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dap30"
+            android:orientation="horizontal"
+            android:id="@+id/bofang"
+            android:visibility="gone"
+            >
+      <ImageView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:maxLines="1"
-          android:ellipsize="end"
-          android:textSize="@dimen/textsp14"
-          android:textColor="@color/text_ffB6A8"
-           android:text="  sjaikdjskla"
+          android:src="@drawable/voice_msg_playing_3"
           android:layout_gravity="center"
           android:layout_marginLeft="@dimen/dap17"
-          android:drawableLeft="@mipmap/ic_yuyin"
-          android:id="@+id/tv_drif_content"
-          android:visibility="gone"
-          />
+           android:id="@+id/audioPlayImage"
+           />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="@dimen/textsp14"
+            android:textColor="@color/text_ffB6A8"
+            android:layout_gravity="center"
+            android:id="@+id/tv_drif_content"
+           android:text="(点击播放语音)"
+            android:layout_marginLeft="@dimen/dap10"
+            />
+        </LinearLayout>
   <TextView
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_height="@dimen/dap30"
           android:maxLines="1"
           android:ellipsize="end"
           android:textSize="@dimen/textsp14"
           android:textColor="@color/text_ffB6A8"
-           android:text="  sjaikdjskla"
-          android:layout_gravity="center"
+           android:text=""
+       android:gravity="center"
           android:layout_marginLeft="@dimen/dap17"
            android:id="@+id/tv_drif_contents"
 

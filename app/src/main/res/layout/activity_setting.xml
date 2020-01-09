@@ -31,7 +31,7 @@
             android:layout_height="match_parent" />
         <TextView
             android:id="@+id/tv_bindphone"
-            android:text="1212121212   "
+            android:text="    "
             android:textSize="@dimen/sp_16"
             android:textColor="@color/white"
             android:layout_gravity="center_vertical"
@@ -91,6 +91,7 @@
         android:orientation="horizontal"
         android:layout_height="@dimen/dap50"
         android:id="@+id/ll_changepsw"
+        android:visibility="gone"
         >
 
         <TextView
@@ -118,6 +119,7 @@
         android:background="#FF393D4D"
         android:layout_marginRight="@dimen/pad_10"
         android:layout_marginLeft="@dimen/pad_10"
+        android:visibility="gone"
         />
     <LinearLayout
         android:layout_width="match_parent"
@@ -170,7 +172,7 @@
             android:layout_height="match_parent" />
         <TextView
             android:id="@+id/tv_ver"
-            android:text="V1.2   "
+            android:text="V1.0.0.1   "
             android:textSize="@dimen/sp_16"
             android:textColor="@color/white"
             android:layout_gravity="center_vertical"

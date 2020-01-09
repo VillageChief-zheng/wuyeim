@@ -102,6 +102,7 @@
             android:textColor="#FF75737C"
             android:layout_marginTop="@dimen/dap20"
             android:layout_marginLeft="@dimen/dap15"
+            android:visibility="gone"
             />
         <TextView
             android:layout_width="match_parent"
@@ -111,6 +112,7 @@
             android:textColor="#FF75737C"
             android:layout_marginTop="@dimen/dap20"
             android:layout_marginLeft="@dimen/dap15"
+            android:visibility="gone"
             /> <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -120,6 +122,7 @@
             android:layout_marginTop="@dimen/dap10"
             android:layout_marginLeft="@dimen/dap15"
         android:layout_marginBottom="@dimen/dap10"
+        android:visibility="gone"
             />
     </LinearLayout>
 </LinearLayout>

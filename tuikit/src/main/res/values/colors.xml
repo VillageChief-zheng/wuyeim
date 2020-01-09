@@ -68,6 +68,7 @@
     // 聊天发送/光标色值
     <color name="green">#70C160</color>
     <color name="wuyecolor">#191725</color>
+    <color name="logintext">#585271</color>
 
 
 </resources>

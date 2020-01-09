@@ -2,6 +2,7 @@ package com.tencent.qcloud.tim.uikit;
 
 import android.content.Context;
 
+import com.tencent.imsdk.TIMCallBack;
 import com.tencent.qcloud.tim.uikit.base.IMEventListener;
 import com.tencent.qcloud.tim.uikit.base.IUIKitCallBack;
 import com.tencent.qcloud.tim.uikit.config.TUIKitConfigs;
@@ -61,7 +62,6 @@ public class TUIKit {
     public static void removeIMEventListener(IMEventListener listener) {
         TUIKitImpl.removeIMEventListener(listener);
     }
-
     /**
      * 用户IM登录
      *
@@ -71,5 +71,5 @@ public class TUIKit {
      */
     public static void login(String userid, String usersig, final IUIKitCallBack callback) {
         TUIKitImpl.login(userid, usersig, callback);
-    }
+    }  
 }

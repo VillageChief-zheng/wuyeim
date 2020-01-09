@@ -26,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dap7"
                 android:layout_weight="1"
+                android:id="@+id/rl_tow"
                 android:gravity="center">
 
                 <ImageView
@@ -68,8 +69,8 @@
                     android:layout_marginTop="@dimen/dap15"
                     android:gravity="center"
                     android:text="哆啦A梦"
-                    android:textColor="@color/textcolorffb6"
-                    android:textSize="@dimen/dap15"
+                     android:textColor="@color/textcolorffb6"
+                    android:textSize="@dimen/sp_14"
                    android:id="@+id/tow_name"
                     />
 
@@ -78,6 +79,8 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:id="@+id/rl_one"
+
                 android:layout_weight="1">
 
                 <ImageView
@@ -119,7 +122,7 @@
                     android:gravity="center"
                     android:text="哆啦A梦"
                     android:textColor="@color/textcolorffb6"
-                    android:textSize="@dimen/dap15"
+                    android:textSize="@dimen/textsp14"
                     android:id="@+id/one_name"
 
                     />
@@ -128,6 +131,7 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:id="@+id/rl_three"
                 android:layout_weight="1">
 
                 <ImageView
@@ -171,7 +175,7 @@
                     android:text="哆啦A梦"
                     android:textColor="@color/textcolorffb6"
                     android:id="@+id/threename"
-                    android:textSize="@dimen/dap15" />
+                     android:textSize="@dimen/textsp14" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -189,6 +193,7 @@
         android:gravity="center_vertical"
         android:layout_marginTop="@dimen/dap10"
         android:background="#CC6E57FF"
+        android:visibility="gone"
         >
         <ImageView
             android:layout_width="wrap_content"

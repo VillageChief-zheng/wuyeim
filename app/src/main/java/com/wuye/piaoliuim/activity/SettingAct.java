@@ -2,6 +2,7 @@ package com.wuye.piaoliuim.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -14,7 +15,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.view.NavigationTopView;
 import com.chuange.basemodule.view.SwitchButton;
+import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.qcloud.tim.uikit.TUIKit;
 import com.wuye.piaoliuim.R;
+import com.wuye.piaoliuim.WuyeApplicatione;
 import com.wuye.piaoliuim.bean.UserInfoData;
 import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
@@ -24,6 +29,7 @@ import com.wuye.piaoliuim.login.LoginActivity;
 import com.wuye.piaoliuim.utils.AppSessionEngine;
 import com.wuye.piaoliuim.utils.GsonUtil;
 
+import java.sql.Time;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -62,11 +68,32 @@ public class SettingAct extends BaseActivity {
     @BindView(R.id.bg_login)
     Button bgLogin;
 
+    UserInfoData userInfoData;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
+        userInfoData=AppSessionEngine.getMyUserInfo();
+        initPhone();
+    }
+   private void initPhone(){
+        String mobile=userInfoData.res.getListList().getPhone();
+       String maskNumber = mobile.substring(0,3)+"****"+mobile.substring(7,mobile.length());
+       tvBindphone.setText(maskNumber+" ");
+       Log.i("ppppppppp",AppSessionEngine.getLocation());
+
+
+   }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (AppSessionEngine.getLocation().equals("1")){
+            NotifiSwitch.setChecked(true);
+        }else {
+            NotifiSwitch.setChecked(false);
+        }
     }
 
     @Override
@@ -79,7 +106,7 @@ public class SettingAct extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ll_us, R.id.ll_ts, R.id.ll_changepsw, R.id.ll_yinsi, R.id.tv_ver, R.id.tv_clear, R.id.bg_login})
+    @OnClick({R.id.ll_us, R.id.ll_ts, R.id.ll_changepsw, R.id.ll_yinsi, R.id.tv_ver, R.id.tv_clear, R.id.bg_login,R.id.Notifi_switch})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_us:
@@ -89,9 +116,10 @@ public class SettingAct extends BaseActivity {
                 break;
             case R.id.ll_changepsw:
                 startActivity(new Intent(this,ResetPswAct.class));
-
                 break;
             case R.id.ll_yinsi:
+                WuyeApplicatione.instance().webView("隐私协议",Constants.BASEURL+"/Public/home/agree/agreement.html");
+
                 break;
             case R.id.tv_ver:
                 break;
@@ -101,6 +129,16 @@ public class SettingAct extends BaseActivity {
                 getOutLogin();
 
                 break;
+            case R.id.Notifi_switch:
+                if (AppSessionEngine.getLocation().equals("1")){
+                    AppSessionEngine.setLocation("2");
+                    NotifiSwitch.setChecked(false);
+                }else {
+                    AppSessionEngine.setLocation("1");
+                     NotifiSwitch.setChecked(true);
+                }
+
+                break;
         }
     }
     public void getOutLogin(){
@@ -108,8 +146,19 @@ public class SettingAct extends BaseActivity {
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.SINOUT, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
-                 AppSessionEngine.clear();
-                startActivity(new Intent(getBaseContext(), LoginActivity.class));
+                TIMManager.getInstance().logout(new TIMCallBack() {
+                    @Override
+                    public void onError(int i, String s) {
+
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        AppSessionEngine.clear();
+                        startActivity(new Intent(getBaseContext(), LoginActivity.class));
+                    }
+                });
+
             }
 
             @Override

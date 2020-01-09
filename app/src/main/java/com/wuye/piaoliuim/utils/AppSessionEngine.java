@@ -150,12 +150,34 @@ public class AppSessionEngine {
     }
     public static String getPhone() {
         UserInfoData tokenUserInfo = AppSessionEngine.getMyUserInfo();
-        return (null != tokenUserInfo && !TextUtils.isEmpty(tokenUserInfo.res.getListList().getPhone())) ? tokenUserInfo.res.getListList().getPhone() : null;
+        if (tokenUserInfo==null){
+            return "";
+        }else {
+            return (null != tokenUserInfo && !TextUtils.isEmpty(tokenUserInfo.res.getListList().getPhone())) ? tokenUserInfo.res.getListList().getPhone() : null;
 
-    }public static void setPhone(UserInfoData userInfo) {
-        String json = getDefaultGson().toJson(userInfo);
-        if (!TextUtils.isEmpty(json)) {
-            setString(json, UrlConstant.USERINFOS);
         }
+
+    }public static void setPhone(String phone) {
+        UserInfoData userInfoData=getMyUserInfo();
+         userInfoData.res.getListList().setPhone(phone);
+         setUserInfo(userInfoData);
+    }
+    public static void setLocation(String date) {
+        if (date == null) return;
+                 setString(date, UrlConstant.LOCATIONE);
+            }
+    public static String getLocation() {
+         String bb=getString(UrlConstant.LOCATIONE);
+         if (bb==null||bb.equals("")){
+             return "";
+         }
+         return bb;
+     }
+    public static void setIm(String im) {
+         setString(im,UrlConstant.TENCENIM);
+    }
+    public static String getIm() {
+      String name=   getString(UrlConstant.TENCENIM);
+       return name;
     }
 }

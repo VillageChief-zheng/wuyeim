@@ -1,7 +1,6 @@
 package com.wuye.piaoliuim.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -23,7 +22,6 @@ import com.wuye.piaoliuim.bean.BlackData;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
-import com.wuye.piaoliuim.http.RequestParams;
 import com.wuye.piaoliuim.utils.GsonUtil;
 
 import java.util.ArrayList;
@@ -45,12 +43,15 @@ public class BlackList extends BaseActivity {
     RecyclerView recommendGv;
 
     private static final int PAGE_SIZE = 10;
+    @BindView(R.id.noDataCommL)
+    LinearLayout noDataCommL;
 
-     private int mNextRequestPage = 1;
+    private int mNextRequestPage = 1;
 
     private List<BlackData.Res.BlackList> newsList = new ArrayList<>();
     BlackData blackData;
     BlackListAdapter publicAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,15 +60,21 @@ public class BlackList extends BaseActivity {
         getNetData(mNextRequestPage);
     }
 
-    public void getNetData(int page){
+    public void getNetData(int page) {
         HashMap<String, String> params = new HashMap<>();
-        params.put(UrlConstant.PAGE,page+"");
-        params.put(UrlConstant.TOKEN,"");
+        params.put(UrlConstant.PAGE, page + "");
+        params.put(UrlConstant.TOKEN, "");
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.BLACKLIST, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
-                blackData= GsonUtil.getDefaultGson().fromJson(requestEntity,BlackData.class);
-                setAdapter(blackData);
+                blackData = GsonUtil.getDefaultGson().fromJson(requestEntity, BlackData.class);
+                if (blackData.res.getBlackLists().size()>0){
+                    setAdapter(blackData);
+
+                }else {
+                    showNoData(blackData.res.getBlackLists().size());
+
+                }
             }
 
             @Override
@@ -77,14 +84,14 @@ public class BlackList extends BaseActivity {
         });
     }
 
-    public void setAdapter(BlackData  dataList){
-        if (mNextRequestPage==1){
-             publicAdapter=new BlackListAdapter( this,R.layout.adapter_black_item,dataList.res.blackLists);
+    public void setAdapter(BlackData dataList) {
+        if (mNextRequestPage == 1) {
+            publicAdapter = new BlackListAdapter(this, R.layout.adapter_black_item, dataList.res.blackLists);
             @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
                     this,
                     LinearLayoutManager.VERTICAL, false);
             recommendGv.setLayoutManager(managers);
-             recommendGv.setAdapter(publicAdapter);
+            recommendGv.setAdapter(publicAdapter);
             publicAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
                 @Override
                 public void onLoadMoreRequested() {
@@ -110,11 +117,12 @@ public class BlackList extends BaseActivity {
         setAdapterLis();
 
     }
-    public void setAdapterLis(){
+
+    public void setAdapterLis() {
         publicAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
-                String   passId=publicAdapter.getData().get(position).getBlick_id();
+                String passId = publicAdapter.getData().get(position).getBlick_id();
                 switch (view.getId()) {
                     case R.id.tv_deleteblack:
                         removeBlack(position, passId);
@@ -124,9 +132,9 @@ public class BlackList extends BaseActivity {
         });
     }
 
-    private void removeBlack(int postione,String id){
+    private void removeBlack(int postione, String id) {
         HashMap<String, String> params = new HashMap<>();
-        params.put(UrlConstant.BLICKID,id );
+        params.put(UrlConstant.BLICKID, id);
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.REMOVEBLACK, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
@@ -140,6 +148,7 @@ public class BlackList extends BaseActivity {
             }
         });
     }
+
     @Override
     protected void initView(Bundle savedInstanceState) {
 
@@ -169,5 +178,16 @@ public class BlackList extends BaseActivity {
                 TUIKitLog.i("TAG", "deleteBlackList success");
             }
         });
+    }
+    private void showNoData(int size) {
+        if (size > 0) {
+            noDataCommL.setVisibility(View.GONE);
+            recommendGv.setVisibility(View.VISIBLE);
+        } else {
+
+            noDataCommL.setVisibility(View.VISIBLE);
+            recommendGv.setVisibility(View.GONE);
+
+        }
     }
 }

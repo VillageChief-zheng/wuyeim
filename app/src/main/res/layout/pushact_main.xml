@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#191725"
+    android:orientation="vertical">
+<com.chuange.basemodule.view.NavigationTopView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:bgColor="#191725"
+     android:id="@+id/topView"
+    >
+
+</com.chuange.basemodule.view.NavigationTopView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="left"
+        android:text="232323232"
+        android:layout_marginLeft="@dimen/dap10"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/dap10"
+        android:id="@+id/text"
+        />
+</LinearLayout>

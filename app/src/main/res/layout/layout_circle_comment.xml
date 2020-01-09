@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/pad_100"
+    android:layout_height="wrap_content"
+    android:background="@drawable/liwu_select"
+    android:orientation="vertical"
+    >
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="1"
+    android:gravity="center"
+    android:textColor="@color/white"
+    android:id="@+id/tv_num_one"
+    android:layout_marginTop="@dimen/pad_10"
+    />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0.5dp"
+        android:background="#FF393D4D"
+        android:layout_marginTop="@dimen/dap3"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:id="@+id/tv_num_ten"
+        android:layout_marginTop="@dimen/pad_10"
+
+        />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0.5dp"
+        android:background="#FF393D4D"
+        android:layout_marginTop="@dimen/dap3"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="100"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:id="@+id/tv_num_bai"
+        android:layout_marginTop="@dimen/pad_10"
+         android:layout_marginBottom="@dimen/dap3"
+
+        />
+</LinearLayout>

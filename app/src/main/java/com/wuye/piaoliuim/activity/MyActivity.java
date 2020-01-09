@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -17,11 +18,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.utils.ToastUtil;
 import com.lcw.library.imagepicker.ImagePicker;
-import com.wuye.piaoliuim.MainActivity;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.UpFileData;
 import com.wuye.piaoliuim.bean.UserInfoData;
-import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
@@ -48,8 +47,7 @@ import okhttp3.MediaType;
  */
 public class MyActivity extends BaseActivity {
 
-    @BindView(R.id.im_back)
-    ImageView imBack;
+
     @BindView(R.id.im_more)
     ImageView imMore;
     @BindView(R.id.im_header)
@@ -89,10 +87,12 @@ public class MyActivity extends BaseActivity {
     ImageView nodatpic;
 
     private static final int REQUEST_SELECT_IMAGES_CODE = 0x022;
+    @BindView(R.id.im_back)
+    RelativeLayout imBack;
 
     private ArrayList<String> mPicList = new ArrayList<>(); //上传的图片凭证的数据源
     private ArrayList<File> upPicList = new ArrayList<>(); //上传的图片源文件
-    String tuPianList="";
+    String tuPianList = "";
     String sexStr;
     UpFileData upFileData;
 
@@ -105,6 +105,7 @@ public class MyActivity extends BaseActivity {
     List<ImageView> imageList = new ArrayList<>();
 
     String picname;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,9 +172,9 @@ public class MyActivity extends BaseActivity {
             }
         });
         mlist = getimagList(userInfoData.res.listList.getUser_imgs());
-        picname=userInfoData.res.listList.getUser_imgs();
-        Log.i("------","每次都有我"+mlist.size());
-       initView(mlist);
+        picname = userInfoData.res.listList.getUser_imgs();
+        Log.i("------", "每次都有我" + mlist.size());
+        initView(mlist);
 
     }
 
@@ -187,13 +188,13 @@ public class MyActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.toupPic, R.id.im1, R.id.im2, R.id.im3, R.id.img_lin1, R.id.im4, R.id.im5, R.id.im6,R.id.nodatpic})
+    @OnClick({R.id.toupPic, R.id.im1, R.id.im2, R.id.im3, R.id.img_lin1, R.id.im4, R.id.im5, R.id.im6, R.id.nodatpic,R.id.im_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.toupPic:
-                if (mlist.size()==6){
-                    ToastUtil.show(getBaseContext(),"添加图片达到上限");
-                }else {
+                if (mlist.size() == 6) {
+                    ToastUtil.show(getBaseContext(), "添加图片达到上限");
+                } else {
                     ImagePicker.getInstance()
                             .setTitle("标题")//设置标题
                             .showCamera(true)//设置是否显示拍照按钮
@@ -229,23 +230,28 @@ public class MyActivity extends BaseActivity {
                 break;
             case R.id.im6:
                 starPicsee(5);
-                 break;
+                break;
             case R.id.nodatpic:
-                Log.i("ppppp",mlist.size()+"大图片");
-                if (mlist.size()==1){
+                Log.i("ppppp", mlist.size() + "大图片");
+                if (mlist.size() == 1) {
                     starPicsee(0);
-                 }
-                 break;
+                }
+                break;
+            case R.id.im_back:
+                finish();
+                break;
         }
     }
-    private void starPicsee(int postione){
-        Intent intent=new Intent(this,FangdaPicAct.class);
-        intent.putExtra("picurl",mlist.get(postione));
-        intent.putExtra("piclist",picname);
+
+    private void starPicsee(int postione) {
+        Intent intent = new Intent(this, FangdaPicAct.class);
+        intent.putExtra("picurl", mlist.get(postione));
+        intent.putExtra("piclist", picname);
 
         startActivity(intent);
 
     }
+
     //上传图片
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -259,22 +265,22 @@ public class MyActivity extends BaseActivity {
 
     }
 
-    public void upFile(){
+    public void upFile() {
 
         MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png/jpg");
 
         HashMap<String, String> params = new HashMap<>();
-        params.put(UrlConstant.TYPE,"2" );
+        params.put(UrlConstant.TYPE, "2");
         upPicList.clear();
         for (int i = 0; i < mPicList.size(); i++) {
             upPicList.add(new File(mPicList.get(i)));
         }
-        RequestManager.getInstance().upUpFile(this, params,upPicList,UrlConstant.FILEDATA, MEDIA_TYPE_PNG,new RequestListener<String>() {
+        RequestManager.getInstance().upUpFile(this, params, upPicList, UrlConstant.FILEDATA, MEDIA_TYPE_PNG, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
                 //更新成功
-                upFileData= GsonUtil.getDefaultGson().fromJson(requestEntity, UpFileData.class);
-                tuPianList=upFileData.getFilename();
+                upFileData = GsonUtil.getDefaultGson().fromJson(requestEntity, UpFileData.class);
+                tuPianList = upFileData.getFilename();
                 nextPic(tuPianList);
             }
 
@@ -284,89 +290,93 @@ public class MyActivity extends BaseActivity {
             }
         });
     }
-    private void nextPic(String nextPic){
-             HashMap<String, String> params = new HashMap<>();
-            params.put(UrlConstant.LITPIC,returnPic(nextPic));
-            params.put(UrlConstant.DELLITPIC,"");
-            RequestManager.getInstance().publicPostMap(this, params, UrlConstant.DELUSERIMG, new RequestListener<String>() {
-                @Override
-                public void onComplete(String requestEntity) {
-                    //删除成功操作
-                    ToastUtil.show(getBaseContext(),"添加成功");
-          getNetData();
-                }
 
-                @Override
-                public void onError(String message) {
+    private void nextPic(String nextPic) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(UrlConstant.LITPIC, returnPic(nextPic));
+        params.put(UrlConstant.DELLITPIC, "");
+        RequestManager.getInstance().publicPostMap(this, params, UrlConstant.DELUSERIMG, new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+                //删除成功操作
+                ToastUtil.show(getBaseContext(), "添加成功");
+                getNetData();
+            }
 
-                }
-            });
-        }
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
 
     public List<String> getimagList(String picImag) {
         List<String> idList;
-          if (picImag.equals("")){
-              return idList=new ArrayList<>();
-          }else {
+        if (picImag.equals("")) {
+            return idList = new ArrayList<>();
+        } else {
             idList = Arrays.asList(picImag.split(","));//根据逗号分隔转化为list
 
-          }
+        }
 
         return idList;
     }
-    private void initView(List<String> listPic){
-     if (listPic.size()==0){
-         Glide.with(this)
-                 .load(R.mipmap.bg_nodate)
-                 .into(nodatpic);
-         nodatpic.setVisibility(View.VISIBLE);
-      imgLin2.setVisibility(View.GONE);
-      imgLin1.setVisibility(View.GONE);
-     }else if(listPic.size()==1){
-         imgLin2.setVisibility(View.GONE);
-         imgLin1.setVisibility(View.GONE);
-         nodatpic.setVisibility(View.VISIBLE);
 
-         Glide.with(this)
-                 .load(ImagUrlUtils.getImag(listPic.get(0)))
-                 .into(nodatpic);
-         Log.i("数据为一个只显示","大图"+ImagUrlUtils.getImag(listPic.get(0)));
-     }else if(listPic.size()<=3){
-         Log.i("数据为俩个san只显示","大图+小图");
-         imgLin1.setVisibility(View.VISIBLE);
-         imgLin2.setVisibility(View.GONE);
-         nodatpic.setVisibility(View.GONE);
-         forList(listPic);
-     }else if(listPic.size()>3){
-         Log.i("数据为俩个只显示","大图+小图");
-         imgLin1.setVisibility(View.VISIBLE);
-         imgLin2.setVisibility(View.VISIBLE);
-         nodatpic.setVisibility(View.GONE);
+    private void initView(List<String> listPic) {
+        if (listPic.size() == 0) {
+            Glide.with(this)
+                    .load(R.mipmap.bg_nodate)
+                    .into(nodatpic);
+            nodatpic.setVisibility(View.VISIBLE);
+            imgLin2.setVisibility(View.GONE);
+            imgLin1.setVisibility(View.GONE);
+        } else if (listPic.size() == 1) {
+            imgLin2.setVisibility(View.GONE);
+            imgLin1.setVisibility(View.GONE);
+            nodatpic.setVisibility(View.VISIBLE);
 
-         forList(listPic);
-     }
-    }
-  private void forList(List<String> msList){
-        Log.i("数据的长度",msList.size()+"");
-      for (int a = 0; a < imageList.size(); a++) {
-          imageList.get(a).setVisibility(View.INVISIBLE);
+            Glide.with(this)
+                    .load(ImagUrlUtils.getImag(listPic.get(0)))
+                    .into(nodatpic);
+            Log.i("数据为一个只显示", "大图" + ImagUrlUtils.getImag(listPic.get(0)));
+        } else if (listPic.size() <= 3) {
+            Log.i("数据为俩个san只显示", "大图+小图");
+            imgLin1.setVisibility(View.VISIBLE);
+            imgLin2.setVisibility(View.GONE);
+            nodatpic.setVisibility(View.GONE);
+            forList(listPic);
+        } else if (listPic.size() > 3) {
+            Log.i("数据为俩个只显示", "大图+小图");
+            imgLin1.setVisibility(View.VISIBLE);
+            imgLin2.setVisibility(View.VISIBLE);
+            nodatpic.setVisibility(View.GONE);
 
-      }
-      for (int i = 0; i < msList.size(); i++) {
-           imageList.get(i).setVisibility(View.VISIBLE);
-          Glide.with(this)
-                  .load(ImagUrlUtils.getImag(msList.get(i)))
-                  .into(imageList.get(i));
-      }
-  }
-  private String returnPic(String picStr){
-        String aa="";
-        if (picname.equals("")){
-        return picStr;
-        }else {
-            return picname+","+picStr;
+            forList(listPic);
         }
-  }
+    }
+
+    private void forList(List<String> msList) {
+        Log.i("数据的长度", msList.size() + "");
+        for (int a = 0; a < imageList.size(); a++) {
+            imageList.get(a).setVisibility(View.INVISIBLE);
+
+        }
+        for (int i = 0; i < msList.size(); i++) {
+            imageList.get(i).setVisibility(View.VISIBLE);
+            Glide.with(this)
+                    .load(ImagUrlUtils.getImag(msList.get(i)))
+                    .into(imageList.get(i));
+        }
+    }
+
+    private String returnPic(String picStr) {
+        String aa = "";
+        if (picname.equals("")) {
+            return picStr;
+        } else {
+            return picname + "," + picStr;
+        }
+    }
 
 
 }
