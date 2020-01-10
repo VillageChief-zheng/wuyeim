@@ -51,7 +51,6 @@ import com.umeng.message.entity.UMessage;
 import com.vise.utils.assist.SSLUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.interceptor.HttpLogInterceptor;
-import com.vivo.push.PushClient;
 import com.wuye.piaoliuim.activity.IndexAct;
 import com.wuye.piaoliuim.activity.imactivity.MipushTestActivity;
 import com.wuye.piaoliuim.config.AppConfig;
@@ -504,7 +503,7 @@ private int SDKAPPID=1400302511;
           }
           else if (IMFunc.isBrandVivo()) {
               // vivo离线推送
-              PushClient.getInstance(getApplicationContext()).initialize();
+//              PushClient.getInstance(getApplicationContext()).initialize();
           }
 
           registerActivityLifecycleCallbacks(new StatisticActivityLifecycleCallback());

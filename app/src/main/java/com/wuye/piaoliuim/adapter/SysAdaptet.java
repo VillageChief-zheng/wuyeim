@@ -1,6 +1,7 @@
 package com.wuye.piaoliuim.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,8 @@ import com.wuye.piaoliuim.bean.LoveData;
 import com.wuye.piaoliuim.bean.SysData;
 import com.wuye.piaoliuim.config.Constants;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class SysAdaptet extends BaseQuickAdapter<SysData.Res.SysList, BaseViewHolder> {
@@ -37,9 +40,16 @@ public class SysAdaptet extends BaseQuickAdapter<SysData.Res.SysList, BaseViewHo
     @Override
     protected void convert(BaseViewHolder helper, SysData.Res.SysList rseckillRow) {
         this.rseckillRow=rseckillRow;
-        helper .setText(R.id.tv_title,rseckillRow.getTitle()).setText(R.id.tv_content,rseckillRow.getContent()).setText(R.id.tv_date,rseckillRow.getCreate_time())
+        helper .setText(R.id.tv_title,rseckillRow.getTitle()).setText(R.id.tv_content,rseckillRow.getContent()).setText(R.id.tv_date, getDateAndMin(Long.parseLong(rseckillRow.getCreate_time())))
         ;
 
 
+    }
+    public static String getDateAndMin(  Long time1 ) {
+        String result1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(time1 * 1000));
+        Log.i("oooooooo",result1);
+        String s_Data = result1.substring(0, 10); // 年份
+        String s_Minn = result1.substring(10, result1.length()); // 年份
+         return s_Data;
     }
 }

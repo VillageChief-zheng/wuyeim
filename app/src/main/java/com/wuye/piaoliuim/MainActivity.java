@@ -50,8 +50,8 @@ import com.umeng.message.UTrack;
 import com.umeng.message.inapp.IUmengInAppMsgCloseCallback;
 import com.umeng.message.inapp.InAppMessageManager;
 import com.vise.xsnow.common.GsonUtil;
-import com.vivo.push.IPushActionListener;
-import com.vivo.push.PushClient;
+//import com.vivo.push.IPushActionListener;
+//import com.vivo.push.PushClient;
 import com.wuye.piaoliuim.activity.BaseImActivity;
 import com.wuye.piaoliuim.activity.BindPhone;
 import com.wuye.piaoliuim.activity.EditInfoAct;
@@ -413,20 +413,20 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
         }
         if (IMFunc.isBrandVivo()) {
             // vivo离线推送
-            PushClient.getInstance(getApplicationContext()).turnOnPush(new IPushActionListener() {
-                @Override
-                public void onStateChanged(int state) {
-                    if (state == 0) {
-                        String regId = PushClient.getInstance(getApplicationContext()).getRegId();
-                        DemoLog.i(TAG, "vivopush open vivo push success regId = " + regId);
-                        ThirdPushTokenMgr.getInstance().setThirdPushToken(regId);
-                        ThirdPushTokenMgr.getInstance().setPushTokenToTIM();
-                    } else {
-                        // 根据vivo推送文档说明，state = 101 表示该vivo机型或者版本不支持vivo推送，链接：https://dev.vivo.com.cn/documentCenter/doc/156
-                        DemoLog.i(TAG, "vivopush open vivo push fail state = " + state);
-                    }
-                }
-            });
+//            PushClient.getInstance(getApplicationContext()).turnOnPush(new IPushActionListener() {
+//                @Override
+//                public void onStateChanged(int state) {
+//                    if (state == 0) {
+//                        String regId = PushClient.getInstance(getApplicationContext()).getRegId();
+//                        DemoLog.i(TAG, "vivopush open vivo push success regId = " + regId);
+//                        ThirdPushTokenMgr.getInstance().setThirdPushToken(regId);
+//                        ThirdPushTokenMgr.getInstance().setPushTokenToTIM();
+//                    } else {
+//                        // 根据vivo推送文档说明，state = 101 表示该vivo机型或者版本不支持vivo推送，链接：https://dev.vivo.com.cn/documentCenter/doc/156
+//                        DemoLog.i(TAG, "vivopush open vivo push fail state = " + state);
+//                    }
+//                }
+//            });
         }
     }
     private void getHuaWeiPushToken() {

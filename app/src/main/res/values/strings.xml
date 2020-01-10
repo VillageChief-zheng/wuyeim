@@ -13,5 +13,6 @@
     <string name="zhiding">置顶聊天</string>
     <string name="quxiaozhiding">取消置顶</string>
     <string name="shanchu">删除聊天</string>
+    <string name="common_signin_button_text">singin</string>
 
 </resources>

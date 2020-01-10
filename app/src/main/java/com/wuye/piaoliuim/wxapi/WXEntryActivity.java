@@ -85,13 +85,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                      ///< 用户换取access_token的code，仅在ErrCode为0时有效
                     String code = ((SendAuth.Resp) baseResp).code;
                     ///< 这里拿到了这个code，去做2次网络请求获取access_token和用户个人信息
-                    WXUserInfo wxUserInfo = new WXUserInfo();
-                    wxUserInfo.setCity(code);
-                    wxUserInfo.setCountry("wx");
+
                     ///< 发送广播到登录界面，把数据带过去; 可用EventBus
-                    EventBus.getDefault().post(new postMessageWx(wxUserInfo ));
-                     finish();
-//                    getAccessToken(code);
+
+                    getAccessToken(code);
                 } else if (type == RETURN_MSG_TYPE_SHARE) {
                     ///< "微信分享成功"
                     finish();
@@ -132,7 +129,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 String json = response.body().string();
                 AccessToken accessToken= GsonUtil.getDefaultGson().fromJson(json,AccessToken.class);
                 Log.i("---------",accessToken.getAccess_token()+"XXXXXXXXXXX"+accessToken.getRefresh_token());
-                 getUserInfo(accessToken.getAccess_token(), accessToken.getOpenid());
+                WXUserInfo wxUserInfo = new WXUserInfo();
+                wxUserInfo.setCity(accessToken.getOpenid());
+                wxUserInfo.setCountry(accessToken.getAccess_token());
+                EventBus.getDefault().post(new postMessageWx(wxUserInfo ));
+                finish();
+//                 getUserInfo(accessToken.getAccess_token(), accessToken.getOpenid());
             }
         });
     }

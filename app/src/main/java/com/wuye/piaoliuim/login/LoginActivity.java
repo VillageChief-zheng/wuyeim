@@ -281,9 +281,10 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
 
             }
         });
-    } public void wchatLogin(String code) {
-           HashMap<String, String> params = new HashMap<>();
-         params.put(UrlConstant.CODE, code);
+    } public void wchatLogin(String token,String opendid) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(UrlConstant.QQTOKEN, token);
+        params.put(UrlConstant.QQOPENID, opendid);
          if (getLocatione().equals("")){
              params.put(UrlConstant.SINGNINREGION, "");
 
@@ -327,10 +328,9 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
     //微信登录
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(postMessageWx event) {
-        if(event.wxUserInfo.getCountry().equals("wx")){
-            wchatLogin(event.wxUserInfo.getCity());
+             wchatLogin(event.wxUserInfo.getCountry(),event.wxUserInfo.getCity());
 
-        }
+
     }
 
     @Override
