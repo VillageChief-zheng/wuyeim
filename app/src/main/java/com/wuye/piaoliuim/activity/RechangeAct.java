@@ -87,7 +87,7 @@ public class RechangeAct extends BaseActivity implements ChannelAdapter.OnChecke
         recommendGv.setHasFixedSize(true);
         recommendGv.setLayoutManager(new GridLayoutManager(this, 2));
         recommendGv.setAdapter(channelAdapter);
-        channelAdapter.changetShowDelImage(true, 5);
+        channelAdapter.changetShowDelImage(true, topListData.res.getPuList().size());
         channelAdapter.setOnCheckChangedListener(this);
         top.setRightName("账单");
         postione=0;

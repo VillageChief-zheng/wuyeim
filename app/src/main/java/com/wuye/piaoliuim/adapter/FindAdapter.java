@@ -71,13 +71,13 @@ public class FindAdapter   extends BaseQuickAdapter<FindData.Res.FIndList, BaseV
         if (rseckillRow.getGender().equals("1")){
             Drawable drawable= mContext.getResources().getDrawable(R.mipmap.ic_nan);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvName.setCompoundDrawables(drawable,null,null,null);
+            tvName.setCompoundDrawables(null,null,drawable,null);
          }else  if (rseckillRow.getGender().equals("2")){
             Drawable drawable= mContext.getResources().getDrawable(R.mipmap.ic_nv);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvName.setCompoundDrawables(drawable,null,null,null);
+            tvName.setCompoundDrawables(null,null,drawable,null);
          }
-        tvName.setText(" "+rseckillRow.getName());
+        tvName.setText(rseckillRow.getName()+" ");
         RequestOptions options = new RequestOptions()//圆形图片
                 .circleCrop();
         Glide.with(mContext)

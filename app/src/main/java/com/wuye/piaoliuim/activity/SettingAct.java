@@ -27,10 +27,13 @@ import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.login.LoginActivity;
 import com.wuye.piaoliuim.utils.AppSessionEngine;
+import com.wuye.piaoliuim.utils.FileSizeUtil;
 import com.wuye.piaoliuim.utils.GsonUtil;
 
+import java.io.File;
 import java.sql.Time;
 import java.util.HashMap;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,20 +72,42 @@ public class SettingAct extends BaseActivity {
     Button bgLogin;
 
     UserInfoData userInfoData;
+    String stringSize="",filename="";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
+
+
         userInfoData=AppSessionEngine.getMyUserInfo();
         initPhone();
+        filename="/storage/emulated/0/Record/com.piaoliu.main/";
+        stringSize=FileSizeUtil.getAutoFileOrFilesSize(filename);
+        tvClear.setText("  "+stringSize+" ");
+
     }
    private void initPhone(){
         String mobile=userInfoData.res.getListList().getPhone();
        String maskNumber = mobile.substring(0,3)+"****"+mobile.substring(7,mobile.length());
        tvBindphone.setText(maskNumber+" ");
        Log.i("ppppppppp",AppSessionEngine.getLocation());
+       NotifiSwitch.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+           @Override
+           public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+               if (isChecked){
+                   Log.i("关闭",isChecked+"");
 
+                   AppSessionEngine.setLocation("1");
+
+               }else {
+                   Log.i("开启",isChecked+"");
+
+                   AppSessionEngine.setLocation("2");
+
+                }
+           }
+       });
 
    }
 
@@ -110,7 +135,7 @@ public class SettingAct extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_us:
-                startActivity(new Intent(this,ChangePhoneAct.class));
+//                startActivity(new Intent(this,ChangePhoneAct.class));
                 break;
             case R.id.ll_ts:
                 break;
@@ -124,19 +149,16 @@ public class SettingAct extends BaseActivity {
             case R.id.tv_ver:
                 break;
             case R.id.tv_clear:
+                File file=new File(filename);
+                deleteFiles(file);
+                tvClear.setText(" "+"0B"+" ");
                 break;
             case R.id.bg_login:
                 getOutLogin();
 
                 break;
             case R.id.Notifi_switch:
-                if (AppSessionEngine.getLocation().equals("1")){
-                    AppSessionEngine.setLocation("2");
-                    NotifiSwitch.setChecked(false);
-                }else {
-                    AppSessionEngine.setLocation("1");
-                     NotifiSwitch.setChecked(true);
-                }
+
 
                 break;
         }
@@ -167,4 +189,18 @@ public class SettingAct extends BaseActivity {
             }
         });
     }
+
+    private void deleteFiles(File file) {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                File f = files[i];
+                deleteFiles(f);
+            }
+//            file.delete();//如要保留文件夹，只删除文件，请注释这行
+        } else if (file.exists()) {
+            file.delete();
+        }
+    }
+
 }

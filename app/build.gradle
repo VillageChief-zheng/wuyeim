@@ -3,17 +3,18 @@ apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.0"
     defaultConfig {
         applicationId "com.wuye.piaoliuim"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
         ndk {
-            abiFilters "armeabi-v7a","x86"
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64','armeabi'
+//            ,
 //                    Android 关于arm64-v8a、armeabi-v7a、armeabi、x86
         }
     }
@@ -31,12 +32,15 @@ android {
             debuggable true
             minifyEnabled false
             shrinkResources false
-            zipAlignEnabled false
+            zipAlignEnabled true
             signingConfig signingConfigs.myConfig
             buildConfigField "int", "APP_DEBUG", "0"
+            matchingFallbacks = ['release', 'preview', 'debug']
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
         }
         pre {
-//            debuggable true
+            debuggable true
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
@@ -48,13 +52,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
-            debuggable true
+            debuggable false
             minifyEnabled false
             shrinkResources false
             zipAlignEnabled false
             signingConfig signingConfigs.myConfig
-            buildConfigField "int", "APP_DEBUG", "0"
-            minifyEnabled false
+            buildConfigField "int", "APP_DEBUG", "1"
+            //关键代码，release， debug为library中已有buildType
+            // 如果flavor或buildType存在不一致时，是否添加了matchingFallbacks指定匹配失败时匹配其他变体
+            matchingFallbacks = ['release', 'preview', 'debug']
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -90,5 +96,39 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpcore:4.4.7'
     implementation 'com.github.zhaolewei:ZlwAudioRecorder:v1.07'
     implementation 'com.yanzhenjie.permission:support:2.0.1'
-    implementation 'com.tencent.imsdk:tuikit:4.6.51'
+    //IM
+    // MEIZU push sdk
+    implementation 'com.meizu.flyme.internet:push-internal:3.6.+@aar'
+    // google firebase
+    implementation('com.google.firebase:firebase-core:17.0.0') {
+        exclude group: 'androidx.core', module: 'core'
+    }
+    // google 云消息传递
+    implementation ('com.google.firebase:firebase-messaging:19.0.1'){
+        exclude group: 'androidx.core', module: 'core'
+    }
+
+    // bugly sdk
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.59'
+    implementation 'com.android.support:multidex:1.0.1'
+    //腾讯im
+    implementation 'com.tencent.liteav:LiteAVSDK_TRTC:latest.release'
+    implementation project(path: ':tuikit')
+    implementation 'com.tencent.imsdk:imsdk:4.6.51'
+    //youmeng
+ //PushSDK必须依赖utdid库，所以需要加入对应依赖
+//    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
+//PushSDK
+    implementation 'com.umeng.umsdk:common:2.1.0'
+//PushSDK必须依赖utdid库，所以需要加入对应依赖
+//    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
+//PushSDK
+    implementation 'com.umeng.umsdk:push:6.0.1'
+    implementation  'com.umeng.umsdk:analytics:8.0.0'
+    implementation 'com.huawei.android.hms:push:2.6.3.301'
+    implementation 'com.huawei.android.hms:base:2.6.3.301'
+    implementation 'com.github.zyyoona7:EasyPopup:1.1.2'
+
 }

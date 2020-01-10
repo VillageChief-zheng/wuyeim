@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.wuye.piaoliuim">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -17,6 +18,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+         tools:ignore="ProtectedPermissions" />
+     <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE"
+         tools:ignore="ProtectedPermissions" />
 
 
       <application

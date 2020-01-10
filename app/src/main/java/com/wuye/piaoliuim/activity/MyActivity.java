@@ -146,11 +146,11 @@ public class MyActivity extends BaseActivity {
         if (userInfoData.res.listList.getGender().equals("1")) {
             Drawable drawable = getResources().getDrawable(R.mipmap.ic_nan);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvName.setCompoundDrawables(drawable, null, null, null);
+            tvName.setCompoundDrawables(null, null, drawable, null);
         } else if (userInfoData.res.listList.getGender().equals("2")) {
             Drawable drawable = getResources().getDrawable(R.mipmap.ic_nv);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvName.setCompoundDrawables(drawable, null, null, null);
+            tvName.setCompoundDrawables(null, null, drawable, null);
         }
         tvName.setText(userInfoData.res.listList.name);
         tvQianming.setText(userInfoData.res.listList.getSignature());
@@ -173,8 +173,7 @@ public class MyActivity extends BaseActivity {
         });
         mlist = getimagList(userInfoData.res.listList.getUser_imgs());
         picname = userInfoData.res.listList.getUser_imgs();
-        Log.i("------", "每次都有我" + mlist.size());
-        initView(mlist);
+         initView(mlist);
 
     }
 

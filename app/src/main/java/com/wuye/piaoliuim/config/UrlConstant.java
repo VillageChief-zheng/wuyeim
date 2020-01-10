@@ -159,6 +159,7 @@ public class UrlConstant {
     public static final String GETLIWULIST = "User/getGiftLists";//礼物
     public static final String SYSTEMSM = "User/getUserNoticeReadRecord";//站内消息
     public static final String SYSTEMSMs = "User/userNoticeRead";//站内消息
+    public static final String QQLOIN = "Useracc/userQqLogin";//站内消息
 
 
 }

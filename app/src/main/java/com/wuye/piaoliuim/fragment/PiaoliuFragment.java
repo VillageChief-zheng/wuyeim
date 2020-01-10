@@ -73,10 +73,13 @@ public class PiaoliuFragment extends BaseFragement {
     PiaoliuData.Res.PiaoliuList imUserInfo;
     TIMManager timManager;
     List<Object> imcList = new ArrayList<>();
+    int initView=1;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         setView(R.layout.fragment_piaoliu, this);
+        initView=1;
+
         getNetData(mNextRequestPage);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -164,8 +167,8 @@ public class PiaoliuFragment extends BaseFragement {
     }
 
     private void initAdapter(boolean isRefresh, PiaoliuData dataList) {
-        if (mNextRequestPage == 1) {
-
+        if (initView == 1) {
+            initView=2;
             @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
                     getBaseActivity(),
                     LinearLayoutManager.VERTICAL, false);

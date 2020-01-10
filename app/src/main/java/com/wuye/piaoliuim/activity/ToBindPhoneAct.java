@@ -120,7 +120,7 @@ public class ToBindPhoneAct extends BaseActivity {
         HashMap<String, String> params = new HashMap<>();
         params.put(UrlConstant.PHONE, phoneStr);
         params.put(UrlConstant.CODE, phonecode);
-        RequestManager.getInstance().publicPostMap(this, params, UrlConstant.BINDPHONECODE, new RequestListener<String>() {
+        RequestManager.getInstance().publicPostMap(this, params, UrlConstant.BINDPHONE, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
                 UserInfoData userInfoData=AppSessionEngine.getMyUserInfo();

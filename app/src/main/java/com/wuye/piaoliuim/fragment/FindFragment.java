@@ -56,11 +56,12 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
     private int mNextRequestPage = 1;
 
     String sexStr="0";
-
+    int initView=1;
     @Override
     protected void initView(Bundle savedInstanceState) {
         setView(R.layout.activity_find, this, false);
         imShaixuan.setOnClickListener(this);
+        initView=1;
         getNetData(mNextRequestPage);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -99,7 +100,8 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
     }
 
     private void initAdapter(boolean isRefresh,FindData findData) {
-        if (mNextRequestPage == 1) {
+        if (initView == 1) {
+            initView=2;
             headerView = getLayoutInflater().inflate(R.layout.header_find, null);
             LinearLayout llFuhao = headerView.findViewById(R.id.ll_fuhao);
             LinearLayout llMl = headerView.findViewById(R.id.ll_ml);

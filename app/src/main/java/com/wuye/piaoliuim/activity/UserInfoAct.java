@@ -244,13 +244,13 @@ private void starPicsee(int postione){
         if (userInfoData.res.listList.getGender().equals("1")) {
             Drawable drawable = getResources().getDrawable(R.mipmap.ic_nan);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvName.setCompoundDrawables(drawable, null, null, null);
+            tvName.setCompoundDrawables(null, null, drawable, null);
         } else if (userInfoData.res.listList.getGender().equals("2")) {
             Drawable drawable = getResources().getDrawable(R.mipmap.ic_nv);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvName.setCompoundDrawables(drawable, null, null, null);
+            tvName.setCompoundDrawables(null, null, drawable, null);
         }
-        tvName.setText(userInfoData.res.listList.name);
+        tvName.setText(userInfoData.res.listList.name+" ");
 
         if (userInfoData.res.listList.getIs_follow().equals("1")) {
             tvYiguanzhu.setVisibility(View.VISIBLE);

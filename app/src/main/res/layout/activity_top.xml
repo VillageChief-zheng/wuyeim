@@ -41,7 +41,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textColor="@color/white"
-    android:textSize="33sp"
+    android:textSize="28sp"
     android:text=""
      android:drawableLeft="@mipmap/ic_topjb"
     android:layout_centerVertical="true"

@@ -163,12 +163,11 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
         mFragmentList.add(ImFragment.newInstance());
          mFragmentList.add(MyFragment.newInstance());
         changeFragment(3);
-
         changeFragment(0);
          bottomNavigationBar1.setOnItemSelectedListener(new BottomBarLayout.OnItemSelectedListener() {
             @Override
             public void onItemSelected(BottomBarItem bottomBarItem, int i, int currentPosition) {
-                if (!AppSessionEngine.getMyUserInfo().res.getListList().getPhone().equals("")){
+                if (AppSessionEngine.getMyUserInfo().res.getListList().getPhone().equals("")){
                     loading("请绑定手机号").setListener(new DialogView.DialogOnClickListener() {
                         @Override
                         public void onDialogClick(boolean isCancel) {
@@ -205,8 +204,10 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
     @Override
     protected void onResume() {
         super.onResume();
+         if (AppSessionEngine.getMyUserInfo()!=null){
+             bottomNavigationBar1.setCurrentItem(currentPositions);
 
-        bottomNavigationBar1.setCurrentItem(currentPositions);
+         }
 
 //        MobclickAgent.onResume(this);
 

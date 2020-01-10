@@ -55,6 +55,7 @@
             android:id="@+id/edphone"
             android:inputType="number"
             android:background="@null"
+            android:maxEms="11"
              />
 
         <Button

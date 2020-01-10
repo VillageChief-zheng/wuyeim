@@ -13,7 +13,10 @@ import com.tencent.connect.auth.QQToken;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+import com.wuye.piaoliuim.bean.WXUserInfo;
+import com.wuye.piaoliuim.utils.postMessageWx;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +28,7 @@ import org.json.JSONObject;
  */
 public class QQLoginManager {
 
-    private String app_id = "";
+    private String app_id = "1110049291";
     private Tencent mTencent;
     private UserInfo mUserInfo;
     private LocalLoginListener localLoginListener;
@@ -106,7 +109,7 @@ public class QQLoginManager {
         @Override
         public void onComplete(Object o) {
             initOpenIdAndToken(o);
-            loadUserInfo();
+//            loadUserInfo();
         }
 
         @Override
@@ -129,8 +132,16 @@ public class QQLoginManager {
                 openID = jsonObject.getString("openid");
                 String access_token = jsonObject.getString("access_token");
                 String expires = jsonObject.getString("expires_in");
-                mTencent.setOpenId(openID);
-                mTencent.setAccessToken(access_token, expires);
+ //                WXUserInfo wxUserInfo = new WXUserInfo();
+//                wxUserInfo.setCity(openID);
+//                wxUserInfo.setNickname(access_token);
+//                wxUserInfo.setCountry("qq");
+                ///< 发送广播到登录界面，把数据带过去; 可用EventBus
+//                EventBus.getDefault().post(new postMessageWx(wxUserInfo ));
+                qqLoginListener.onQQLoginSuccess(jsonObject);
+
+//                mTencent.setOpenId(openID);
+//                mTencent.setAccessToken(access_token, expires);
             } catch (JSONException e) {
                 qqLoginListener.onQQLoginError(null);
             }

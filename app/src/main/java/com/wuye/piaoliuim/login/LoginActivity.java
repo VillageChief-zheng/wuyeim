@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.utils.ActivityTaskManager;
@@ -51,6 +52,7 @@ import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.AppSessionEngine;
 import com.wuye.piaoliuim.utils.DemoLog;
+import com.wuye.piaoliuim.utils.FileSizeUtil;
 import com.wuye.piaoliuim.utils.GenerateTestUserSig;
 import com.wuye.piaoliuim.utils.ImgcodeDialog;
 import com.wuye.piaoliuim.utils.LocationProvider;
@@ -62,11 +64,13 @@ import com.wuye.piaoliuim.wxapi.QQLoginManager;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -117,8 +121,7 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
         api = WXAPIFactory.createWXAPI(this, "wx4b25184c83dbca16", true);
         api.registerApp("wx4b25184c83dbca16");
         //qqzhue c
-        qqLoginManager = new QQLoginManager("app_id", this);
-
+        qqLoginManager = new QQLoginManager("1110049291", this);
         //       TokenUserInfo tokenData= new TokenUserInfo() ;
 //       tokenData.setToken("llll");
 //       AppSessionEngine.setTokenUserInfo(tokenData);
@@ -142,10 +145,10 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
        public void afterTextChanged(Editable editable) {
            if (editable.length() > 0) {
                bgLogin.setBackgroundResource(R.drawable.fillet_grbg);
-               bgLogin.setTextColor(R.color.logintext);
+               bgLogin.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.white));
            } else {
                bgLogin.setBackgroundResource(R.drawable.loginbuttonbg);
-               bgLogin.setTextColor(R.color.white);
+               bgLogin.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.notinput));
 
            }
        }
@@ -166,10 +169,10 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
        public void afterTextChanged(Editable editable) {
            if (editable.length() > 0) {
                bgLogin.setBackgroundResource(R.drawable.fillet_grbg);
-               bgLogin.setTextColor(R.color.logintext);
+               bgLogin.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.white));
            } else {
                bgLogin.setBackgroundResource(R.drawable.loginbuttonbg);
-               bgLogin.setTextColor(R.color.white);
+               bgLogin.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.notinput));
 
            }
        }
@@ -248,8 +251,13 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
     }
 
     public void logIn() {
+
         String phoneStr = edphone.getText().toString().trim();
         String phoneCode = smcode.getText().toString().trim();
+         if (!TelNumMatch.isValidPhoneNumber(phoneStr)) {
+            loading("请输入正确手机号").setOnlySure();
+            return;
+        }
         HashMap<String, String> params = new HashMap<>();
         params.put(UrlConstant.PHONE, phoneStr);
         params.put(UrlConstant.CODE, phoneCode);
@@ -319,7 +327,10 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
     //微信登录
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(postMessageWx event) {
-        wchatLogin(event.wxUserInfo.getCity());
+        if(event.wxUserInfo.getCountry().equals("wx")){
+            wchatLogin(event.wxUserInfo.getCity());
+
+        }
     }
 
     @Override
@@ -355,12 +366,13 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
             params.put(UrlConstant.SINGNINREGION, getLocatione());
 
         }
-        RequestManager.getInstance().publicGettMap(this, params, UrlConstant.WECHATLOFIN, new RequestListener<String>() {
+        Log.i("--------",getLocatione());
+        RequestManager.getInstance().publicGettMap(this, params, UrlConstant.QQLOIN, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
                 tokenUserInfo = GsonUtil.gson().fromJson(requestEntity, TokenUserInfo.class);
                 AppSessionEngine.setTokenUserInfo(tokenUserInfo);
-                startActivity(new Intent(getBaseContext(), BindPhone.class));
+//                startActivity(new Intent(getBaseContext(), BindPhone.class));
                 finish();
             }
 
@@ -386,7 +398,15 @@ private String getLocatione(){
     }
     @Override
     public void onQQLoginSuccess(JSONObject jsonObject) {
-        qqLogin("","");
+        try {
+            String  openID = jsonObject.getString("openid");
+            String access_token = jsonObject.getString("access_token");
+//            Log.i("pppppp",openID+"]]]"+access_token);
+        qqLogin(access_token,openID);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -19,3 +19,4 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+# 设置混淆的压缩比率 0 ~ 7

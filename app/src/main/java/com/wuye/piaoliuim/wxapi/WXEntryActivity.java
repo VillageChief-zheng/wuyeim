@@ -87,6 +87,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     ///< 这里拿到了这个code，去做2次网络请求获取access_token和用户个人信息
                     WXUserInfo wxUserInfo = new WXUserInfo();
                     wxUserInfo.setCity(code);
+                    wxUserInfo.setCountry("wx");
                     ///< 发送广播到登录界面，把数据带过去; 可用EventBus
                     EventBus.getDefault().post(new postMessageWx(wxUserInfo ));
                      finish();

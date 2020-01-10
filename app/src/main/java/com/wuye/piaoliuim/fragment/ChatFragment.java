@@ -360,9 +360,9 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
             public void onComplete(String requestEntity) {
                 Toast toast = showToastFree("1", list.get(postione).imgSrc);
                 toast.setDuration(Toast.LENGTH_LONG);
-//                Uri uri = resourceIdToUris(getContext(), list.get(postione).imgSrc);
-//                MessageInfo info = MessageInfoUtil.buildImageMessage(uri, false);
-//                mChatLayout.sendMessage(info, false);
+                Uri uri = resourceIdToUris(getContext(), list.get(postione).imgSrc);
+                MessageInfo info = MessageInfoUtil.buildTextMessage("送您"+number+"个"+ list.get(postione).data);
+                mChatLayout.sendMessage(info, false);
             }
 
             @Override

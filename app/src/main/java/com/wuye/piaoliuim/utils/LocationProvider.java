@@ -28,7 +28,6 @@ import java.util.Locale;
  * @Date 2020/1/6 10:15
  */
 public class LocationProvider {
-
     private LocationManager locationManager;
     static LocationProvider locationUtils;
     public static LocationProvider getInstance(){
@@ -40,7 +39,7 @@ public class LocationProvider {
 
 
     public String getLocations(Context context){
-        String strLocation = "0,0";
+        String strLocation = "";
         DecimalFormat df = new DecimalFormat("#####0.0000");
         if (!checkPermission(context,permission.ACCESS_COARSE_LOCATION)){
             Toast.makeText(context,"定位权限关闭，无法获取地理位置",Toast.LENGTH_SHORT).show();
@@ -78,7 +77,7 @@ public class LocationProvider {
             if (location != null){
                 strLocation = df.format(location.getLatitude()) + "," + df.format(location.getLongitude());
                 // 耗时操作
-//                strLocation += " " + convertAddress(context, location.getLatitude(),location.getLongitude());
+                strLocation += " " + convertAddress(context, location.getLatitude(),location.getLongitude());
 
             }
 
@@ -124,7 +123,7 @@ public class LocationProvider {
             List<Address> mAddresses = mGeocoder.getFromLocation(latitude, longitude, 1);
             if (!mAddresses.isEmpty()) {
                 Address address = mAddresses.get(0);
-                mStringBuilder.append(address.getLocality());
+                mStringBuilder.append(address.getCountryName()).append(", ").append(address.getAdminArea()).append(", ").append(address.getLocality());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -142,4 +141,4 @@ public class LocationProvider {
         ACCESS_COARSE_LOCATION,
         ACCESS_FINE_LOCATION
     }
- }
+  }

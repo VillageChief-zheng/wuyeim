@@ -207,7 +207,7 @@
             android:layout_height="match_parent" />
         <TextView
             android:id="@+id/tv_clear"
-            android:text="  15M  "
+            android:text=" "
             android:textSize="@dimen/sp_16"
             android:textColor="@color/white"
             android:layout_gravity="center_vertical"
