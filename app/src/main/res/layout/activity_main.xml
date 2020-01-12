@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
     <com.chaychan.library.BottomBarLayout
         android:id="@+id/bottom_navigation_bar1"
         android:layout_width="match_parent"
@@ -61,6 +62,7 @@
             app:itemMarginTop="2dp"
             app:textColorNormal="#FF7C72AD"
             app:textColorSelected="@color/white"
+            app:msgTextSize="8sp"
             />
         <com.chaychan.library.BottomBarItem
             android:layout_width="0dp"
@@ -80,10 +82,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#FF2E2B45"
+        android:background="@color/text_ff393D"
         android:layout_below="@+id/main_container"
         />
-
     <FrameLayout
         android:layout_above="@+id/bottom_navigation_bar1"
         android:id="@+id/main_container"

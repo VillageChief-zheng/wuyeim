@@ -68,8 +68,10 @@ public class BlackList extends BaseActivity {
             @Override
             public void onComplete(String requestEntity) {
                 blackData = GsonUtil.getDefaultGson().fromJson(requestEntity, BlackData.class);
+                boolean isRefresh =mNextRequestPage ==1;
+
                 if (blackData.res.getBlackLists().size()>0){
-                    setAdapter(blackData);
+                    setAdapter(isRefresh,blackData);
 
                 }else {
                     showNoData(blackData.res.getBlackLists().size());
@@ -84,7 +86,7 @@ public class BlackList extends BaseActivity {
         });
     }
 
-    public void setAdapter(BlackData dataList) {
+    public void setAdapter(boolean isRefresh,BlackData dataList) {
         if (mNextRequestPage == 1) {
             publicAdapter = new BlackListAdapter(this, R.layout.adapter_black_item, dataList.res.blackLists);
             @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(

@@ -22,7 +22,6 @@ import com.wuye.piaoliuim.activity.PaihangAct;
 import com.wuye.piaoliuim.activity.UserInfoAct;
 import com.wuye.piaoliuim.adapter.FindAdapter;
 import com.wuye.piaoliuim.bean.FindData;
-import com.wuye.piaoliuim.bean.PiaoliuData;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
@@ -53,21 +52,26 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
 
     FindAdapter fragmnetMyAdapter;
     FindData findData;
+    @ViewUtils.ViewInject(R.id.noDataCommL)
+    LinearLayout noDataCommL;
     private int mNextRequestPage = 1;
 
-    String sexStr="0";
-    int initView=1;
+    String sexStr = "0";
+    int initView = 1;
+
     @Override
     protected void initView(Bundle savedInstanceState) {
         setView(R.layout.activity_find, this, false);
         imShaixuan.setOnClickListener(this);
-        initView=1;
+        initView = 1;
         getNetData(mNextRequestPage);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 swipeRefresh.setRefreshing(false);
-                mNextRequestPage=1;
+                noDataCommL.setVisibility(View.GONE);
+                swipeRefresh.setVisibility(View.VISIBLE);
+                mNextRequestPage = 1;
                 getNetData(mNextRequestPage);
             }
 
@@ -83,13 +87,19 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
     public void getNetData(int page) {
         HashMap<String, String> params = new HashMap<>();
         params.put(UrlConstant.PAGE, page + "");
-        params.put(UrlConstant.GENDER, sexStr );
+        params.put(UrlConstant.GENDER, sexStr);
         RequestManager.getInstance().publicPostMap(getContext(), params, UrlConstant.FINDINDEX, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
-                 findData = GsonUtil.getDefaultGson().fromJson(requestEntity, FindData.class);
-                boolean isRefresh =mNextRequestPage ==1;
-                initAdapter(isRefresh,findData);
+                findData = GsonUtil.getDefaultGson().fromJson(requestEntity, FindData.class);
+                boolean isRefresh = mNextRequestPage == 1;
+                if (findData.res.getPublicLists().size() > 0) {
+
+                    initAdapter(isRefresh, findData);
+                } else {
+                    showNoData(findData.res.getPublicLists().size());
+                }
+
             }
 
             @Override
@@ -99,9 +109,9 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
         });
     }
 
-    private void initAdapter(boolean isRefresh,FindData findData) {
+    private void initAdapter(boolean isRefresh, FindData findData) {
         if (initView == 1) {
-            initView=2;
+            initView = 2;
             headerView = getLayoutInflater().inflate(R.layout.header_find, null);
             LinearLayout llFuhao = headerView.findViewById(R.id.ll_fuhao);
             LinearLayout llMl = headerView.findViewById(R.id.ll_ml);
@@ -124,7 +134,7 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
                 }
             });
             if (swipeRefresh.isRefreshing()) {
-                Log.i("-----","取消刷新");
+                Log.i("-----", "取消刷新");
                 swipeRefresh.setRefreshing(false);
             }
         }
@@ -153,8 +163,8 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 //jinxing 关注
-                Intent intent=new Intent(getContext(), UserInfoAct.class);
-                intent.putExtra("id",fragmnetMyAdapter.getData().get(position).getUser_id());
+                Intent intent = new Intent(getContext(), UserInfoAct.class);
+                intent.putExtra("id", fragmnetMyAdapter.getData().get(position).getUser_id());
                 startActivity(intent);
             }
         });
@@ -164,15 +174,15 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        Intent intent=new Intent(getContext(), PaihangAct.class);
+        Intent intent = new Intent(getContext(), PaihangAct.class);
         switch (v.getId()) {
             case R.id.im_shaixuan:
                 loading(R.layout.dialog_find_sx, this).setOutsideClose(true).setGravity(Gravity.BOTTOM);
                 break;
             case R.id.tv_all:
-                mNextRequestPage=1;
+                mNextRequestPage = 1;
                 imShaixuan.setText("全部");
-                sexStr="0";
+                sexStr = "0";
                 getNetData(mNextRequestPage);
 
                 cancelLoading();
@@ -180,36 +190,46 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
             case R.id.tv_nan:
                 imShaixuan.setText("男生");
 
-                mNextRequestPage=1;
-                sexStr="1";
+                mNextRequestPage = 1;
+                sexStr = "1";
                 getNetData(mNextRequestPage);
                 cancelLoading();
                 break;
             case R.id.tv_nv:
                 imShaixuan.setText("女生");
 
-                mNextRequestPage=1;
-                sexStr="2";
+                mNextRequestPage = 1;
+                sexStr = "2";
                 getNetData(mNextRequestPage);
 
                 cancelLoading();
                 break;
             case R.id.ll_fuhao:
-                intent.putExtra("int",0);
+                intent.putExtra("int", 0);
                 startActivity(intent);
                 break;
             case R.id.ll_ml:
-                intent.putExtra("int",1);
+                intent.putExtra("int", 1);
                 startActivity(intent);
-                 break;
+                break;
             case R.id.ll_rqi:
-                intent.putExtra("int",2);
+                intent.putExtra("int", 2);
                 startActivity(intent);
 
                 break;
         }
     }
+    private void showNoData(int size) {
+        if (size > 0) {
+            noDataCommL.setVisibility(View.GONE);
+            swipeRefresh.setVisibility(View.VISIBLE);
+        } else {
 
+            noDataCommL.setVisibility(View.VISIBLE);
+            swipeRefresh.setVisibility(View.GONE);
+
+        }
+    }
     public static FindFragment newInstance() {
         return new FindFragment();
     }

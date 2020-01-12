@@ -31,33 +31,35 @@
                  >
 
             </com.chuange.basemodule.view.NavigationTopView>
-<RelativeLayout
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="130dp"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/dp_45"
      >
 
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textColor="@color/white"
-    android:textSize="28sp"
-    android:text=""
+    android:textSize="26sp"
+    android:text=" "
      android:drawableLeft="@mipmap/ic_topjb"
-    android:layout_centerVertical="true"
-    android:id="@+id/tv_myjb"
+     android:id="@+id/tv_myjb"
+    android:gravity="center"
       />
 <TextView
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_below="@+id/tv_myjb"
     android:text="当前余额"
-    android:textColor="#FFB6A8FF"
+    android:textColor="#B6A8FF"
     android:textSize="@dimen/sp_14"
-    android:layout_centerVertical="true"
-      android:layout_marginLeft="@dimen/dp_10"
-    />
-</RelativeLayout>
+    android:gravity="center"
+    android:layout_marginTop="@dimen/dap10"
+     />
+</LinearLayout>
         </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

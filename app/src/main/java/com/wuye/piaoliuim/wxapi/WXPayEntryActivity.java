@@ -12,6 +12,7 @@ import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.wuye.piaoliuim.bean.WachPayEvent;
 import com.wuye.piaoliuim.utils.MessageEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -63,7 +64,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             switch (resp.errCode) {
                 case 0://支付成功
                     Toast.makeText(this, "支付成功", Toast.LENGTH_SHORT).show();
-                    EventBus.getDefault().post(new MessageEvent("shuaxin"));
+                    EventBus.getDefault().post(new WachPayEvent("shuaxin"));
 
                     Log.d(TAG, "onResp: resp.errCode = 0   支付成功");
                     break;

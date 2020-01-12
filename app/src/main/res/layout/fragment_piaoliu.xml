@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FF191725"
+
     android:orientation="vertical">
 <com.chuange.basemodule.view.NavigationTopView
     android:layout_width="wrap_content"
@@ -16,23 +18,39 @@
 
 
 </com.chuange.basemodule.view.NavigationTopView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/text_ff393D"
+         />
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recommend_gv"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FF191725"
-        android:listSelector="@android:color/transparent"
-        android:numColumns="2"
-        android:scrollbars="none"
-        />
+        android:layout_marginTop="@dimen/dap10"
+
+        >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recommend_gv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="2"
+            android:scrollbars="none"
+             />
+
+
+    <include layout="@layout/comm_nodata"
+         />
+</LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-     <include layout="@layout/comm_nodata" />
 
 </LinearLayout>

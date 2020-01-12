@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -86,6 +87,8 @@ public class PiaoliuFragment extends BaseFragement {
             public void onRefresh() {
                 swipeRefresh.setRefreshing(false);
                 mNextRequestPage=1;
+                noDataCommL.setVisibility(View.GONE);
+                recommendGv.setVisibility(View.VISIBLE);
                 getNetData(mNextRequestPage);
             }
 
@@ -106,9 +109,11 @@ public class PiaoliuFragment extends BaseFragement {
                 piaoliuData = GsonUtil.getDefaultGson().fromJson(requestEntity, PiaoliuData.class);
 
                 boolean isRefresh = mNextRequestPage == 1;
+                Log.i("ppppppppp",piaoliuData.res.listList.size()+"");
                 if (piaoliuData.res.listList.size() > 0) {
 
                      initAdapter(isRefresh, piaoliuData);
+
                 } else {
                     showNoData(piaoliuData.res.listList.size());
                 }
@@ -167,7 +172,7 @@ public class PiaoliuFragment extends BaseFragement {
     }
 
     private void initAdapter(boolean isRefresh, PiaoliuData dataList) {
-        if (initView == 1) {
+        if (initView == 1&&dataList.res.getListList().size()>0) {
             initView=2;
             @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
                     getBaseActivity(),
@@ -175,34 +180,42 @@ public class PiaoliuFragment extends BaseFragement {
             recommendGv.addItemDecoration(new RecyclerViewSpacesItemDecoration(3));
             recommendGv.setLayoutManager(managers);
             publicAdapter = new PiaoliuAdapter(getContext(), R.layout.adapter_drift_item, dataList.res.listList);
-            recommendGv.setAdapter(publicAdapter);
-            publicAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-                @Override
-                public void onLoadMoreRequested() {
-                    getNetData(mNextRequestPage);
-                }
-            });
+            Log.i("-----","第一次------");
+
             if (swipeRefresh.isRefreshing()) {
-                Log.i("-----","取消刷新");
                 swipeRefresh.setRefreshing(false);
             }
         }
 
+        publicAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                getNetData(mNextRequestPage);
+            }
+        });
         mNextRequestPage++;
         final int size = dataList == null ? 0 : dataList.res.getListList().size();
         if (isRefresh) {
+
             publicAdapter.setNewData(dataList.res.getListList());
+            Log.i("-----","第一次-xinde -----");
+
         } else {
             if (size > 0) {
                 publicAdapter.addData(dataList.res.getListList());
+                Log.i("-----","第一次-xinde来了 -----");
+
             }
         }
         if (size < PAGE_SIZE) {
             //第一页如果不够一页就不显示没有更多数据布局
             publicAdapter.loadMoreEnd(isRefresh);
-        } else {
             publicAdapter.loadMoreComplete();
         }
+        Log.i("-----","第一次-设置了 -----");
+
+        recommendGv.setAdapter(publicAdapter);
+
         setAdapterLis();
 
     }
@@ -271,9 +284,11 @@ public class PiaoliuFragment extends BaseFragement {
 
     private void showNoData(int size) {
         if (size > 0) {
+            Log.i("ppppppppp","来了");
             noDataCommL.setVisibility(View.GONE);
             recommendGv.setVisibility(View.VISIBLE);
         } else {
+            Log.i("ppppppppp","来了-------");
 
             noDataCommL.setVisibility(View.VISIBLE);
             recommendGv.setVisibility(View.GONE);

@@ -84,6 +84,7 @@ public class ImFragment extends BaseImFragment implements ConversationManagerKit
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mBaseView = inflater.inflate(R.layout.conversation_fragment, container, false);
         initView();
+         getSMs();
          return mBaseView;
     }
 
@@ -111,7 +112,7 @@ public class ImFragment extends BaseImFragment implements ConversationManagerKit
         initTitleAction();
         initPopMenuAction();
         setTitle();
-        getSMs();
+
         Log.i("ppppppppppppppp","加入了监听");
         ConversationManagerKit.getInstance().addUnreadWatcher(this);
 

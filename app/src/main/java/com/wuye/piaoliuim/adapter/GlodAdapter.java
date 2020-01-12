@@ -15,6 +15,7 @@ import com.chuange.basemodule.utils.DateUtils;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.BlackData;
 import com.wuye.piaoliuim.bean.GlodData;
+import com.wuye.piaoliuim.utils.DateSm;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class GlodAdapter  extends BaseQuickAdapter<GlodData.Res.GlodList, BaseVi
     @Override
     protected void convert(BaseViewHolder helper, GlodData.Res.GlodList rseckillRow) {
         this.rseckillRow=rseckillRow;
-        helper.setText(R.id.tv_riqi,  DateUtils.getDateAndMin( Long.parseLong(rseckillRow.getCreate_time()),"1" )).setText(R.id.tv_riqiyear,  DateUtils.getDateAndMin( Long.parseLong(rseckillRow.getCreate_time()),"2" ))
+        helper.setText(R.id.tv_riqi,  DateSm.getDateAndMin( Long.parseLong(rseckillRow.getCreate_time()),"1" )).setText(R.id.tv_riqiyear,  DateSm.getDateAndMin( Long.parseLong(rseckillRow.getCreate_time()),"2" ))
         .setText(R.id.tv_number, "+"+rseckillRow.getGold())
         ;
         type=helper.getView(R.id.tv_name);
@@ -58,6 +59,8 @@ public class GlodAdapter  extends BaseQuickAdapter<GlodData.Res.GlodList, BaseVi
             type.setText("扔瓶子");
         }else if (rseckillRow.getType().equals("-2")){
             type.setText("送礼物");
+        }else if (rseckillRow.getType().equals("-3")){
+            type.setText("捞瓶子");
         }
     }
  }

@@ -127,7 +127,7 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
 
         mPushAgent = PushAgent.getInstance(this);
         mPushAgent.onAppStart();
-        checkPermission(this);
+//        checkPermission(this);
         setAlias();
          getNetData();
 
@@ -472,6 +472,7 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
              String unreadStr = "" + event.message;
 
             if (!unreadStr .equals("0") ) {
+
                 bottomNavigationBar1.setMsg(3,unreadStr);
 
             } else {

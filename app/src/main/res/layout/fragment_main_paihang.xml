@@ -16,5 +16,6 @@
         android:scrollbars="none"
         android:background="@drawable/paihang_listbg"
         />
+    <include layout="@layout/comm_nodata" />
 
 </LinearLayout>

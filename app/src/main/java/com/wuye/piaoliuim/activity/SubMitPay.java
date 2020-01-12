@@ -16,6 +16,7 @@ import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.AliPAydata;
 import com.wuye.piaoliuim.bean.ChannelModel;
 import com.wuye.piaoliuim.bean.PayData;
+import com.wuye.piaoliuim.bean.WachPayEvent;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
@@ -154,7 +155,7 @@ public class SubMitPay extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(MessageEvent event) {
+    public void onMessageEvent(WachPayEvent event) {
         if (event.message.equals("shuaxin")) {
             startActivity(new Intent(this, PayJiegAct.class));
             finish();
