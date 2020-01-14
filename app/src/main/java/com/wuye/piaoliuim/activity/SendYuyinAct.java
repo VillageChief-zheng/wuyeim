@@ -109,6 +109,7 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
         initRecord();
         mediaPlayerIngHolder = new MediaPlayerHolder();
         mediaPlayerIngHolder.setmPlaybackInfoListener(this);//设置监听
+        restyuyim.setText("长按录音");
         myPhoto.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -128,7 +129,7 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
                         wv.chongzhi();
                          rlMusci.setVisibility(View.VISIBLE);
                         btSubmit.setVisibility(View.VISIBLE);
-                        restyuyim.setVisibility(View.VISIBLE);
+                        restyuyim.setText("重新录取声音");
                         recordManager.stop();
 
                         break;
@@ -149,6 +150,7 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
                 Environment.getExternalStorageDirectory().getAbsolutePath());
         recordManager.init(WuyeApplicatione.etdApplication, false);
         recordManager.changeRecordDir(recordDir);
+//        Log.i("pppppp",recordManager.getRecordConfig().toString());
          initRecordEvent();
     }
 

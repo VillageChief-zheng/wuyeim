@@ -126,7 +126,7 @@ public class ToBindPhoneAct extends BaseActivity {
                 UserInfoData userInfoData=AppSessionEngine.getMyUserInfo();
                 userInfoData.res.getListList().setPhone(phoneStr);
                  AppSessionEngine.setUserInfo(userInfoData);
-                  startActivity(new Intent(getBaseContext(), MainActivity.class));
+//                  startActivity(new Intent(getBaseContext(), MainActivity.class));
                 finish();
             }
 

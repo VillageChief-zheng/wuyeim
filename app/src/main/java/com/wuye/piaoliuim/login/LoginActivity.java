@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -31,6 +32,7 @@ import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.utils.ActivityTaskManager;
 import com.chuange.basemodule.utils.ToastUtil;
 import com.chuange.basemodule.view.DialogView;
+import com.tencent.imsdk.TIMManager;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -76,6 +78,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.tencent.imsdk.TIMManager.TIM_STATUS_LOGINED;
+
 /**
  * @ClassName LoginActivity
  * @Description
@@ -107,6 +111,7 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
     private LocationManager locationManager;
     LocationProvider myLocationListener;
     private QQLoginManager qqLoginManager;
+    UserInfoData userInfoData;
 
     /**
      * 微信的登录
@@ -220,7 +225,12 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
                 logIn();
                 break;
             case R.id.qq_login:
-                qqLoginManager.launchQQLogin();
+                if (isQQClientAvailable(this)){
+                    qqLoginManager.launchQQLogin();
+
+                }else {
+                    ToastUtil.show(this,"请安装qq");
+                }
                 break;
             case R.id.wx_login:
                 wChatLogin();
@@ -272,8 +282,9 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
             public void onComplete(String requestEntity) {
                   tokenUserInfo = GsonUtil.gson().fromJson(requestEntity, TokenUserInfo.class);
                 AppSessionEngine.setTokenUserInfo(tokenUserInfo);
-                startActivity(new Intent(getBaseContext(), MainActivity.class));
-                finish();
+                getNetData();
+//                startActivity(new Intent(getBaseContext(), MainActivity.class));
+//                finish();
              }
 
             @Override
@@ -297,8 +308,8 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
             public void onComplete(String requestEntity) {
                   tokenUserInfo = GsonUtil.gson().fromJson(requestEntity, TokenUserInfo.class);
                 AppSessionEngine.setTokenUserInfo(tokenUserInfo);
-                startActivity(new Intent(getBaseContext(), BindPhone.class));
-                finish();
+                getNetData();
+
             }
 
             @Override
@@ -373,7 +384,8 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
                 tokenUserInfo = GsonUtil.gson().fromJson(requestEntity, TokenUserInfo.class);
                 AppSessionEngine.setTokenUserInfo(tokenUserInfo);
 //                startActivity(new Intent(getBaseContext(), BindPhone.class));
-                finish();
+                getNetData();
+//                finish();
             }
 
             @Override
@@ -417,5 +429,47 @@ private String getLocatione(){
     @Override
     public void onQQLoginError(UiError uiError) {
 
+    }
+    /**
+     * 判断qq是否可用
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isQQClientAvailable(Context context) {
+        final PackageManager packageManager = context.getPackageManager();
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equals("com.tencent.mobileqq")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public void getNetData(){
+        HashMap<String, String> params = new HashMap<>();
+        RequestManager.getInstance().publicPostMap(this, params, UrlConstant.GETUSERINFO, new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+                userInfoData= com.wuye.piaoliuim.utils.GsonUtil.getDefaultGson().fromJson(requestEntity, UserInfoData.class);
+                 AppSessionEngine.setUserInfo(userInfoData);
+              if (userInfoData.res.getListList().getPhone().equals("")){
+                  startActivity(new Intent(getBaseContext(), BindPhone.class));
+                  finish();
+              }else {
+                  startActivity(new Intent(getBaseContext(), MainActivity.class));
+                  finish();
+
+              }
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
     }
 }

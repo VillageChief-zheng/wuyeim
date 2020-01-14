@@ -57,15 +57,15 @@ public class ChatActivity extends BaseImActivity{
                 startSplashActivity();
                 return;
             }
-            if (mChatInfo.getId().equals("26")){
-                kefuChatFragment = new KefuChatFragment();
-                kefuChatFragment.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.empty_view, kefuChatFragment).commitAllowingStateLoss();
-            }else {
+//            if (mChatInfo.getId().equals("75")){
+//                kefuChatFragment = new KefuChatFragment();
+//                kefuChatFragment.setArguments(bundle);
+//                getSupportFragmentManager().beginTransaction().replace(R.id.empty_view, kefuChatFragment).commitAllowingStateLoss();
+//            }else {
                 mChatFragment = new ChatFragment();
                 mChatFragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.empty_view, mChatFragment).commitAllowingStateLoss();
-            }
+//            }
 //            getFragmentManager().beginTransaction().replace().commitAllowingStateLoss();
         }
     }

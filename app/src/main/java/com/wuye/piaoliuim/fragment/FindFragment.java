@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuange.basemodule.BaseFragement;
 import com.chuange.basemodule.utils.ViewUtils;
 import com.chuange.basemodule.view.DialogView;
+import com.google.gson.Gson;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.activity.PaihangAct;
 import com.wuye.piaoliuim.activity.UserInfoAct;
@@ -58,6 +59,7 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
 
     String sexStr = "0";
     int initView = 1;
+    int shuaxin=2;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -69,9 +71,8 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
             @Override
             public void onRefresh() {
                 swipeRefresh.setRefreshing(false);
-                noDataCommL.setVisibility(View.GONE);
-                swipeRefresh.setVisibility(View.VISIBLE);
-                mNextRequestPage = 1;
+                 mNextRequestPage = 1;
+                shuaxin=1;
                 getNetData(mNextRequestPage);
             }
 
@@ -93,12 +94,21 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
             public void onComplete(String requestEntity) {
                 findData = GsonUtil.getDefaultGson().fromJson(requestEntity, FindData.class);
                 boolean isRefresh = mNextRequestPage == 1;
-                if (findData.res.getPublicLists().size() > 0) {
-
-                    initAdapter(isRefresh, findData);
-                } else {
+                if (shuaxin==1){
+                    shuaxin=2;
                     showNoData(findData.res.getPublicLists().size());
                 }
+                  if (initView==1){
+                    if (findData.res.getPublicLists().size() > 0) {
+                        initAdapter(isRefresh, findData);
+                    } else {
+                        showNoData(findData.res.getPublicLists().size());
+                    }
+                }else {
+                    initAdapter(isRefresh, findData);
+
+                }
+
 
             }
 
@@ -112,6 +122,7 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
     private void initAdapter(boolean isRefresh, FindData findData) {
         if (initView == 1) {
             initView = 2;
+
             headerView = getLayoutInflater().inflate(R.layout.header_find, null);
             LinearLayout llFuhao = headerView.findViewById(R.id.ll_fuhao);
             LinearLayout llMl = headerView.findViewById(R.id.ll_ml);
@@ -122,6 +133,8 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
             @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
                     getBaseActivity(),
                     LinearLayoutManager.VERTICAL, false);
+            recommendGv.setVisibility(View.VISIBLE);
+            noDataCommL.setVerticalGravity(View.GONE);
             recommendGv.addItemDecoration(new RecyclerViewSpacesItemDecoration(3));
             recommendGv.setLayoutManager(managers);
             fragmnetMyAdapter = new FindAdapter(getBaseActivity(), R.layout.adapter_finds_item, findData.res.publicLists);
@@ -222,11 +235,11 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
     private void showNoData(int size) {
         if (size > 0) {
             noDataCommL.setVisibility(View.GONE);
-            swipeRefresh.setVisibility(View.VISIBLE);
+            recommendGv.setVisibility(View.VISIBLE);
         } else {
 
             noDataCommL.setVisibility(View.VISIBLE);
-            swipeRefresh.setVisibility(View.GONE);
+            recommendGv.setVisibility(View.GONE);
 
         }
     }

@@ -17,6 +17,7 @@ import com.wuye.piaoliuim.bean.AliPAydata;
 import com.wuye.piaoliuim.bean.ChannelModel;
 import com.wuye.piaoliuim.bean.PayData;
 import com.wuye.piaoliuim.bean.WachPayEvent;
+import com.wuye.piaoliuim.bean.postMessageAL;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
@@ -79,6 +80,7 @@ public class SubMitPay extends BaseActivity {
     private void initPay() {
         zfb.setImageResource(R.mipmap.pay_seld);
         btSubmit.setText("支付宝支付" + getMoney(channelModel.jine) + "元");
+        paytype = 2;
     }
 
     @Override
@@ -122,9 +124,9 @@ public class SubMitPay extends BaseActivity {
     }
 
     private void topPay(int type) {
-        HashMap<String, String> params = new HashMap<>();
+         HashMap<String, String> params = new HashMap<>();
         params.put(UrlConstant.PAY_TYPE, type + "");
-        params.put(UrlConstant.MPNYTYPE, channelModel.imgSrc + "");
+        params.put(UrlConstant.MPNYTYPE, channelModel.imgSrc+"");
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.PAYWACHATANDALI, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
@@ -136,7 +138,7 @@ public class SubMitPay extends BaseActivity {
                 } else {
                     aliPAydata = GsonUtil.getDefaultGson().fromJson(requestEntity, AliPAydata.class);
                     ZFBPayUtil zfb = new ZFBPayUtil();
-                    zfb.payZFB(getContext(), aliPAydata.aliPayData); // 调用
+                    zfb.payZFB(SubMitPay.this, aliPAydata.aliPayData); // 调用
                 }
 
             }
@@ -152,13 +154,18 @@ public class SubMitPay extends BaseActivity {
         int money;
         money = Integer.parseInt(moneys) / 100;
         return money;
+    } private int getMoneys(int moneys) {
+        int money;
+        money =   moneys / 100;
+        return money;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(WachPayEvent event) {
+    public void onMessageEvent(postMessageAL event) {
         if (event.message.equals("shuaxin")) {
             startActivity(new Intent(this, PayJiegAct.class));
             finish();
         }
     }
+
 }

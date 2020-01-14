@@ -59,10 +59,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tv_content"
-            android:textSize="@dimen/textsp16"
+            android:textSize="@dimen/textsp14"
             android:textColor="@color/text_ff99"
-            android:text="人间四sdsd 月"
+            android:text="人间四sdsd 月人间四sdsd人间四sdsd"
             android:layout_marginTop="@dimen/dap6"
+             android:ellipsize="end"
+            android:maxLines="2"
             />
 
     </LinearLayout>

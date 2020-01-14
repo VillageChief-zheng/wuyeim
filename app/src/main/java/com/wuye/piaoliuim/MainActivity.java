@@ -3,6 +3,7 @@ package com.wuye.piaoliuim;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -28,6 +29,7 @@ import com.chaychan.library.BottomBarLayout;
 import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.BaseFragement;
 import com.chuange.basemodule.utils.ActivityTaskManager;
+import com.chuange.basemodule.utils.NotificationsUtils;
 import com.chuange.basemodule.utils.ToastUtil;
 import com.chuange.basemodule.view.DialogView;
 import com.huawei.android.hms.agent.HMSAgent;
@@ -84,6 +86,7 @@ import com.wuye.piaoliuim.utils.DemoLog;
 import com.wuye.piaoliuim.utils.GenerateTestUserSig;
 import com.wuye.piaoliuim.utils.ImagUrlUtils;
 import com.wuye.piaoliuim.utils.MessageEvent;
+import com.wuye.piaoliuim.utils.NotifiUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -142,6 +145,7 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
         }
        prepareThirdPushToken();
         initData();
+        notifyJianting();
      }
 
     @Override
@@ -167,22 +171,22 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
          bottomNavigationBar1.setOnItemSelectedListener(new BottomBarLayout.OnItemSelectedListener() {
             @Override
             public void onItemSelected(BottomBarItem bottomBarItem, int i, int currentPosition) {
-                if (AppSessionEngine.getMyUserInfo().res.getListList().getPhone().equals("")){
-                    loading("请绑定手机号").setListener(new DialogView.DialogOnClickListener() {
-                        @Override
-                        public void onDialogClick(boolean isCancel) {
-                            if (isCancel)
-                                return;
-                            else {
-                                startActivity(new Intent(getBaseContext(), ToBindPhoneAct.class));
-                            }
-                        }
-                    }).setOnlySure();
-                }else {
+//                if (AppSessionEngine.getMyUserInfo().res.getListList().getPhone().equals("")){
+//                    loading("请绑定手机号").setListener(new DialogView.DialogOnClickListener() {
+//                        @Override
+//                        public void onDialogClick(boolean isCancel) {
+//                            if (isCancel)
+//                                return;
+//                            else {
+//                                startActivity(new Intent(getBaseContext(), ToBindPhoneAct.class));
+//                            }
+//                        }
+//                    }).setOnlySure();
+//                }else {
                     changeFragment(currentPosition);
 
-                }
-
+//                }
+//
             }
         });
 
@@ -208,11 +212,29 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
              bottomNavigationBar1.setCurrentItem(currentPositions);
 
          }
-
+toBindPhone();
 //        MobclickAgent.onResume(this);
 
      }
-
+private void toBindPhone(){
+    if (AppSessionEngine.getMyUserInfo().res.getListList().getPhone().equals("")) {
+        loading("请绑定手机号").setListener(new DialogView.DialogOnClickListener() {
+            @Override
+            public void onDialogClick(boolean isCancel) {
+                if (isCancel)
+                    return;
+                else {
+                    startActivity(new Intent(getBaseContext(), ToBindPhoneAct.class));
+                }
+            }
+        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                cancelLoading();
+            }
+        });
+    }
+}
     @Override
     protected void onPause() {
         super.onPause();
@@ -491,5 +513,27 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
         super.onDestroy();
         EventBus.getDefault().unregister(this);
 
+    }
+
+    private void notifyJianting(){
+         if (NotifiUtils.isPermissionOpen(this)){
+
+         }else {
+             loading("开启应用通知,不错过消息哦。").setListener(new DialogView.DialogOnClickListener() {
+                 @Override
+                 public void onDialogClick(boolean isCancel) {
+                     if (isCancel)
+                         return;
+                     else {
+                         NotifiUtils.openPermissionSetting(MainActivity.this);
+                     }
+                 }
+             }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                 @Override
+                 public void onCancel(DialogInterface dialogInterface) {
+                     cancelLoading();
+                 }
+             });
+         }
     }
 }

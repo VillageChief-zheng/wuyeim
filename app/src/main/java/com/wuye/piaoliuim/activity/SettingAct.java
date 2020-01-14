@@ -73,6 +73,7 @@ public class SettingAct extends BaseActivity {
 
     UserInfoData userInfoData;
     String stringSize="",filename="";
+    String mobile;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,17 +81,22 @@ public class SettingAct extends BaseActivity {
         ButterKnife.bind(this);
 
 
-        userInfoData=AppSessionEngine.getMyUserInfo();
-        initPhone();
         filename="/storage/emulated/0/Record/com.piaoliu.main/";
         stringSize=FileSizeUtil.getAutoFileOrFilesSize(filename);
         tvClear.setText("  "+stringSize+" ");
 
     }
    private void initPhone(){
-        String mobile=userInfoData.res.getListList().getPhone();
-       String maskNumber = mobile.substring(0,3)+"****"+mobile.substring(7,mobile.length());
-       tvBindphone.setText(maskNumber+" ");
+          mobile=userInfoData.res.getListList().getPhone();
+        if (mobile.equals("")){
+            tvBindphone.setText( "未绑定 ");
+
+        }else {
+            String maskNumber = mobile.substring(0,3)+"****"+mobile.substring(7,mobile.length());
+            tvBindphone.setText(maskNumber+" ");
+        }
+
+
        Log.i("ppppppppp",AppSessionEngine.getLocation());
        NotifiSwitch.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
            @Override
@@ -119,6 +125,9 @@ public class SettingAct extends BaseActivity {
         }else {
             NotifiSwitch.setChecked(false);
         }
+        userInfoData=AppSessionEngine.getMyUserInfo();
+        initPhone();
+
     }
 
     @Override
@@ -136,7 +145,11 @@ public class SettingAct extends BaseActivity {
         switch (view.getId()) {
             case R.id.ll_us:
 //                startActivity(new Intent(this,ChangePhoneAct.class));
-                break;
+                if (mobile.equals("")) {
+                    startActivity(new Intent(getBaseContext(), ToBindPhoneAct.class));
+
+                }
+                    break;
             case R.id.ll_ts:
                 break;
             case R.id.ll_changepsw:

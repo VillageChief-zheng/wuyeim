@@ -152,9 +152,9 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
             case R.id.clock:
                 ImagePicker.getInstance()
                         .setTitle("标题")//设置标题
-                        .showCamera(true)//设置是否显示拍照按钮
+                        .showCamera(false)//设置是否显示拍照按钮
                         .showImage(true)//设置是否展示图片
-                        .showVideo(true)//设置是否展示视频
+                        .showVideo(false)//设置是否展示视频
                         .setMaxCount(1)//设置最大选择图片数目(默认为1，单选)
                         .setSingleType(true)//设置图片视频不能同时选择
                         .setImageLoader(new GlideLoader())
@@ -236,8 +236,7 @@ public class EditInfoAct extends BaseActivity implements DialogView.DialogViewLi
             @Override
             public void onComplete(String requestEntity) {
                 //更新成功
-                EventBus.getDefault().post(new MessageEvent("shuaxin"));
-                setImMyImaege(ImagUrlUtils.getImag(tuPianList));
+                 setImMyImaege(ImagUrlUtils.getImag(tuPianList));
                 updateProfile(nichengStr);
                 finish();
             }

@@ -61,6 +61,8 @@ public class SendGlodAdapter  extends BaseQuickAdapter<GlodData.Res.GlodList, Ba
             type.setText("扔瓶子");
         }else if (rseckillRow.getType().equals("-2")){
             type.setText("送礼物");
+        }else if (rseckillRow.getType().equals("-3")){
+            type.setText("捞瓶子");
         }
     }
 

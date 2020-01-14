@@ -26,8 +26,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuange.basemodule.utils.ScreenUtils;
 import com.chuange.basemodule.view.DialogView;
+import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMFriendshipManager;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.friendship.TIMFriendResult;
 import com.tencent.qcloud.tim.uikit.base.BaseFragment;
@@ -44,14 +48,18 @@ import com.tencent.qcloud.tim.uikit.modules.message.MessageInfoUtil;
 import com.tencent.qcloud.tim.uikit.utils.TUIKitConstants;
 import com.tencent.qcloud.tim.uikit.utils.TUIKitLog;
 import com.tencent.qcloud.tim.uikit.utils.ToastUtil;
+import com.wuye.piaoliuim.MainActivity;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.WuyeApplicatione;
+import com.wuye.piaoliuim.activity.BindPhone;
 import com.wuye.piaoliuim.activity.JubaoAct;
+import com.wuye.piaoliuim.activity.MyActivity;
 import com.wuye.piaoliuim.activity.OpinionAct;
 import com.wuye.piaoliuim.activity.UserInfoAct;
 import com.wuye.piaoliuim.activity.imactivity.FriendProfileActivity;
 import com.wuye.piaoliuim.adapter.DialogLiwuAdapter;
 import com.wuye.piaoliuim.bean.ChannelModel;
+import com.wuye.piaoliuim.bean.UserInfoData;
 import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.helper.ChatLayoutHelper;
@@ -160,14 +168,18 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
                 if (null == messageInfo) {
                     return;
                 }
-                Log.i("--------","头像点击"+messageInfo.getId()+""+AppSessionEngine.getMyUserInfo().res.getListList().getId());
-
-//                if (messageInfo.getId().equals(AppSessionEngine.getMyUserInfo().res.getListList().getId())){
+                if (messageInfo.getFromUser().equals(TIMManager.getInstance().getLoginUser())){
+                    Intent intent = new Intent(getContext(), MyActivity.class);
+                     startActivity(intent);
+                }else {
+                    Intent intent = new Intent(getContext(), UserInfoAct.class);
+                    intent.putExtra("id",mId);
+                    startActivity(intent);
+                }
+ //                if (messageInfo.getId().equals(AppSessionEngine.getMyUserInfo().res.getListList().getId())){
 //
 //                    }else {
-//                    Intent intent = new Intent(getContext(), UserInfoAct.class);
-//                    intent.putExtra("id",mId);
-//                    startActivity(intent);
+//
 //        }
 //                 ChatInfo info = new ChatInfo();
 //                info.setId(messageInfo.getFromUser());
@@ -267,6 +279,23 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
                 @Override
                 public void onClick(View view) {
                     Log.i("ppppppChatIm", "清空");
+                    TIMManager.getInstance().deleteConversationAndLocalMsgs(TIMConversationType.C2C,mChatInfo.getId());
+                    getActivity().finish();
+
+//                            mChatLayout.deletelocal(new TIMCallBack() {
+//                                @Override
+//                                public void onError(int i, String s) {
+//                                    Log.i("ppppppp"," 失败事实上 "+s);
+//
+//                                }
+//
+//                                @Override
+//                                public void onSuccess() {
+//                                    Log.i("ppppppp","成功事实上 ");
+//                                }
+//                            });
+
+
 
                 }
             });
@@ -363,6 +392,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
                 Uri uri = resourceIdToUris(getContext(), list.get(postione).imgSrc);
                 MessageInfo info = MessageInfoUtil.buildTextMessage("送您"+number+"个"+ list.get(postione).data);
                 mChatLayout.sendMessage(info, false);
+                getNetData();
             }
 
             @Override
@@ -529,5 +559,21 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
         View mView = inflater.inflate(R.layout.layout_circle_comment, linearLayout);
  //        contentView.setOnClickListener(mClickContentCancelListener);
         return mView;
+    }
+    public void getNetData(){
+        HashMap<String, String> params = new HashMap<>();
+        RequestManager.getInstance().publicPostMap(getContext(), params, UrlConstant.GETUSERINFO, new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+          UserInfoData      userInfoData= com.wuye.piaoliuim.utils.GsonUtil.getDefaultGson().fromJson(requestEntity, UserInfoData.class);
+                AppSessionEngine.setUserInfo(userInfoData);
+
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
     }
  }

@@ -106,13 +106,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/my_photo"
                 android:gravity="center"
-                android:text="重新录取声音"
+                android:text="长按录音"
                 android:textColor="#FF999999"
                 android:textSize="@dimen/sp_15"
                 android:layout_marginTop="@dimen/dap30"
                 android:id="@+id/restyuyim"
-                android:visibility="gone"
-                />
+                 />
         </RelativeLayout>
 
 

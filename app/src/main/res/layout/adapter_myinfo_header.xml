@@ -52,7 +52,9 @@
                android:layout_marginTop="@dimen/dap10"
                android:textColor="#FFB6A8FF"
                android:textSize="@dimen/textsp14"
-                 android:text=""
+               android:maxLines="2"
+               android:ellipsize="end"
+                 android:text="我是爱设计的我是爱设计的"
                />
            <TextView
                android:layout_width="wrap_content"

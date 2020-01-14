@@ -75,7 +75,7 @@ public class PiaoliuFragment extends BaseFragement {
     TIMManager timManager;
     List<Object> imcList = new ArrayList<>();
     int initView=1;
-
+    int shuaxin=2;
     @Override
     protected void initView(Bundle savedInstanceState) {
         setView(R.layout.fragment_piaoliu, this);
@@ -87,6 +87,7 @@ public class PiaoliuFragment extends BaseFragement {
             public void onRefresh() {
                 swipeRefresh.setRefreshing(false);
                 mNextRequestPage=1;
+                shuaxin=1;
                 noDataCommL.setVisibility(View.GONE);
                 recommendGv.setVisibility(View.VISIBLE);
                 getNetData(mNextRequestPage);
@@ -110,14 +111,20 @@ public class PiaoliuFragment extends BaseFragement {
 
                 boolean isRefresh = mNextRequestPage == 1;
                 Log.i("ppppppppp",piaoliuData.res.listList.size()+"");
-                if (piaoliuData.res.listList.size() > 0) {
-
-                     initAdapter(isRefresh, piaoliuData);
-
-                } else {
+                if (shuaxin==1){
+                    shuaxin=2;
                     showNoData(piaoliuData.res.listList.size());
                 }
+                if (initView==1) {
+                     if (piaoliuData.res.listList.size() > 0) {
+                         initAdapter(isRefresh, piaoliuData);
+                     } else {
+                        showNoData(piaoliuData.res.listList.size());
+                    }
+                }else {
+                    initAdapter(isRefresh, piaoliuData);
 
+                }
             }
 
             @Override
@@ -127,52 +134,10 @@ public class PiaoliuFragment extends BaseFragement {
         });
     }
 
-    public void setAdapter(boolean isRefresh, PiaoliuData dataList) {
-        if (mNextRequestPage == 1) {
-            @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
-                    getBaseActivity(),
-                    LinearLayoutManager.VERTICAL, false);
-            publicAdapter = new PiaoliuAdapter(getContext(), R.layout.adapter_drift_item, dataList.res.listList);
-            recommendGv.setLayoutManager(managers);
 
-            recommendGv.setAdapter(publicAdapter);
-            publicAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-                @Override
-                public void onLoadMoreRequested() {
-                    getNetData(mNextRequestPage);
-                }
-            });
-            publicAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-                @Override
-                public void onLoadMoreRequested() {
-
-                }
-            });
-
-
-        }
-        mNextRequestPage++;
-        final int size = dataList == null ? 0 : dataList.res.listList.size();
-        if (isRefresh) {
-
-            publicAdapter.setNewData(dataList.res.listList);
-        } else {
-            if (size > 0) {
-                publicAdapter.addData(dataList.res.listList);
-            }
-        }
-        if (size < PAGE_SIZE) {
-            //第一页如果不够一页就不显示没有更多数据布局
-            publicAdapter.loadMoreEnd(isRefresh);
-        } else {
-            publicAdapter.loadMoreComplete();
-        }
-        setAdapterLis();
-
-    }
 
     private void initAdapter(boolean isRefresh, PiaoliuData dataList) {
-        if (initView == 1&&dataList.res.getListList().size()>0) {
+        if (initView == 1) {
             initView=2;
             @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
                     getBaseActivity(),
@@ -181,41 +146,35 @@ public class PiaoliuFragment extends BaseFragement {
             recommendGv.setLayoutManager(managers);
             publicAdapter = new PiaoliuAdapter(getContext(), R.layout.adapter_drift_item, dataList.res.listList);
             Log.i("-----","第一次------");
+            recommendGv.setAdapter(publicAdapter);
 
             if (swipeRefresh.isRefreshing()) {
                 swipeRefresh.setRefreshing(false);
             }
+            publicAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                @Override
+                public void onLoadMoreRequested() {
+                    getNetData(mNextRequestPage);
+                }
+            });
         }
 
-        publicAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                getNetData(mNextRequestPage);
-            }
-        });
+
         mNextRequestPage++;
         final int size = dataList == null ? 0 : dataList.res.getListList().size();
         if (isRefresh) {
-
             publicAdapter.setNewData(dataList.res.getListList());
-            Log.i("-----","第一次-xinde -----");
-
         } else {
             if (size > 0) {
                 publicAdapter.addData(dataList.res.getListList());
-                Log.i("-----","第一次-xinde来了 -----");
-
             }
         }
         if (size < PAGE_SIZE) {
             //第一页如果不够一页就不显示没有更多数据布局
             publicAdapter.loadMoreEnd(isRefresh);
+        } else {
             publicAdapter.loadMoreComplete();
         }
-        Log.i("-----","第一次-设置了 -----");
-
-        recommendGv.setAdapter(publicAdapter);
-
         setAdapterLis();
 
     }

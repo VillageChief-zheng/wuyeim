@@ -44,7 +44,7 @@ public class KeyMapDailog extends DialogFragment {
     public EditText inputDlg;
     private int numconut=300;
     private String tag=null;
-
+   TextView quxiao;
     public KeyMapDailog() {
     }
 
@@ -76,6 +76,7 @@ public class KeyMapDailog extends DialogFragment {
         window.setAttributes(lp);
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         inputDlg = (EditText) contentview.findViewById(R.id.dialog_comment_content);
+        quxiao = (TextView) contentview.findViewById(R.id.liwu_quxiao);
         inputDlg.setHint(texthint);
         final TextView tv_send = (TextView) contentview.findViewById(R.id.tv_send);
         inputDlg.addTextChangedListener(new TextWatcher() {
@@ -115,6 +116,12 @@ public class KeyMapDailog extends DialogFragment {
 //                    progressDialog.show();
                     sendBackListener.sendBack(inputDlg.getText().toString());
                 }
+            }
+        });
+        quxiao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
             }
         });
         inputDlg.setFocusable(true);
