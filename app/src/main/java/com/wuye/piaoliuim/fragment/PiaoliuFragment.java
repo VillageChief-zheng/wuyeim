@@ -110,8 +110,7 @@ public class PiaoliuFragment extends BaseFragement {
                 piaoliuData = GsonUtil.getDefaultGson().fromJson(requestEntity, PiaoliuData.class);
 
                 boolean isRefresh = mNextRequestPage == 1;
-                Log.i("ppppppppp",piaoliuData.res.listList.size()+"");
-                if (shuaxin==1){
+                 if (shuaxin==1){
                     shuaxin=2;
                     showNoData(piaoliuData.res.listList.size());
                 }
@@ -185,7 +184,13 @@ public class PiaoliuFragment extends BaseFragement {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 //jinxing 关注
                 imUserInfo = publicAdapter.getData().get(position);
-                laoPingzi(publicAdapter.getData().get(position).getUser_id());
+                if (publicAdapter.getData().get(position).getType().equals("1")) {
+                    laoPingzi(publicAdapter.getData().get(position).getUser_id(),publicAdapter.getData().get(position).getContent());
+
+                }else {
+                    laoPingzi(publicAdapter.getData().get(position).getUser_id(),"");
+
+                }
             }
         });
         publicAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -207,10 +212,11 @@ public class PiaoliuFragment extends BaseFragement {
     }
 
     //捞瓶子扣金币
-    public void laoPingzi(String id) {
+    public void laoPingzi(String id,String content) {
         HashMap<String, String> params = new HashMap<>();
         params.put(UrlConstant.TYPE, "-3");
         params.put(UrlConstant.USER_ID, id);
+        params.put(UrlConstant.CONTENT, content);
         RequestManager.getInstance().publicPostMap(getContext(), params, UrlConstant.LAOPINGZI, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {

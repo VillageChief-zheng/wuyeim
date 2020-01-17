@@ -125,7 +125,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mBaseView = inflater.inflate(R.layout.chat_fragment, container, false);
-         return mBaseView;
+        return mBaseView;
     }
 
     private void initView() {
@@ -144,7 +144,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
         mTitleBar = mChatLayout.getTitleBar();
         mNoticeLayout = mChatLayout.getNoticeLayout();
         mMessageLayout = mChatLayout.getMessageLayout();
-         mInputLayout = mChatLayout.getInputLayout();
+          mInputLayout = mChatLayout.getInputLayout();
         //单聊面板标记栏返回按钮点击事件，这里需要开发者自行控制
         mTitleBar.setOnLeftClickListener(new View.OnClickListener() {
             @Override
@@ -223,7 +223,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
             return;
         }
         initView();
-  Log.i("ppppppppppppppppppp","chushihua ahahahah ");
+
         // TODO 通过api设置ChatLayout各种属性的样例
         ChatLayoutHelper helper = new ChatLayoutHelper(getActivity());
         helper.customizeChatLayout(mChatLayout);
