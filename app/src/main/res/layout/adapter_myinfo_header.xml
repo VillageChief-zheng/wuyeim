@@ -7,10 +7,55 @@
    <RelativeLayout
        android:layout_width="match_parent"
        android:layout_height="@dimen/pad_240"
-       android:background="@drawable/myheader_shape"
        android:id="@+id/rl_my"
 
        >
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:background="@drawable/myheader_shape"
+
+
+    >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/bg_nodate"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:id="@+id/aaaa"
+
+
+        />
+
+</FrameLayout>
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+            >
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="我的"
+               android:textColor="@color/white"
+               android:textSize="@dimen/sp_18"
+               android:layout_centerHorizontal="true"
+               android:layout_marginTop="@dimen/pad_10"
+               />
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="谁看过我"
+               android:textColor="@color/white"
+               android:textSize="@dimen/sp_15"
+               android:layout_alignParentRight="true"
+               android:layout_marginRight="@dimen/pad_10"
+                android:layout_marginTop="@dimen/pad_10"
+               android:id="@+id/howsee"
+               />
+       </RelativeLayout>
        <RelativeLayout
            android:layout_width="match_parent"
            android:layout_height="70dp"
@@ -54,7 +99,7 @@
                android:textSize="@dimen/textsp14"
                android:maxLines="2"
                android:ellipsize="end"
-                 android:text="我是爱设计的我是爱设计的"
+                 android:text=""
                />
            <TextView
                android:layout_width="wrap_content"

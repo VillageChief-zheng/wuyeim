@@ -70,10 +70,11 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
 
     View headerView;
    FragmnetMyAdapter fragmnetMyAdapter;
-    private Class[] itemClass = {LiwuAct.class, RechangeAct.class, LiuLanAct.class, BlackList.class, BlackList.class,  OpinionAct.class, SettingAct.class};
+    private Class[] itemClass = {LiwuAct.class, RechangeAct.class,   BlackList.class, BlackList.class,  OpinionAct.class, SettingAct.class};
     UserInfoData userInfoData;
     ImageView header;
     TextView tvname,sigeConetn,fians,jinbi,guanzhu;
+    ImageView imagecie;
     @Override
     protected void initView(Bundle savedInstanceState) {
         setView(R.layout.activity_my, this, false);
@@ -101,6 +102,9 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
                 Glide.with(getBaseActivity())
                         .load(ImagUrlUtils.getImag(userInfoData.res.listList.getLitpic())).apply(options)
                         .into(header);
+                Glide.with(getBaseActivity())
+                        .load(ImagUrlUtils.getImag(userInfoData.res.listList.getLitpic()))
+                        .into(imagecie);
                 AppSessionEngine.setUserInfo(userInfoData);
              }
 
@@ -112,7 +116,7 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
     }
     private void initAdapter(){
         String[] name = getResources().getStringArray(R.array.main_account_list);
-        int[] nameIcon = {R.mipmap.ic_myliwu, R.mipmap.ic_myjbi,R.mipmap.ic_jlu,
+        int[] nameIcon = {R.mipmap.ic_myliwu, R.mipmap.ic_myjbi,
                 R.mipmap.ic_myyy, R.mipmap.ic_myheimd,   R.mipmap.ic_myfk, R.mipmap.ic_myset};
         List<ItemBean> accountDataList = new ArrayList<>();
         int length = name.length;
@@ -127,6 +131,9 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
         LinearLayout ll_love=headerView.findViewById(R.id.ll_love);
         LinearLayout llfistTop=headerView.findViewById(R.id.rl_firsttop);
         TextView textView=headerView.findViewById(R.id.tv_myinfo);
+        TextView howseee=headerView.findViewById(R.id.howsee);
+          imagecie =headerView.findViewById(R.id.aaaa);
+        imagecie.setAlpha(50);
           header=headerView.findViewById(R.id.clock);
         tvname=headerView.findViewById(R.id.tv_name);
          sigeConetn=headerView.findViewById(R.id.tv_singe);
@@ -138,6 +145,7 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
         ll_love.setOnClickListener(this);
         llfistTop.setOnClickListener(this);
         textView.setOnClickListener(this);
+        howseee.setOnClickListener(this);
         @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
                 getBaseActivity(),
                 LinearLayoutManager.VERTICAL, false);
@@ -149,7 +157,7 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
         fragmnetMyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-            if (i==3){
+            if (i==2){
                 //应用评分
                 pingfen();
              } else {
@@ -190,6 +198,9 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
             case R.id.tv_pf:
                 bySearchOpen(getContext());
                 cancelLoading();
+                   break;
+            case R.id.howsee:
+               startActivity(new Intent(getContext(),LiuLanAct.class));
                    break;
         }
     }

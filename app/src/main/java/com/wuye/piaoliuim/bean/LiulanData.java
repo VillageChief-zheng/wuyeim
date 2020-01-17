@@ -22,18 +22,18 @@ public class LiulanData  extends BaseData {
         }
 
         public class JIluList implements Serializable {
-            public String brow_id;
+            public String user_id;
             public String litpic;
             public String name;
             public String gender;
             public String create_time;
 
             public String getBrow_id() {
-                return brow_id;
+                return user_id;
             }
 
             public void setBrow_id(String brow_id) {
-                this.brow_id = brow_id;
+                this.user_id = brow_id;
             }
 
             public String getLitpic() {

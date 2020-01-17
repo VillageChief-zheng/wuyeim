@@ -80,23 +80,23 @@ public class IndexAct extends BaseActivity implements DialogView.DialogViewListe
                 cancelLoading();
                 }else {
                     tiaozhugan();
+                     finish();
                      cancelLoading();
 
                  }
                 break;
             case R.id.dialogSure:
-                if (upList.res.getAndroid_isdownload().equals("1")){
+//                if (upList.res.getAndroid_isdownload().equals("1")){
                     bySearchOpen(this);
-
-                    cancelLoading();
+                     cancelLoading();
 
                     Log.i("ppppp","去市场");
-                }else {
-                    tiaozhugan();
-                    cancelLoading();
-
-
-                }
+//                }else {
+//                    tiaozhugan();
+//                    cancelLoading();
+//
+//
+//                }
                 break;
 
         }

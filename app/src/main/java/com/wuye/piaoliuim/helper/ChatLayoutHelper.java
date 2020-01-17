@@ -2,15 +2,21 @@ package com.wuye.piaoliuim.helper;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.tencent.imsdk.TIMCustomElem;
+import com.tencent.qcloud.tim.uikit.config.TUIKitConfigs;
 import com.tencent.qcloud.tim.uikit.modules.chat.ChatLayout;
 import com.tencent.qcloud.tim.uikit.modules.chat.base.BaseInputFragment;
 import com.tencent.qcloud.tim.uikit.modules.chat.layout.input.InputLayout;
@@ -22,8 +28,13 @@ import com.tencent.qcloud.tim.uikit.modules.message.MessageInfo;
 import com.tencent.qcloud.tim.uikit.modules.message.MessageInfoUtil;
 import com.tencent.qcloud.tim.uikit.utils.ToastUtil;
 import com.wuye.piaoliuim.R;
+import com.wuye.piaoliuim.bean.ChannelModel;
 import com.wuye.piaoliuim.utils.DemoLog;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.wuye.piaoliuim.WuyeApplicatione.getContext;
 import static com.wuye.piaoliuim.helper.CustomMessage.JSON_VERSION_1_HELLOTIM;
 import static com.wuye.piaoliuim.helper.CustomMessage.JSON_VERSION_3_ANDROID_IOS_TRTC;
 
@@ -34,6 +45,8 @@ import static com.wuye.piaoliuim.helper.CustomMessage.JSON_VERSION_3_ANDROID_IOS
  * @Date 2020/1/2 10:35
  */
 public class ChatLayoutHelper {
+    ArrayList<ChannelModel> list = new ArrayList<>();
+    List<String> listName = new ArrayList<>();
 
     private static final String TAG = ChatLayoutHelper.class.getSimpleName();
 
@@ -174,21 +187,22 @@ public class ChatLayoutHelper {
 //        inputLayout.addAction(videoCall);
 
         // 增加一个欢迎提示富文本
-        InputMoreActionUnit unit = new InputMoreActionUnit();
-        unit.setIconResId(R.mipmap.ic_liwu_item);
-        unit.setTitleId(R.string.liwu);
-        unit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Gson gson = new Gson();
-                CustomMessage customMessage = new CustomMessage();
-                String data = gson.toJson(customMessage);
-                MessageInfo info = MessageInfoUtil.buildCustomMessage(data);
-                layout.sendMessage(info, false);
-            }
-        });
-
-        inputLayout.addAction(unit);
+        initView();
+//        InputMoreActionUnit unit = new InputMoreActionUnit();
+//        unit.setIconResId(R.mipmap.ic_liwu_item);
+//        unit.setTitleId(R.string.liwu);
+//        unit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Gson gson = new Gson();
+//                CustomMessage customMessage = new CustomMessage();
+//                String data = gson.toJson(customMessage);
+//                MessageInfo info = MessageInfoUtil.buildCustomMessage(data);
+//                layout.sendMessage(info, false);
+//            }
+//        });
+//
+//        inputLayout.addAction(unit);
     }
 
     public static class CustomInputFragment extends BaseInputFragment {
@@ -239,6 +253,7 @@ public class ChatLayoutHelper {
          */
         @Override
         public void onDraw(ICustomMessageViewGroup parent, MessageInfo info) {
+            int i=0;
             // 获取到自定义消息的json数据
             if (!(info.getElement() instanceof TIMCustomElem)) {
                 return;
@@ -254,6 +269,9 @@ public class ChatLayoutHelper {
             if (data == null) {
                 DemoLog.e(TAG, "No Custom Data: " + new String(elem.getData()));
             } else if (data.version == JSON_VERSION_1_HELLOTIM) {
+                DemoLog.e(TAG, "No Custom Data: " + new String(elem.getData()));
+
+
                 CustomHelloTIMUIController.onDraw(parent, data);
             }
             else if (data.version == JSON_VERSION_3_ANDROID_IOS_TRTC) {
@@ -263,6 +281,60 @@ public class ChatLayoutHelper {
                 DemoLog.e(TAG, "unsupported version: " + data.version);
             }
         }
+
     }
 
+
+    public Toast showToastFree(String str, int resID) {
+        Toast toast = Toast.makeText(getContext(), str, Toast.LENGTH_SHORT);
+        RelativeLayout toastView = (RelativeLayout) RelativeLayout.inflate(getContext(), R.layout.toast_hor_view, null);
+        ImageView iv = toastView.findViewById(R.id.im_liwu);
+        iv.setImageResource(resID);
+
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setView(toastView);
+        toast.show();
+        return toast;
+
+    }
+    public void initView(){
+        ChannelModel channelModel = new ChannelModel(ChannelModel.ONE, "饮料", "10金币", "1", "10", R.mipmap.liwu_yin);
+        ChannelModel channelModels = new ChannelModel(ChannelModel.ONE, "包包", "20金币", "2", "20", R.mipmap.liwu_bao);
+        ChannelModel channelModelss = new ChannelModel(ChannelModel.ONE, "蛋糕", "30金币", "3", "30", R.mipmap.liwu_dan);
+        ChannelModel channelModelsss = new ChannelModel(ChannelModel.ONE, "水晶鞋", "50金币", "4", "50", R.mipmap.liwu_xie);
+        ChannelModel channelModel1 = new ChannelModel(ChannelModel.ONE, "红唇", "50金币", "5", "50", R.mipmap.liwu_chun);
+        ChannelModel channelModel2 = new ChannelModel(ChannelModel.ONE, "钻戒", "100金币", "6", "100", R.mipmap.liwu_zuan);
+        ChannelModel channelModel3 = new ChannelModel(ChannelModel.ONE, "一箭穿心", "200金币", "7", "200", R.mipmap.liwu_xin);
+        ChannelModel channelModel4 = new ChannelModel(ChannelModel.ONE, "城堡", "500金币", "8", "500", R.mipmap.liwu_cheng);
+        list.add(channelModel);
+        list.add(channelModels);
+        list.add(channelModelss);
+        list.add(channelModelsss);
+        list.add(channelModel1);
+        list.add(channelModel2);
+        list.add(channelModel3);
+        list.add(channelModel4);
+    }
+    public int equNAme(String name){
+        int picImag=R.mipmap.liwu_yin;
+        if (name.equals("饮料")){
+           picImag= R.mipmap.liwu_yin;
+        }else if (name.equals("包包")){
+            picImag=  R.mipmap.liwu_bao;
+        }else if (name.equals("蛋糕")){
+            picImag=  R.mipmap.liwu_dan;
+        }else if (name.equals("水晶鞋")){
+            picImag=  R.mipmap.liwu_xie;
+        }else if (name.equals("红唇")){
+            picImag=  R.mipmap.liwu_chun;
+        }else if (name.equals("钻戒")){
+            picImag=  R.mipmap.liwu_zuan;
+        }else if (name.equals("一箭穿心")){
+            picImag=  R.mipmap.liwu_xin;
+        }else if (name.equals("城堡")){
+            picImag=  R.mipmap.liwu_cheng;
+        }
+
+        return picImag;
+    }
 }

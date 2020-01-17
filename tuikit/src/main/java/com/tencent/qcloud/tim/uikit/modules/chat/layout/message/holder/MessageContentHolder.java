@@ -1,6 +1,7 @@
 package com.tencent.qcloud.tim.uikit.modules.chat.layout.message.holder;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -233,8 +234,7 @@ public abstract class MessageContentHolder extends MessageEmptyHolder {
                 isReadText.setVisibility(View.GONE);
             }
         }
-
-        //// 音频已读
+         //// 音频已读
         unreadAudioText.setVisibility(View.GONE);
 
         //// 由子类设置指定消息类型的views

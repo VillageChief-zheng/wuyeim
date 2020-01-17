@@ -2,6 +2,7 @@ package com.wuye.piaoliuim.adapter;
 
 import android.content.Context;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.bean.ChannelModel;
+import com.wuye.piaoliuim.bean.LiwuListData;
+import com.wuye.piaoliuim.utils.ImagUrlUtils;
 
 import java.util.ArrayList;
 
@@ -25,16 +28,17 @@ import java.util.ArrayList;
  * @Date 2019/12/27 15:01
  */
 public class DialogLiwuAdapter extends RecyclerView.Adapter<DialogLiwuAdapter.BaseViewHolder> {
-    private ArrayList<ChannelModel> dataList = new ArrayList<>();
+    private ArrayList<LiwuListData.Res.LiwuLiestData> dataList = new ArrayList<>();
     public static int lastPressIndex = 0;
-    private  OnCheckedChangedListener listener;
+    public  OnCheckedChangedListener listener;
     int mPostion;
     Context context;
     public    DialogLiwuAdapter(Context context){
         this.context=context;
     }
-    public void replaceAll(ArrayList<ChannelModel> list) {
+     public void replaceAll(ArrayList<LiwuListData.Res.LiwuLiestData> list) {
         dataList.clear();
+         lastPressIndex=0;
         if (list != null && list.size() > 0) {
             dataList.addAll(list);
         }
@@ -65,13 +69,14 @@ public class DialogLiwuAdapter extends RecyclerView.Adapter<DialogLiwuAdapter.Ba
         }else{
             holder.setVisibility(false);
         }
+        Log.i("zzzzzzzzzposition",position+"");
 
 
     }
 
     @Override
     public int getItemViewType(int position) {
-        return dataList.get(position).type;
+        return  ChannelModel.ONE;
     }
 
     @Override
@@ -85,7 +90,7 @@ public class DialogLiwuAdapter extends RecyclerView.Adapter<DialogLiwuAdapter.Ba
             super(itemView);
         }
 
-        void setData(ChannelModel data) {
+        void setData(LiwuListData.Res.LiwuLiestData data) {
         }
         public void setVisibility(boolean isVisible){
             RecyclerView.LayoutParams param = (RecyclerView.LayoutParams)itemView.getLayoutParams();
@@ -111,7 +116,7 @@ public class DialogLiwuAdapter extends RecyclerView.Adapter<DialogLiwuAdapter.Ba
             tvName = (TextView) view.findViewById(R.id.tv_name);
             tvJinbi = (TextView) view.findViewById(R.id.tv_jinbi);
             imLiwu = (ImageView) view.findViewById(R.id.img_liwu);
-
+            itemView.setSelected(true);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -126,6 +131,7 @@ public class DialogLiwuAdapter extends RecyclerView.Adapter<DialogLiwuAdapter.Ba
                         lastPressIndex = position;
                     }
                     listener.onItemChecked(lastPressIndex);
+                    Log.i("zzzzzzzzz",lastPressIndex+"");
                     notifyDataSetChanged();
                 }
 
@@ -133,14 +139,16 @@ public class DialogLiwuAdapter extends RecyclerView.Adapter<DialogLiwuAdapter.Ba
         }
 
         @Override
-        void setData(ChannelModel data) {
+        void setData(LiwuListData.Res.LiwuLiestData data) {
             if (data != null) {
                 String text = "";//(String) data
-                 tvName.setText(data.data+"");
-                 tvJinbi.setText(data.jinBi);
+                 tvName.setText(data.getName()+"");
+                 tvJinbi.setText(data.getGold()+"金币");
                 Glide.with(context)
-                        .load(data.imgSrc)
+                        .load(ImagUrlUtils.getImag(data.getLitpic()))
                         .into(imLiwu);
+                Log.i("zzzzzzzzzgepterPosition",getAdapterPosition()+"=="+lastPressIndex);
+
                 if (getAdapterPosition() == lastPressIndex) {
                     imLiwu.setSelected(true);
 
@@ -175,6 +183,6 @@ public class DialogLiwuAdapter extends RecyclerView.Adapter<DialogLiwuAdapter.Ba
         public void onItemChecked( int position);
     }
     public String  getChannelId(){
-        return (String) dataList.get(lastPressIndex).data;
+        return (String) dataList.get(lastPressIndex).getId();
     }
 }

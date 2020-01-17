@@ -45,16 +45,31 @@
         >
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="0.3"
+            android:layout_weight="0.2"
             android:layout_height="match_parent"
             android:orientation="vertical"
-             >
+            android:gravity="center"
+
+            >
             <ImageView
                 android:layout_width="@dimen/dap80"
                 android:layout_height="@dimen/dap80"
                 android:id="@+id/im_header"
                 android:src="@mipmap/defal_head"
-                 />
+                />
+            <TextView
+                android:layout_width="@dimen/dap40"
+                android:layout_height="14dp"
+                android:gravity="center"
+                android:text="在线"
+                android:layout_marginTop="-13dp"
+                android:textSize="@dimen/textsp9"
+                android:textColor="@color/white"
+                android:background="@drawable/inlin_sahpe"
+                android:padding="@dimen/dap1"
+                android:id="@+id/tv_inline"
+                />
+
 
         </LinearLayout>
      <LinearLayout
@@ -71,7 +86,7 @@
              android:textColor="@color/white"
               android:id="@+id/tv_name"
              android:maxLines="1"
-             android:text="奥术大师看见啊回到家"
+             android:text=" "
              />
          <TextView
              android:layout_width="wrap_content"
@@ -82,7 +97,7 @@
              android:maxLines="2"
              android:ellipsize="end"
              android:gravity="left|center"
-             android:text="赶时间的噶几的撒及萨达大概会加大阿萨德规划爱的世界"
+             android:text=" "
               />
  </LinearLayout>
     </LinearLayout>

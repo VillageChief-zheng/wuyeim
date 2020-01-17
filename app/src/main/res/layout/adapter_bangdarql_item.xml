@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/dap3"
+
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/rl_editinfo"
+        android:layout_marginLeft="@dimen/dap15"
+        android:layout_marginRight="@dimen/dap15"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="4"
+            android:textSize="@dimen/textsp20"
+            android:textColor="@color/textcolorff00"
+            android:id="@+id/tv_number"
+            />
+        <ImageView
+            android:id="@+id/clock"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dap30"
+            android:src="@mipmap/ic_qq"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/clock"
+            android:layout_marginLeft="@dimen/dap10"
+            android:layout_marginTop="@dimen/dap4"
+            android:layout_toRightOf="@id/clock"
+            android:textColor="@color/textcolorff00"
+            android:textSize="@dimen/textsp16"
+            android:textStyle="bold"
+            android:text="人间四月 "
+            android:drawableRight="@mipmap/ic_nan"
+            />
+
+        <TextView
+            android:id="@+id/tv_jinbi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_name"
+            android:layout_alignLeft="@+id/tv_name"
+            android:layout_marginTop="@dimen/dap10"
+            android:textColor="@color/textcolorff66"
+            android:textSize="@dimen/textsp13"
+            android:drawableLeft="@mipmap/ic_rq"
+            android:text=" 金币：2323"
+            />
+    </RelativeLayout>
+</LinearLayout>

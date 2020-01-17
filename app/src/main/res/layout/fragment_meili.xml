@@ -44,17 +44,30 @@
                     android:orientation="vertical"
 
                     >
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
 
-                    <ImageView
-                        android:id="@+id/img_tow"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_marginTop="7dp"
-                        android:src="@mipmap/defal_head"
+                        >
 
-                        />
+                        <ImageView
+                            android:id="@+id/img_tow"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="7dp"
+                            android:src="@mipmap/defal_head"
 
-                    <ImageView
+                            />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/hg_tow"
+                            />
+                    </FrameLayout>
+
+
+                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-15dp"
@@ -73,7 +86,19 @@
                     android:textSize="@dimen/dap15"
                     android:id="@+id/tow_name"
                     />
-
+                <TextView
+                    android:id="@+id/tv_jinbitow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tow_name"
+                    android:layout_marginTop="@dimen/dap5"
+                    android:textColor="@color/textcolorffb6"
+                    android:textSize="@dimen/textsp13"
+                    android:drawableLeft="@mipmap/ic_ml"
+                    android:text="  "
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/dap5"
+                    />
             </RelativeLayout>
 
             <RelativeLayout
@@ -87,7 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-10dp"
-                    android:visibility="gone" />
+                     android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/ll_fjyf"
@@ -97,13 +122,25 @@
                     android:layout_marginTop="@dimen/dap10"
                     android:gravity="center"
                     android:orientation="vertical">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
 
-                    <ImageView
-                        android:id="@+id/img_one"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_marginTop="7dp"
-                        android:src="@mipmap/defal_head" />
+                        >
+
+                        <ImageView
+                            android:id="@+id/img_one"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:layout_marginTop="17dp"
+                            android:src="@mipmap/defal_head" />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/hg_one"
+                            />
+                    </FrameLayout>
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -124,6 +161,19 @@
                     android:textSize="@dimen/dap15"
                     android:id="@+id/one_name"
 
+                    />
+                <TextView
+                    android:id="@+id/tv_jinbione"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/one_name"
+                    android:layout_marginTop="@dimen/dap5"
+                    android:textColor="@color/textcolorffb6"
+                    android:textSize="@dimen/textsp13"
+                    android:drawableLeft="@mipmap/ic_ml"
+                    android:text="  "
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/dap5"
                     />
             </RelativeLayout>
 
@@ -149,13 +199,26 @@
                     android:orientation="vertical"
 
                     >
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
 
-                    <ImageView
-                        android:id="@+id/img_three"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_marginTop="7dp"
-                        android:src="@mipmap/defal_head" />
+                        >
+                        <ImageView
+                            android:id="@+id/img_three"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="14dp"
+                            android:src="@mipmap/defal_head" />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/hg_three"
+                            />
+                    </FrameLayout>
+
+
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -175,6 +238,19 @@
                     android:textColor="@color/textcolorffb6"
                     android:id="@+id/threename"
                     android:textSize="@dimen/dap15" />
+                <TextView
+                    android:id="@+id/tv_jinbithree"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/threename"
+                    android:layout_marginTop="@dimen/dap5"
+                    android:textColor="@color/textcolorffb6"
+                    android:textSize="@dimen/textsp13"
+                    android:drawableLeft="@mipmap/ic_ml"
+                    android:text="  "
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/dap5"
+                    />
             </RelativeLayout>
         </LinearLayout>
 

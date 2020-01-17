@@ -1,12 +1,16 @@
 package com.tencent.qcloud.tim.uikit.modules.chat.layout.message.holder;
 
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.qcloud.tim.uikit.R;
 import com.tencent.qcloud.tim.uikit.modules.message.MessageInfo;
+import com.tencent.qcloud.tim.uikit.utils.CustomMessage;
 import com.tencent.qcloud.tim.uikit.utils.TUIKitConstants;
 
 public class MessageCustomHolder extends MessageContentHolder implements ICustomMessageViewGroup {
@@ -39,8 +43,20 @@ public class MessageCustomHolder extends MessageContentHolder implements ICustom
 
     @Override
     public void layoutVariableViews(MessageInfo msg, int position) {
-        msgBodyText.setVisibility(View.VISIBLE);
-        msgBodyText.setText(Html.fromHtml(TUIKitConstants.covert2HTMLString("[不支持的自定义消息]")));
+        // 获取到自定义消息的json数据
+        Log.i("pppppppppppppp",position+"");
+        if (!(msg.getElement() instanceof TIMCustomElem)) {
+            return;
+        }
+        TIMCustomElem elem = (TIMCustomElem) msg.getElement();
+        // 自定义的json数据，需要解析成bean实例
+        CustomMessage data = null;
+        try {
+            data = new Gson().fromJson(new String(elem.getData()), CustomMessage.class);
+        } catch (Exception e) {
+         }
+         msgBodyText.setVisibility(View.VISIBLE);
+        msgBodyText.setText(Html.fromHtml(TUIKitConstants.covert2HTMLString("[系统消息,对方送您礼物]")));
         if (properties.getChatContextFontSize() != 0) {
             msgBodyText.setTextSize(properties.getChatContextFontSize());
         }

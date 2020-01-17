@@ -152,7 +152,7 @@ public class MyActivity extends BaseActivity {
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             tvName.setCompoundDrawables(null, null, drawable, null);
         }
-        tvName.setText(userInfoData.res.listList.name);
+        tvName.setText(userInfoData.res.listList.name+" ");
         tvQianming.setText(userInfoData.res.listList.getSignature());
         tvFins.setText(userInfoData.res.listList.getFans() + "  粉丝");
         tvGz.setText(userInfoData.res.listList.getFollows() + "  关注");

@@ -58,6 +58,7 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
     private int mNextRequestPage = 1;
 
     String sexStr = "0";
+    String onlIne = "0";
     int initView = 1;
     int shuaxin=2;
 
@@ -89,6 +90,7 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
         HashMap<String, String> params = new HashMap<>();
         params.put(UrlConstant.PAGE, page + "");
         params.put(UrlConstant.GENDER, sexStr);
+        params.put(UrlConstant.ONLINE, onlIne);
         RequestManager.getInstance().publicPostMap(getContext(), params, UrlConstant.FINDINDEX, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
@@ -230,6 +232,16 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
                 startActivity(intent);
 
                 break;
+                case R.id.tv_onlin:
+                    mNextRequestPage = 1;
+                    onlIne = "1";
+                    getNetData(mNextRequestPage);
+                    cancelLoading();
+
+                break;
+               case R.id.tv_cancle:
+                    cancelLoading();
+                 break;
         }
     }
     private void showNoData(int size) {
@@ -252,5 +264,7 @@ public class FindFragment extends BaseFragement implements DialogView.DialogView
         view.findViewById(R.id.tv_nv).setOnClickListener(this);
         view.findViewById(R.id.tv_nan).setOnClickListener(this);
         view.findViewById(R.id.tv_all).setOnClickListener(this);
+        view.findViewById(R.id.tv_onlin).setOnClickListener(this);
+        view.findViewById(R.id.tv_cancle).setOnClickListener(this);
     }
 }

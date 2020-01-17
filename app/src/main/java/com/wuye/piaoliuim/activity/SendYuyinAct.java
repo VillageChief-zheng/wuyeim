@@ -129,7 +129,7 @@ public class SendYuyinAct extends BaseActivity implements PlaybackInfoListener {
                         wv.chongzhi();
                          rlMusci.setVisibility(View.VISIBLE);
                         btSubmit.setVisibility(View.VISIBLE);
-                        restyuyim.setText("重新录取声音");
+                        restyuyim.setText("长按重新录取声音");
                         recordManager.stop();
 
                         break;

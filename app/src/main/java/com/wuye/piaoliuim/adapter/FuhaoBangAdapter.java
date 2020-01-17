@@ -46,7 +46,7 @@ public class FuhaoBangAdapter extends BaseQuickAdapter<FindData.Res.FIndList, Ba
     protected void convert(BaseViewHolder helper, FindData.Res.FIndList rseckillRow) {
         this.rseckillRow = rseckillRow;
               helper.setText(R.id.tv_number, helper.getAdapterPosition()+3 + "")
-                    .setText(R.id.tv_jinbi, " 金币：" + rseckillRow.getTotal_rece_gold())
+                    .setText(R.id.tv_jinbi, " 金币：" + rseckillRow.getSend_gold())
             ;
             imageView = helper.getView(R.id.clock);
             tvName = helper.getView(R.id.tv_name);

@@ -2,20 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="5dp">
+    android:orientation="horizontal"
+     android:padding="5dp">
 
     <TextView
         android:id="@+id/test_custom_message_tv"
-        android:textColor="@android:color/black"
+        android:textColor="#775EFF"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+         android:text="送您一个么么哒"
+        android:textSize="16.5sp"
+        android:gravity="center"
+          />
 
-    <TextView
+    <ImageView
         android:text="@string/common_signin_button_text"
-        android:textColor="@color/red"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+          android:layout_width="@dimen/dap50"
+        android:layout_height="@dimen/pad_35"
+        android:src="@mipmap/liwu_bao"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/liwu"
+         />
 
 </LinearLayout>

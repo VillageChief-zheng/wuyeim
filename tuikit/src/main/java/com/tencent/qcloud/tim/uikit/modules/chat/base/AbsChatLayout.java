@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.qcloud.tim.uikit.R;
@@ -245,7 +246,6 @@ public abstract class AbsChatLayout extends ChatLayoutUI implements IChatLayout 
             }
         });
     }
-
     @Override
     public void initDefault() {
         getTitleBar().getLeftGroup().setVisibility(View.VISIBLE);
@@ -377,6 +377,9 @@ public abstract class AbsChatLayout extends ChatLayoutUI implements IChatLayout 
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         exitChat();
+    }
+    public void deletelocal(TIMCallBack timCallBack) {
+        getChatManager() .deledLoca(timCallBack);
     }
 
 

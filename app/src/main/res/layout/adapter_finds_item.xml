@@ -42,10 +42,11 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="0.6"
+        android:layout_weight="0.55"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center|left"
+        android:layout_marginRight="@dimen/dap2"
          >
         <TextView
             android:layout_width="wrap_content"
@@ -61,7 +62,7 @@
             android:id="@+id/tv_content"
             android:textSize="@dimen/textsp14"
             android:textColor="@color/text_ff99"
-            android:text="人间四sdsd 月人间四sdsd人间四sdsd"
+            android:text="人间四sdsd 月人间四sdsd人间四sdsaaaad"
             android:layout_marginTop="@dimen/dap6"
              android:ellipsize="end"
             android:maxLines="2"
@@ -71,7 +72,7 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="0.2"
+        android:layout_weight="0.25"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
@@ -99,29 +100,7 @@
 
                 />
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/dap6"
 
-            >
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_ml"
-                />
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textSize="@dimen/textsp11"
-    android:textColor="@color/text_ff99"
-    android:text="  人气：888"
-     android:id="@+id/tv_rq"
-    android:gravity="left"
-
-    />
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -145,7 +124,31 @@
 
             />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dap6"
+
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_ml"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textsp11"
+                android:textColor="@color/text_ff99"
+                android:text="  人气：888"
+                android:id="@+id/tv_rq"
+                android:gravity="left"
+
+                />
+        </LinearLayout>
     </LinearLayout>
+
     </LinearLayout>
     <View
         android:layout_width="match_parent"

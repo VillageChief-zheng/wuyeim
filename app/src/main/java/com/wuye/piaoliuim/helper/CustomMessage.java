@@ -1,5 +1,7 @@
 package com.wuye.piaoliuim.helper;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -48,8 +50,16 @@ public class CustomMessage {
 
     private String partner = "";
 
-    String text = "欢迎加入云通信IM大家庭！";
+    public  String picUrl = "欢迎加入云通信IM大家庭！";
     String link = "https://cloud.tencent.com/document/product/269/3794";
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
+    }
 
     /**
      * 1: 仅仅是一个带链接的文本消息
@@ -64,6 +74,16 @@ public class CustomMessage {
     int room_id = 0;
     int action = VIDEO_CALL_ACTION_UNKNOWN;
     int duration = 0;
+    public String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     /**
      * 群组时需要添加邀请人，接受者判断自己是否在邀请队列来决定是否加入通话
      */
@@ -107,7 +127,11 @@ public class CustomMessage {
                 if (data == null) {
                     DemoLog.e(TAG, "No Custom Data: " + new String(elem.getData()));
                     continue;
-                } else if (data.version != JSON_VERSION_3_ANDROID_IOS_TRTC) {
+                } else if (data.version != JSON_VERSION_1_HELLOTIM) {
+                    Log.i("嘎嘎嘎嘎嘎过过过过过过过过过过过过过过过",info.isPeerRead()+"");
+                    continue;
+                }
+                else if (data.version != JSON_VERSION_3_ANDROID_IOS_TRTC) {
                     continue;
                 }
                 data.setPartner(info.getFromUser());

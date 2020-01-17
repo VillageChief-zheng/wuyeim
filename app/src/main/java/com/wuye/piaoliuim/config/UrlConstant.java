@@ -102,6 +102,7 @@ public class UrlConstant {
     public static String MPNYTYPE = "money_type";
     public static String QQTOKEN = "access_token";
     public static String QQOPENID = "openid";
+    public static String ONLINE = "online";
 
 
 
@@ -160,6 +161,7 @@ public class UrlConstant {
     public static final String SYSTEMSM = "User/getUserNoticeReadRecord";//站内消息
     public static final String SYSTEMSMs = "User/userNoticeRead";//站内消息
     public static final String QQLOIN = "Useracc/userQqLogin";//站内消息
+    public static final String LIWULUNBO = "User/getPublicScreen";//礼物消息
 
 
 }

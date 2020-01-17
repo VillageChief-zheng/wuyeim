@@ -41,6 +41,7 @@ public class UserInfoData extends BaseData {
             public String is_follow ;//用户相册 多个以","分割
             public String user_gold ;//用户相册 多个以","分割
             public String phone ;//是否绑定
+            public String online ;//是否绑定
 
             public String getPhone() {
                 return phone;
@@ -137,6 +138,15 @@ public class UserInfoData extends BaseData {
             public void setUser_gold(String user_gold) {
                 this.user_gold = user_gold;
             }
+
+            public String getOnline() {
+                return online;
+            }
+
+            public void setOnline(String online) {
+                this.online = online;
+            }
         }
+
         }
 }

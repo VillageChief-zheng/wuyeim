@@ -89,6 +89,9 @@ public class FuhaoFragment extends BaseFragement implements DialogView.DialogVie
         TextView tvName1 = headerView.findViewById(R.id.one_name);
         TextView tvName2 = headerView.findViewById(R.id.tow_name);
         TextView tvName3 = headerView.findViewById(R.id.threename);
+        TextView tvJb1 = headerView.findViewById(R.id.tv_jinbione);
+        TextView tvJb2 = headerView.findViewById(R.id.tv_jinbitow);
+        TextView tvJb3 = headerView.findViewById(R.id.tv_jinbithree);
         RelativeLayout userThree = headerView.findViewById(R.id.rl_three);
         RelativeLayout userOne = headerView.findViewById(R.id.rl_one);
         RelativeLayout userTow = headerView.findViewById(R.id.rl_tow);
@@ -112,6 +115,9 @@ public class FuhaoFragment extends BaseFragement implements DialogView.DialogVie
         tvName1.setText(findData.res.getPublicLists().get(0).getName());
         tvName2.setText(findData.res.getPublicLists().get(1).getName());
         tvName3.setText(findData.res.getPublicLists().get(2).getName());
+        tvJb1.setText(findData.res.getPublicLists().get(0).getSend_gold());
+        tvJb2.setText(findData.res.getPublicLists().get(1).getSend_gold());
+        tvJb3.setText(findData.res.getPublicLists().get(2).getSend_gold());
         id1 = findData.res.getPublicLists().get(0).getUser_id();
         id2 = findData.res.getPublicLists().get(1).getUser_id();
         id3 = findData.res.getPublicLists().get(2).getUser_id();

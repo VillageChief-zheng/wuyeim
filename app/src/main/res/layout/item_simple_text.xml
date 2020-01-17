@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    >
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:id="@+id/sendliwu"
+      android:textColor="#775EFF"
+      android:textSize="14sp"
+      android:layout_marginLeft="@dimen/pad_10"
+      android:text="人间四月"
+      android:gravity="center"
+      android:maxLength="15"
+      android:ellipsize="end"
+
+      />
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:textColor="@color/black"
+      android:textSize="14sp"
+      android:gravity="center"
+      android:text=" 送给 "
+
+      />
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:id="@+id/getliwu"
+      android:textColor="#775EFF"
+      android:textSize="14sp"
+       android:text="人间四月"
+      android:gravity="center"
+      android:maxLength="15"
+      android:ellipsize="end"
+      />
+  <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="30dp"
+      android:src="@mipmap/liwu_cheng"
+      android:scaleType="fitXY"
+      android:adjustViewBounds="true"
+      android:id="@+id/im_liwuimg"
+      />
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:textColor="@color/black"
+      android:textSize="14sp"
+      android:gravity="center"
+      android:text="   "
+      android:id="@+id/liwu_number"
+
+      />
+</LinearLayout>

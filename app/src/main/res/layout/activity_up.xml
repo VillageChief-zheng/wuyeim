@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_margin="20dp"
-        android:background="@drawable/bg_dialog_radius"
+        android:background="@drawable/tishikuangs"
         android:orientation="vertical">
 
         <TextView
@@ -65,7 +65,7 @@
                 android:id="@+id/dialogLine"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/line" />
+                android:background="@color/dialog_divider" />
 
             <com.chuange.basemodule.view.CusButton
                 android:id="@+id/dialogSure"

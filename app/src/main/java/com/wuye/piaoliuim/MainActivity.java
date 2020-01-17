@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,7 +17,6 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -27,15 +25,12 @@ import androidx.fragment.app.FragmentTransaction;
 import com.chaychan.library.BottomBarItem;
 import com.chaychan.library.BottomBarLayout;
 import com.chuange.basemodule.BaseActivity;
-import com.chuange.basemodule.BaseFragement;
 import com.chuange.basemodule.utils.ActivityTaskManager;
-import com.chuange.basemodule.utils.NotificationsUtils;
 import com.chuange.basemodule.utils.ToastUtil;
 import com.chuange.basemodule.view.DialogView;
 import com.huawei.android.hms.agent.HMSAgent;
 import com.huawei.android.hms.agent.common.handler.ConnectHandler;
 import com.huawei.android.hms.agent.push.handler.GetTokenHandler;
-import com.meizu.cloud.pushsdk.notification.MPushMessage;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMManager;
@@ -43,32 +38,17 @@ import com.tencent.imsdk.TIMOfflinePushSettings;
 import com.tencent.imsdk.TIMUserProfile;
 import com.tencent.imsdk.utils.IMFunc;
 import com.tencent.qcloud.tim.uikit.TUIKit;
-import com.tencent.qcloud.tim.uikit.base.IMEventListener;
 import com.tencent.qcloud.tim.uikit.base.IUIKitCallBack;
 import com.tencent.qcloud.tim.uikit.modules.conversation.ConversationManagerKit;
-import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UTrack;
 import com.umeng.message.inapp.IUmengInAppMsgCloseCallback;
 import com.umeng.message.inapp.InAppMessageManager;
-import com.vise.xsnow.common.GsonUtil;
-//import com.vivo.push.IPushActionListener;
-//import com.vivo.push.PushClient;
-import com.wuye.piaoliuim.activity.BaseImActivity;
-import com.wuye.piaoliuim.activity.BindPhone;
-import com.wuye.piaoliuim.activity.EditInfoAct;
-import com.wuye.piaoliuim.activity.FangdaPicAct;
-import com.wuye.piaoliuim.activity.IndexAct;
-import com.wuye.piaoliuim.activity.LiwuTsetAct;
-import com.wuye.piaoliuim.activity.OpinionAct;
-import com.wuye.piaoliuim.activity.PaihangAct;
-import com.wuye.piaoliuim.activity.PayJiegAct;
-import com.wuye.piaoliuim.activity.RechangeAct;
 import com.wuye.piaoliuim.activity.SendTxtAndYuyinAct;
-import com.wuye.piaoliuim.activity.SendYuyinAct;
-import com.wuye.piaoliuim.activity.TestHeixiu;
 import com.wuye.piaoliuim.activity.ToBindPhoneAct;
 import com.wuye.piaoliuim.activity.UserInfoAct;
+import com.wuye.piaoliuim.adapter.SimpleTextAdapter;
+import com.wuye.piaoliuim.bean.GongPingData;
 import com.wuye.piaoliuim.bean.SingData;
 import com.wuye.piaoliuim.bean.UserInfoData;
 import com.wuye.piaoliuim.config.Constants;
@@ -79,14 +59,15 @@ import com.wuye.piaoliuim.fragment.MyFragment;
 import com.wuye.piaoliuim.fragment.PiaoliuFragment;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
-import com.wuye.piaoliuim.login.LoginActivity;
 import com.wuye.piaoliuim.thirdpush.ThirdPushTokenMgr;
 import com.wuye.piaoliuim.utils.AppSessionEngine;
 import com.wuye.piaoliuim.utils.DemoLog;
-import com.wuye.piaoliuim.utils.GenerateTestUserSig;
+import com.wuye.piaoliuim.utils.GsonUtil;
 import com.wuye.piaoliuim.utils.ImagUrlUtils;
 import com.wuye.piaoliuim.utils.MessageEvent;
 import com.wuye.piaoliuim.utils.NotifiUtils;
+import com.xj.marqueeview.MarqueeView;
+import com.xj.marqueeview.base.MultiItemTypeAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -99,26 +80,32 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.tencent.imsdk.TIMManager.TIM_STATUS_LOGINED;
 
-public class MainActivity extends BaseActivity implements ConversationManagerKit.MessageUnreadWatcher{
+//import com.vivo.push.IPushActionListener;
+//import com.vivo.push.PushClient;
+
+public class MainActivity extends BaseActivity implements ConversationManagerKit.MessageUnreadWatcher {
 
     @BindView(R.id.bottom_navigation_bar1)
     BottomBarLayout bottomNavigationBar1;
     @BindView(R.id.main_container)
     FrameLayout mainContainer;
-  int currentPositions;
+    int currentPositions;
+    @BindView(R.id.mv_multi_text5)
+    MarqueeView mvMultiText5;
 
     private FragmentManager mFragmentManager;
     private List<Fragment> mFragmentList = new ArrayList<>();
     UserInfoData userInfoData;
 
-    String isBindPhone="";
+    String isBindPhone = "";
     private PushAgent mPushAgent;
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQ_PERMISSION_CODE = 0x100;
-
+    GongPingData gongPingData;
+    SimpleTextAdapter simpleTextAdapter;
+    List<GongPingData.Res.Gpist> gongPing=new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,9 +119,9 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
         mPushAgent.onAppStart();
 //        checkPermission(this);
         setAlias();
-         getNetData();
+        getNetData();
 
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             getWindow().setStatusBarColor(getResources().getColor(R.color.status_bar_color));
             getWindow().setNavigationBarColor(getResources().getColor(R.color.navigation_bar_color));
@@ -143,10 +130,11 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
             vis |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
             getWindow().getDecorView().setSystemUiVisibility(vis);
         }
-       prepareThirdPushToken();
+        prepareThirdPushToken();
         initData();
         notifyJianting();
-     }
+        initDatasimple();
+    }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -161,14 +149,14 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
 
     private void initData() {
 //        Log.i("是不是绑定了手机号",AppSessionEngine.getUserTokenInfo().getIs_binding());
-         mFragmentList.add(PiaoliuFragment.newInstance());
-        mFragmentList.add(  FindFragment.newInstance() );
-        mFragmentList.add(  FindFragment.newInstance() );
+        mFragmentList.add(PiaoliuFragment.newInstance());
+        mFragmentList.add(FindFragment.newInstance());
+        mFragmentList.add(FindFragment.newInstance());
         mFragmentList.add(ImFragment.newInstance());
-         mFragmentList.add(MyFragment.newInstance());
+        mFragmentList.add(MyFragment.newInstance());
         changeFragment(3);
         changeFragment(0);
-         bottomNavigationBar1.setOnItemSelectedListener(new BottomBarLayout.OnItemSelectedListener() {
+        bottomNavigationBar1.setOnItemSelectedListener(new BottomBarLayout.OnItemSelectedListener() {
             @Override
             public void onItemSelected(BottomBarItem bottomBarItem, int i, int currentPosition) {
 //                if (AppSessionEngine.getMyUserInfo().res.getListList().getPhone().equals("")){
@@ -183,7 +171,7 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
 //                        }
 //                    }).setOnlySure();
 //                }else {
-                    changeFragment(currentPosition);
+                changeFragment(currentPosition);
 
 //                }
 //
@@ -194,11 +182,11 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
 
 
     private void changeFragment(int currentPosition) {
-        if (currentPosition==2){
+        if (currentPosition == 2) {
 //        startActivity(new Intent(this, TestHeixiu.class));
-        startActivity(new Intent(this, SendTxtAndYuyinAct.class));
-         }else {
-            currentPositions=currentPosition;
+            startActivity(new Intent(this, SendTxtAndYuyinAct.class));
+        } else {
+            currentPositions = currentPosition;
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.main_container, mFragmentList.get(currentPosition));
             transaction.commit();
@@ -208,33 +196,36 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
     @Override
     protected void onResume() {
         super.onResume();
-         if (AppSessionEngine.getMyUserInfo()!=null){
-             bottomNavigationBar1.setCurrentItem(currentPositions);
+        if (AppSessionEngine.getMyUserInfo() != null) {
+            bottomNavigationBar1.setCurrentItem(currentPositions);
 
-         }
-toBindPhone();
+        }
+        toBindPhone();
 //        MobclickAgent.onResume(this);
-
-     }
-private void toBindPhone(){
-    if (AppSessionEngine.getMyUserInfo().res.getListList().getPhone().equals("")) {
-        loading("请绑定手机号").setListener(new DialogView.DialogOnClickListener() {
-            @Override
-            public void onDialogClick(boolean isCancel) {
-                if (isCancel)
-                    return;
-                else {
-                    startActivity(new Intent(getBaseContext(), ToBindPhoneAct.class));
-                }
-            }
-        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                cancelLoading();
-            }
-        });
+        Log.i("pppppppppppppppppppppp","pppppppppppppppppppppppppp");
+        initDatasimple();
     }
-}
+
+    private void toBindPhone() {
+        if (AppSessionEngine.getMyUserInfo().res.getListList().getPhone().equals("")) {
+            loading("请绑定手机号").setListener(new DialogView.DialogOnClickListener() {
+                @Override
+                public void onDialogClick(boolean isCancel) {
+                    if (isCancel)
+                        return;
+                    else {
+                        startActivity(new Intent(getBaseContext(), ToBindPhoneAct.class));
+                    }
+                }
+            }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    cancelLoading();
+                }
+            });
+        }
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -264,20 +255,21 @@ private void toBindPhone(){
         }
         return super.onKeyDown(keyCode, event);
     }
-    public void getNetData(){
+
+    public void getNetData() {
         HashMap<String, String> params = new HashMap<>();
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.GETUSERINFO, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
-                userInfoData= com.wuye.piaoliuim.utils.GsonUtil.getDefaultGson().fromJson(requestEntity, UserInfoData.class);
-                isBindPhone=userInfoData.res.getListList().getPhone();
+                userInfoData = GsonUtil.getDefaultGson().fromJson(requestEntity, UserInfoData.class);
+                isBindPhone = userInfoData.res.getListList().getPhone();
 
                 AppSessionEngine.setUserInfo(userInfoData);
-                if (TIMManager.getInstance().getLoginStatus()==TIM_STATUS_LOGINED){
-                    Log.i("------","已经");
+                if (TIMManager.getInstance().getLoginStatus() == TIM_STATUS_LOGINED) {
+                    Log.i("------", "已经");
 
 
-                }else {
+                } else {
                     singSure();
 
                 }
@@ -290,13 +282,13 @@ private void toBindPhone(){
         });
     }
 
-    public void singSure( ) {
+    public void singSure() {
         HashMap<String, String> params = new HashMap<>();
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.SIN, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
                 SingData singData = com.vise.xsnow.common.GsonUtil.gson().fromJson(requestEntity, SingData.class);
-                      imLogin(userInfoData.res.getListList().getId(),singData.res.getUsersig());
+                imLogin(userInfoData.res.getListList().getId(), singData.res.getUsersig());
 
 
             }
@@ -308,14 +300,15 @@ private void toBindPhone(){
             }
         });
     }
-    private void imLogin(String token,String userSig){
+
+    private void imLogin(String token, String userSig) {
         TUIKit.login(token, userSig, new IUIKitCallBack() {
             @Override
             public void onError(String module, final int code, final String desc) {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        ToastUtil.show(getBaseContext(),"IM登录失败请退出重新登录"+desc+code);
-                        Log.i("++======+++",desc+"desc"+code);
+                        ToastUtil.show(getBaseContext(), "IM登录失败请退出重新登录" + desc + code);
+                        Log.i("++======+++", desc + "desc" + code);
                     }
                 });
                 DemoLog.i("TAG", "imLogin errorCode = " + code + ", errorInfo = " + desc);
@@ -327,9 +320,9 @@ private void toBindPhone(){
                 SharedPreferences.Editor editor = shareInfo.edit();
                 editor.putBoolean(Constants.AUTO_LOGIN, true);
                 setImMyImaege(ImagUrlUtils.getImag(userInfoData.res.getListList().getLitpic()));
-                Log.i("初始化头像",ImagUrlUtils.getImag(userInfoData.res.getListList().getLitpic()));
+                Log.i("初始化头像", ImagUrlUtils.getImag(userInfoData.res.getListList().getLitpic()));
                 updateProfile(userInfoData.res.getListList().getName());
-               AppSessionEngine.setIm(userSig);
+                AppSessionEngine.setIm(userSig);
                 editor.commit();
 
                 setLixian();
@@ -339,7 +332,8 @@ private void toBindPhone(){
             }
         });
     }
-     private void setLixian(){
+
+    private void setLixian() {
         TIMOfflinePushSettings settings = new TIMOfflinePushSettings();
 //开启离线推送
         settings.setEnabled(true);
@@ -348,11 +342,11 @@ private void toBindPhone(){
 //        settings.setC2cMsgRemindSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.dudulu));
 //设置收到群离线消息时的提示声音，以把声音文件放在 res/raw 文件夹下为例
 //        settings.setGroupMsgRemindSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.dudulu));
-         TIMManager.getInstance().setOfflinePushSettings(settings);
-     }
+        TIMManager.getInstance().setOfflinePushSettings(settings);
+    }
 
 
-    private void setImMyImaege(String mIconUrl){
+    private void setImMyImaege(String mIconUrl) {
         HashMap<String, Object> hashMap = new HashMap<>();
 // 头像，mIconUrl 就是您上传头像后的 URL，可以参考 Demo 中的随机头像作为示例
         if (!TextUtils.isEmpty(mIconUrl)) {
@@ -361,14 +355,16 @@ private void toBindPhone(){
         TIMFriendshipManager.getInstance().modifySelfProfile(hashMap, new TIMCallBack() {
             @Override
             public void onError(int i, String s) {
-                DemoLog.d("初始化头像","初始化头像失败");
+                DemoLog.d("初始化头像", "初始化头像失败");
             }
+
             @Override
             public void onSuccess() {
             }
         });
     }
-    private void setAlias(){
+
+    private void setAlias() {
         mPushAgent.setAlias(AppSessionEngine.getToken(), "app", new UTrack.ICallBack() {
             @Override
             public void onMessage(boolean isSuccess, String message) {
@@ -379,18 +375,18 @@ private void toBindPhone(){
                 new IUmengInAppMsgCloseCallback() {
                     @Override
                     public void onClose() {
-                        Log.i("Ppppppp","关闭");
-                     }
+                        Log.i("Ppppppp", "关闭");
+                    }
 
                 });
     }
+
     private void updateProfile(String name) {
         HashMap<String, Object> hashMap = new HashMap<>();
 
 
         // 昵称
         hashMap.put(TIMUserProfile.TIM_PROFILE_TYPE_KEY_NICK, name);
-
 
 
         TIMFriendshipManager.getInstance().modifySelfProfile(hashMap, new TIMCallBack() {
@@ -409,7 +405,7 @@ private void toBindPhone(){
     @Override
     public void updateUnread(int count) {
 
-     }
+    }
 
     @Override
     protected void onStop() {
@@ -417,6 +413,7 @@ private void toBindPhone(){
 //        ConversationManagerKit.getInstance().destroyConversation();
 
     }
+
     private void prepareThirdPushToken() {
         ThirdPushTokenMgr.getInstance().setPushTokenToTIM();
 
@@ -451,6 +448,7 @@ private void toBindPhone(){
 //            });
         }
     }
+
     private void getHuaWeiPushToken() {
         HMSAgent.Push.getToken(new GetTokenHandler() {
             @Override
@@ -459,6 +457,7 @@ private void toBindPhone(){
             }
         });
     }
+
     //权限检查
     public static boolean checkPermission(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -489,24 +488,25 @@ private void toBindPhone(){
 
         return true;
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
-             String unreadStr = "" + event.message;
+        String unreadStr = "" + event.message;
 
-            if (!unreadStr .equals("0") ) {
+        if (!unreadStr.equals("0")) {
 
-                bottomNavigationBar1.setMsg(3,unreadStr);
+            bottomNavigationBar1.setMsg(3, unreadStr);
 
-            } else {
-                bottomNavigationBar1.hideMsg(3);
+        } else {
+            bottomNavigationBar1.hideMsg(3);
 
-            }
+        }
 //            if (count > 100) {
 //                unreadStr = "99+";
 //                bottomNavigationBar1.setMsg(3,unreadStr);
 //
 //            }
-         }
+    }
 
     @Override
     protected void onDestroy() {
@@ -515,25 +515,75 @@ private void toBindPhone(){
 
     }
 
-    private void notifyJianting(){
-         if (NotifiUtils.isPermissionOpen(this)){
+    private void notifyJianting() {
+        if (NotifiUtils.isPermissionOpen(this)) {
 
-         }else {
-             loading("开启应用通知,不错过消息哦。").setListener(new DialogView.DialogOnClickListener() {
-                 @Override
-                 public void onDialogClick(boolean isCancel) {
-                     if (isCancel)
-                         return;
-                     else {
-                         NotifiUtils.openPermissionSetting(MainActivity.this);
-                     }
-                 }
-             }).setOnCancelListener(new DialogInterface.OnCancelListener() {
-                 @Override
-                 public void onCancel(DialogInterface dialogInterface) {
-                     cancelLoading();
-                 }
-             });
-         }
+        } else {
+            loading("开启应用通知,不错过消息哦。").setListener(new DialogView.DialogOnClickListener() {
+                @Override
+                public void onDialogClick(boolean isCancel) {
+                    if (isCancel)
+                        return;
+                    else {
+                        NotifiUtils.openPermissionSetting(MainActivity.this);
+                    }
+                }
+            }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    cancelLoading();
+                }
+            });
+        }
+    }
+
+    public void initDatasimple() {
+        HashMap<String, String> params = new HashMap<>();
+        RequestManager.getInstance().publicPostMap(this, params, UrlConstant.LIWULUNBO, new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+                  gongPingData = com.vise.xsnow.common.GsonUtil.gson().fromJson(requestEntity, GongPingData.class);
+                  Log.i("我是公平消息",requestEntity);
+                gongPing.clear();
+                gongPing.addAll(gongPingData.res.getGpistList());
+
+                if (gongPingData.res.getGpistList().size()>0){
+
+                    mvMultiText5.setVisibility(View.VISIBLE);
+                    gongPing(gongPing);
+                  }else {
+
+                    mvMultiText5.setVisibility(View.GONE);
+
+                }
+
+            }
+
+
+            @Override
+            public void onError(String message) {
+                AppSessionEngine.clear();
+            }
+        });
+
+    }
+    public void gongPing(List<GongPingData.Res.Gpist> gongPing){
+        simpleTextAdapter = new SimpleTextAdapter( this,R.layout.item_simple_text, gongPing);
+        simpleTextAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, View view) {
+                Log.i(TAG, "onItemClick: position = " + position);
+                Intent intent = new Intent(MainActivity.this, UserInfoAct.class);
+                intent.putExtra("id", gongPing.get(position).getGive_id());
+                startActivity(intent);
+//                if (mvMultiText5.isStart()) {
+                //                    mvMultiText5.stopFilp();
+//                } else {
+//                    mvMultiText5.startFlip();
+//                }
+            }
+        });
+        mvMultiText5.setAdapter(simpleTextAdapter);
+        mvMultiText5.setDirection(MarqueeView.DIRECTION_BOTTOM_TO_TOP);
     }
 }

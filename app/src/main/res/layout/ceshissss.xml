@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dap7"
+         android:id="@+id/rl_tow"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/im_htrj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_htrj" />
+
+        <LinearLayout
+            android:id="@+id/bg_notow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/im_htrj"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                >
+
+
+                <ImageView
+                    android:id="@+id/img_tow"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="7dp"
+                    android:src="@mipmap/defal_head"
+                    android:adjustViewBounds="true"
+
+                    />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_htrj"
+
+                    />
+
+            </FrameLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-15dp"
+                android:src="@mipmap/ic_bdtow"
+                />`
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bg_notow"
+            android:layout_marginTop="@dimen/dap15"
+            android:gravity="center"
+            android:text="哆啦A梦"
+            android:textColor="@color/textcolorffb6"
+            android:textSize="@dimen/sp_14"
+            android:id="@+id/tow_name"
+            />
+
+    </RelativeLayout>
+</LinearLayout>

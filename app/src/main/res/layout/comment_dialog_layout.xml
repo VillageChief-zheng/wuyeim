@@ -57,7 +57,7 @@
         android:minLines="3"
         android:textSize="@dimen/sp_12"
         android:layout_margin="10dp"
-        android:maxLength="2"
+        android:maxLength="3"
         android:maxEms="3"
         android:text="1"
         android:inputType="number"

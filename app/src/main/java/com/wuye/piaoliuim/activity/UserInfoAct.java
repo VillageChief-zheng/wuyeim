@@ -83,7 +83,9 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
     List<String> mlist = new ArrayList<>();
     List<ImageView> imageList = new ArrayList<>();
     String id;
-    List<Object> imcList=new ArrayList<>();
+    List<Object> imcList = new ArrayList<>();
+    @BindView(R.id.tv_inline)
+    TextView tvInline;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -161,7 +163,7 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
 
     }
 
-    @OnClick({R.id.im_more, R.id.tv_tosx, R.id.tv_togz, R.id.im_back,R.id.im1, R.id.im2, R.id.im3, R.id.im4, R.id.im5, R.id.im6})
+    @OnClick({R.id.im_more, R.id.tv_tosx, R.id.tv_togz, R.id.im_back, R.id.im1, R.id.im2, R.id.im3, R.id.im4, R.id.im5, R.id.im6})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.im_more:
@@ -208,12 +210,14 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
 
         }
     }
-private void starPicsee(int postione){
-        Intent intent=new Intent(this,UserPicSeeAct.class);
-        intent.putExtra("picurl",mlist.get(postione));
+
+    private void starPicsee(int postione) {
+        Intent intent = new Intent(this, UserPicSeeAct.class);
+        intent.putExtra("picurl", mlist.get(postione));
         startActivity(intent);
 
-}
+    }
+
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -250,7 +254,13 @@ private void starPicsee(int postione){
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             tvName.setCompoundDrawables(null, null, drawable, null);
         }
-        tvName.setText(userInfoData.res.listList.name+" ");
+        if (userInfoData.res.getListList().getOnline().equals("1")){
+            tvInline.setVisibility(View.VISIBLE);
+        }else {
+            tvInline.setVisibility(View.GONE);
+
+        }
+        tvName.setText(userInfoData.res.listList.name + " ");
 
         if (userInfoData.res.listList.getIs_follow().equals("1")) {
             tvYiguanzhu.setVisibility(View.VISIBLE);

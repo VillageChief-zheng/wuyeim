@@ -438,4 +438,17 @@ public abstract class ChatManagerKit implements TIMMessageListener, MessageRevok
         }
         return true;
     }
+    public void deledLoca(final TIMCallBack timCallBack){
+        mCurrentConversation.deleteLocalMessage(new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+                timCallBack.onError(i,s);
+            }
+
+            @Override
+            public void onSuccess() {
+                timCallBack.onSuccess();
+            }
+        });
+    }
 }

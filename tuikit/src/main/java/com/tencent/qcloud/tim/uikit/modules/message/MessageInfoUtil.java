@@ -382,7 +382,7 @@ public class MessageInfoUtil {
                     return null;
                 }
                 msgInfo.setMsgType(MessageInfo.MSG_TYPE_CUSTOM);
-                msgInfo.setExtra("[自定义消息]");
+                msgInfo.setExtra("[礼物消息]");
             }
         } else if (type == TIMElemType.GroupTips) {
             TIMGroupTipsElem groupTips = (TIMGroupTipsElem) ele;

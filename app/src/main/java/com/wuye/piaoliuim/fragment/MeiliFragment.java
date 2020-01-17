@@ -22,6 +22,7 @@ import com.chuange.basemodule.view.DialogView;
 import com.wuye.piaoliuim.R;
 import com.wuye.piaoliuim.activity.UserInfoAct;
 import com.wuye.piaoliuim.adapter.FuhaoBangAdapter;
+import com.wuye.piaoliuim.adapter.FuhaoBangmlAdapter;
 import com.wuye.piaoliuim.bean.FindData;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
@@ -46,7 +47,7 @@ public class MeiliFragment extends BaseFragement implements DialogView.DialogVie
 
     FindData findData;
     View headerView;
-    FuhaoBangAdapter fuhaoBangAdapter;
+    FuhaoBangmlAdapter fuhaoBangAdapter;
     String id1, id2, id3;
     @ViewUtils.ViewInject(R.id.noDataCommL)
     LinearLayout noDataCommL;
@@ -88,6 +89,9 @@ public class MeiliFragment extends BaseFragement implements DialogView.DialogVie
         TextView tvName1 = headerView.findViewById(R.id.one_name);
         TextView tvName2 = headerView.findViewById(R.id.tow_name);
         TextView tvName3 = headerView.findViewById(R.id.threename);
+        TextView tvJb1 = headerView.findViewById(R.id.tv_jinbione);
+        TextView tvJb2 = headerView.findViewById(R.id.tv_jinbitow);
+        TextView tvJb3 = headerView.findViewById(R.id.tv_jinbithree);
         ImageView imageView1 = headerView.findViewById(R.id.img_one);
         ImageView imageView2 = headerView.findViewById(R.id.img_tow);
         ImageView imageView3 = headerView.findViewById(R.id.img_three);
@@ -113,6 +117,9 @@ public class MeiliFragment extends BaseFragement implements DialogView.DialogVie
         tvName1.setText(findData.res.getPublicLists().get(0).getName());
         tvName2.setText(findData.res.getPublicLists().get(1).getName());
         tvName3.setText(findData.res.getPublicLists().get(2).getName());
+        tvJb1.setText(findData.res.getPublicLists().get(0).getTotal_rece_gold());
+        tvJb2.setText(findData.res.getPublicLists().get(1).getTotal_rece_gold());
+        tvJb3.setText(findData.res.getPublicLists().get(2).getTotal_rece_gold());
         id1 = findData.res.getPublicLists().get(0).getUser_id();
         id2 = findData.res.getPublicLists().get(1).getUser_id();
         id3 = findData.res.getPublicLists().get(2).getUser_id();
@@ -124,7 +131,7 @@ public class MeiliFragment extends BaseFragement implements DialogView.DialogVie
                 LinearLayoutManager.VERTICAL, false);
         recommendGv.addItemDecoration(new RecyclerViewSpacesItemDecoration(5));
         recommendGv.setLayoutManager(managers);
-        fuhaoBangAdapter = new FuhaoBangAdapter(getBaseActivity(), R.layout.adapter_bangdan_item, findData.res.getPublicLists());
+        fuhaoBangAdapter = new FuhaoBangmlAdapter(getBaseActivity(), R.layout.adapter_bangdanml_item, findData.res.getPublicLists());
         fuhaoBangAdapter.addHeaderView(headerView);
         recommendGv.setAdapter(fuhaoBangAdapter);
         fuhaoBangAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

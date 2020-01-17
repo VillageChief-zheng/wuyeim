@@ -92,6 +92,21 @@
         android:layout_height="match_parent">
     </FrameLayout>
 
+    <com.xj.marqueeview.MarqueeView
+        android:id="@+id/mv_multi_text5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/pad_10"
+        android:layout_marginRight="@dimen/pad_10"
+        android:layout_marginTop="55dp"
+          app:mvAnimDuration="500"
+        app:mvDirection="top_to_bottom"
+        android:background="@drawable/gpingbg"
+
+        app:mvInterval="3000">
+
+    </com.xj.marqueeview.MarqueeView>
+
 
 
     <!--app:bnbAutoHideEnabled="false"/>-->

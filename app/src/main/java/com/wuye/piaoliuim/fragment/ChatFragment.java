@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuange.basemodule.utils.ScreenUtils;
 import com.chuange.basemodule.view.DialogView;
+import com.google.gson.Gson;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -55,14 +56,17 @@ import com.wuye.piaoliuim.activity.BindPhone;
 import com.wuye.piaoliuim.activity.JubaoAct;
 import com.wuye.piaoliuim.activity.MyActivity;
 import com.wuye.piaoliuim.activity.OpinionAct;
+import com.wuye.piaoliuim.activity.RechangeAct;
 import com.wuye.piaoliuim.activity.UserInfoAct;
 import com.wuye.piaoliuim.activity.imactivity.FriendProfileActivity;
 import com.wuye.piaoliuim.adapter.DialogLiwuAdapter;
 import com.wuye.piaoliuim.bean.ChannelModel;
+import com.wuye.piaoliuim.bean.LiwuListData;
 import com.wuye.piaoliuim.bean.UserInfoData;
 import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.helper.ChatLayoutHelper;
+import com.wuye.piaoliuim.helper.CustomMessage;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.AppSessionEngine;
@@ -75,6 +79,8 @@ import com.zyyoona7.popup.YGravity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.wuye.piaoliuim.WuyeApplicatione.getContext;
 
 /**
  * @ClassName ChatFragment
@@ -94,7 +100,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
     int type = 0;
 
 
-    ArrayList<ChannelModel> list = new ArrayList<>();
+    ArrayList<LiwuListData.Res.LiwuLiestData> list = new ArrayList<>();
     DialogLiwuAdapter dialogLiwuAdapter;
 
     RecyclerView recommendGv;
@@ -105,6 +111,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
     String liwuNUmbers = "1";
 
     int postione = 0;
+    LiwuListData liwuListData;
 
     public static final String ANDROID_RESOURCE = "android.resource://";
     public static final String FOREWARD_SLASH = "/";
@@ -112,12 +119,13 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
     String mId;
     private EasyPopup mCirclePop;
 
+
     PopupOrderPriceDetail popupOrderPriceDetail;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mBaseView = inflater.inflate(R.layout.chat_fragment, container, false);
-        return mBaseView;
+         return mBaseView;
     }
 
     private void initView() {
@@ -215,10 +223,10 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
             return;
         }
         initView();
-
+  Log.i("ppppppppppppppppppp","chushihua ahahahah ");
         // TODO 通过api设置ChatLayout各种属性的样例
-//        ChatLayoutHelper helper = new ChatLayoutHelper(getActivity());
-//        helper.customizeChatLayout(mChatLayout);
+        ChatLayoutHelper helper = new ChatLayoutHelper(getActivity());
+        helper.customizeChatLayout(mChatLayout);
     }
 
     @Override
@@ -278,7 +286,6 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
             view.findViewById(R.id.tv_clear).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.i("ppppppChatIm", "清空");
                     TIMManager.getInstance().deleteConversationAndLocalMsgs(TIMConversationType.C2C,mChatInfo.getId());
                     getActivity().finish();
 
@@ -340,14 +347,16 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
             tvSend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    sendLiwu(list.get(postione).addJinbi, liwuNUmbers);
+                    sendLiwu(list.get(postione).getId(), liwuNUmbers);
                     cancelLoading();
                 }
             });
             tvTop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Intent intent = new Intent(getContext(), RechangeAct.class);
+                    startActivity(intent);
+                    cancelLoading();
                 }
             });
             tvNumber.setOnClickListener(new View.OnClickListener() {
@@ -387,12 +396,20 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
         RequestManager.getInstance().publicPostMap(getContext(), params, UrlConstant.SENDLIWU, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
-                Toast toast = showToastFree("1", list.get(postione).imgSrc);
-                toast.setDuration(Toast.LENGTH_LONG);
-                Uri uri = resourceIdToUris(getContext(), list.get(postione).imgSrc);
-                MessageInfo info = MessageInfoUtil.buildTextMessage("送您"+number+"个"+ list.get(postione).data);
+
+//                Uri uri = resourceIdToUris(getContext(), list.get(postione).imgSrc);
+//                MessageInfo info = MessageInfoUtil.buildTextMessage("送您"+number+"个"+ list.get(postione).data);
+//                mChatLayout.sendMessage(info, false);
+                Gson gson = new Gson();
+                CustomMessage customMessage = new CustomMessage();
+                customMessage.setName("送您"+number+"个"+ list.get(postione).getName());
+                customMessage.setPicUrl(list.get(postione).getLitpic());
+                 String data = gson.toJson(customMessage);
+                MessageInfo info = MessageInfoUtil.buildCustomMessage(data);
                 mChatLayout.sendMessage(info, false);
-                getNetData();
+                Toast toast = showToastFree("1",equNAme( list.get(postione).getName()));
+                toast.setDuration(Toast.LENGTH_LONG);
+                 getNetData();
             }
 
             @Override
@@ -404,29 +421,24 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
     }
 
     private void initRec() {
-        ChannelModel channelModel = new ChannelModel(ChannelModel.ONE, "饮料", "10金币", "1", "10", R.mipmap.liwu_yin);
-        ChannelModel channelModels = new ChannelModel(ChannelModel.ONE, "包包", "20金币", "2", "20", R.mipmap.liwu_bao);
-        ChannelModel channelModelss = new ChannelModel(ChannelModel.ONE, "蛋糕", "30金币", "3", "30", R.mipmap.liwu_dan);
-        ChannelModel channelModelsss = new ChannelModel(ChannelModel.ONE, "水晶鞋", "50金币", "4", "50", R.mipmap.liwu_xie);
-        ChannelModel channelModel1 = new ChannelModel(ChannelModel.ONE, "红唇", "50金币", "5", "50", R.mipmap.liwu_chun);
-        ChannelModel channelModel2 = new ChannelModel(ChannelModel.ONE, "钻戒", "100金币", "6", "100", R.mipmap.liwu_zuan);
-        ChannelModel channelModel3 = new ChannelModel(ChannelModel.ONE, "一箭穿心", "200金币", "7", "200", R.mipmap.liwu_xin);
-        ChannelModel channelModel4 = new ChannelModel(ChannelModel.ONE, "城堡", "500金币", "8", "500", R.mipmap.liwu_cheng);
-        list.add(channelModel);
-        list.add(channelModels);
-        list.add(channelModelss);
-        list.add(channelModelsss);
-        list.add(channelModel1);
-        list.add(channelModel2);
-        list.add(channelModel3);
-        list.add(channelModel4);
-        dialogLiwuAdapter = new DialogLiwuAdapter(getContext());
-        dialogLiwuAdapter.replaceAll(list);
-        recommendGv.setHasFixedSize(true);
-        recommendGv.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        recommendGv.setAdapter(dialogLiwuAdapter);
-        dialogLiwuAdapter.changetShowDelImage(true, 8);
-        dialogLiwuAdapter.setOnCheckChangedListener(this);
+        getLiwu();
+//        ChannelModel channelModel = new ChannelModel(ChannelModel.ONE, "饮料", "10金币", "1", "10", R.mipmap.liwu_yin);
+//        ChannelModel channelModels = new ChannelModel(ChannelModel.ONE, "包包", "88金币", "2", "88", R.mipmap.liwu_bao);
+//        ChannelModel channelModelss = new ChannelModel(ChannelModel.ONE, "蛋糕", "188金币", "3", "188", R.mipmap.liwu_dan);
+//        ChannelModel channelModelsss = new ChannelModel(ChannelModel.ONE, "水晶鞋", "520金币", "4", "520", R.mipmap.liwu_xie);
+//        ChannelModel channelModel1 = new ChannelModel(ChannelModel.ONE, "红唇", "999金币", "5", "999", R.mipmap.liwu_chun);
+//        ChannelModel channelModel2 = new ChannelModel(ChannelModel.ONE, "钻戒", "1314金币", "6", "1314", R.mipmap.liwu_zuan);
+//        ChannelModel channelModel3 = new ChannelModel(ChannelModel.ONE, "一箭穿心", "5200金币", "7", "5200", R.mipmap.liwu_xin);
+//        ChannelModel channelModel4 = new ChannelModel(ChannelModel.ONE, "城堡", "9999金币", "8", "9999", R.mipmap.liwu_cheng);
+//        list.add(channelModel);
+//        list.add(channelModels);
+//        list.add(channelModelss);
+//        list.add(channelModelsss);
+//        list.add(channelModel1);
+//        list.add(channelModel2);
+//        list.add(channelModel3);
+//        list.add(channelModel4);
+
 
     }
 
@@ -436,18 +448,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
 
     }
 
-    public Toast showToastFree(String str, int resID) {
-        Toast toast = Toast.makeText(getContext(), str, Toast.LENGTH_SHORT);
-        RelativeLayout toastView = (RelativeLayout) RelativeLayout.inflate(getContext(), R.layout.toast_hor_view, null);
-        ImageView iv = toastView.findViewById(R.id.im_liwu);
-        iv.setImageResource(resID);
 
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.setView(toastView);
-        toast.show();
-        return toast;
-
-    }
 
     private static Uri resourceIdToUri(Context context, int resourceId) {
         return Uri.parse(ANDROID_RESOURCE + context.getPackageName() + FOREWARD_SLASH + resourceId);
@@ -575,5 +576,68 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
 
             }
         });
+    }
+   public void getLiwu(){
+       HashMap<String, String> params = new HashMap<>();
+       RequestManager.getInstance().publicPostMap(getContext(), params, UrlConstant.GETLIWULIST, new RequestListener<String>() {
+           @Override
+           public void onComplete(String requestEntity) {
+             liwuListData= com.wuye.piaoliuim.utils.GsonUtil.getDefaultGson().fromJson(requestEntity, LiwuListData.class);
+             Log.i("pppppppppppppppp",liwuListData.res.getLiwudaList().size()+"");
+               initViewLiwu(liwuListData);
+           }
+
+           @Override
+           public void onError(String message) {
+
+           }
+       });
+
+   }
+   private void initViewLiwu(LiwuListData liwuListDatas){
+       list.addAll(liwuListDatas.res.getLiwudaList());
+       dialogLiwuAdapter = new DialogLiwuAdapter(getContext());
+       postione=0;
+       dialogLiwuAdapter.replaceAll(list);
+       recommendGv.setHasFixedSize(true);
+       recommendGv.setLayoutManager(new GridLayoutManager(getContext(), 4));
+       recommendGv.setAdapter(dialogLiwuAdapter);
+       dialogLiwuAdapter.changetShowDelImage(true, 8);
+       dialogLiwuAdapter.setOnCheckChangedListener(this);
+
+   }
+    public Toast showToastFree(String str, int resID) {
+        Toast toast = Toast.makeText(getContext(), str, Toast.LENGTH_SHORT);
+        RelativeLayout toastView = (RelativeLayout) RelativeLayout.inflate(getContext(), R.layout.toast_hor_view, null);
+        ImageView iv = toastView.findViewById(R.id.im_liwu);
+        iv.setImageResource(resID);
+
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setView(toastView);
+        toast.show();
+        return toast;
+
+    }
+    public int equNAme(String name){
+        int picImag=R.mipmap.liwu_yin;
+        if (name.equals("饮料")){
+            picImag= R.mipmap.liwu_yin;
+        }else if (name.equals("包包")){
+            picImag=  R.mipmap.liwu_bao;
+        }else if (name.equals("蛋糕")){
+            picImag=  R.mipmap.liwu_dan;
+        }else if (name.equals("水晶鞋")){
+            picImag=  R.mipmap.liwu_xie;
+        }else if (name.equals("红唇")){
+            picImag=  R.mipmap.liwu_chun;
+        }else if (name.equals("钻戒")){
+            picImag=  R.mipmap.liwu_zuan;
+        }else if (name.equals("一箭穿心")){
+            picImag=  R.mipmap.liwu_xin;
+        }else if (name.equals("城堡")){
+            picImag=  R.mipmap.liwu_cheng;
+        }
+
+        return picImag;
     }
  }
