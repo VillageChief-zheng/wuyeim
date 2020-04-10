@@ -60,7 +60,10 @@ import com.wuye.piaoliuim.activity.RechangeAct;
 import com.wuye.piaoliuim.activity.UserInfoAct;
 import com.wuye.piaoliuim.activity.imactivity.FriendProfileActivity;
 import com.wuye.piaoliuim.adapter.DialogLiwuAdapter;
+import com.wuye.piaoliuim.adapter.SimpleTextAdapter;
 import com.wuye.piaoliuim.bean.ChannelModel;
+import com.wuye.piaoliuim.bean.GongPingData;
+import com.wuye.piaoliuim.bean.IsAttenData;
 import com.wuye.piaoliuim.bean.LiwuListData;
 import com.wuye.piaoliuim.bean.UserInfoData;
 import com.wuye.piaoliuim.config.Constants;
@@ -72,6 +75,8 @@ import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.AppSessionEngine;
 import com.wuye.piaoliuim.utils.KeyMapDailog;
 import com.wuye.piaoliuim.utils.PopupOrderPriceDetail;
+import com.xj.marqueeview.MarqueeView;
+import com.xj.marqueeview.base.MultiItemTypeAdapter;
 import com.zyyoona7.popup.EasyPopup;
 import com.zyyoona7.popup.XGravity;
 import com.zyyoona7.popup.YGravity;
@@ -119,8 +124,13 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
     String mId;
     private EasyPopup mCirclePop;
 
+    MarqueeView mvMultiText5;
 
     PopupOrderPriceDetail popupOrderPriceDetail;
+    GongPingData gongPingData;
+    SimpleTextAdapter simpleTextAdapter;
+    List<GongPingData.Res.Gpist> gongPing=new ArrayList();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -145,6 +155,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
         mNoticeLayout = mChatLayout.getNoticeLayout();
         mMessageLayout = mChatLayout.getMessageLayout();
           mInputLayout = mChatLayout.getInputLayout();
+        mvMultiText5=mChatLayout.getMarqueeView();
         //单聊面板标记栏返回按钮点击事件，这里需要开发者自行控制
         mTitleBar.setOnLeftClickListener(new View.OnClickListener() {
             @Override
@@ -199,6 +210,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
 
         });
         initBg();
+        initDatasimple();
     }
 
     private void initLoad() {
@@ -249,18 +261,18 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
         mTitleBar.setLeftIcon(R.mipmap.ic_back);
          mNoticeLayout.setBackgroundColor(Color.parseColor("#262339"));
          mTitleBar.getMiddleTitle().setText(mChatInfo.getChatName());
-           mInputLayout.disableCaptureAction(false);
+           mInputLayout.disableCaptureAction(true);
 // 隐藏发送文件
         mInputLayout.disableSendFileAction(true);
 // 隐藏发送图片
-        mInputLayout.disableSendPhotoAction(false);
+        mInputLayout.disableSendPhotoAction(true);
 // 隐藏摄像并发送
-        mInputLayout.disableVideoRecordAction(false);
+        mInputLayout.disableVideoRecordAction(true);
         //自定义一个发送礼物
         InputMoreActionUnit unit = new InputMoreActionUnit();
-//        InputMoreActionUnit units = new InputMoreActionUnit();
-//        InputMoreActionUnit unitss = new InputMoreActionUnit();
-//        InputMoreActionUnit unitsss = new InputMoreActionUnit();
+        InputMoreActionUnit units = new InputMoreActionUnit();
+        InputMoreActionUnit unitss = new InputMoreActionUnit();
+        InputMoreActionUnit unitsss = new InputMoreActionUnit();
 
         unit.setIconResId(R.mipmap.ic_liwu_item); // 设置单元的图标
         unit.setTitleId(R.string.liwu); // 设置单元的文字标题
@@ -272,12 +284,40 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
                 initLiwu();
             }
         });
-// 把定义好的单元增加到更多面板
-
+// 发送图片
+        units.setIconResId(R.mipmap.wy_ios_pz); // 设置单元的图标
+        units.setTitleId(R.string.tupian); // 设置单元的文字标题
+        units.setOnClickListener(new View.OnClickListener() { // 定义点击事件
+            @Override
+            public void onClick(View v) {
+//              ToastUtil.toastShortMessage("自定义的更多功能");
+            isOrNot(mId,1);
+            }
+        });// 拍照
+        unitss.setIconResId(R.mipmap.wy_pz); // 设置单元的图标
+        unitss.setTitleId(R.string.paizhao); // 设置单元的文字标题
+        unitss.setOnClickListener(new View.OnClickListener() { // 定义点击事件
+            @Override
+            public void onClick(View v) {
+ //              ToastUtil.toastShortMessage("自定义的更多功能");
+                isOrNot(mId,2);
+            }
+        });
+        //摄像
+        unitsss.setIconResId(R.mipmap.wy_lux); // 设置单元的图标
+        unitsss.setTitleId(R.string.shexiang); // 设置单元的文字标题
+        unitsss.setOnClickListener(new View.OnClickListener() { // 定义点击事件
+            @Override
+            public void onClick(View v) {
+ //              ToastUtil.toastShortMessage("自定义的更多功能");
+                isOrNot(mId,3);
+            }
+        });
+        mInputLayout.addAction(units);
+        mInputLayout.addAction(unitss);
+        mInputLayout.addAction(unitsss);
         mInputLayout.addAction(unit);
-//        mInputLayout.addAction(units);
-//        mInputLayout.addAction(unitss);
-//        mInputLayout.addAction(unitsss);
+
     }
 //礼物的逻辑
     @Override
@@ -341,7 +381,7 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
             recommendGv = view.findViewById(R.id.rv_comment);
             tvNumber = view.findViewById(R.id.tv_num);
             tvJinbi = view.findViewById(R.id.tv_jb);
-            tvJinbi.setText(AppSessionEngine.getMyUserInfo().res.getListList().getUser_gold());
+            tvJinbi.setText(AppSessionEngine.getMyUserInfo().res.getListList().getDiam_gold());
             tvTop = view.findViewById(R.id.tv_top);
             tvSend = view.findViewById(R.id.bt_send);
             tvSend.setOnClickListener(new View.OnClickListener() {
@@ -410,6 +450,9 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
                 Toast toast = showToastFree("1",equNAme( list.get(postione).getName()));
                 toast.setDuration(Toast.LENGTH_LONG);
                  getNetData();
+                 if (postione>=4){
+                     initDatasimple();
+                 }
             }
 
             @Override
@@ -491,6 +534,40 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
             @Override
             public void onComplete(String requestEntity) {
              addBlack();
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+    //是否关注
+    public void isOrNot(String userId,int aa) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(UrlConstant.USER_ID, userId);
+        RequestManager.getInstance().publicPostMap(getContext(), params, UrlConstant.ISORGZ, new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+                IsAttenData isAttenData = com.wuye.piaoliuim.utils.GsonUtil.getDefaultGson().fromJson(requestEntity, IsAttenData.class);
+                if (isAttenData.res.getIs_atte().equals("1")){
+                    if (aa==1){
+                        mInputLayout.startSendPhoto();
+
+                    }
+                    if (aa==2){
+                        mInputLayout.startCapture();
+
+
+                    }
+                    if (aa==3){
+                        mInputLayout.startVideoRecord();
+
+                    }
+                }else {
+                    ToastUtil.toastShortMessage("需对方关注才可发送图片或视频");
+                }
+
             }
 
             @Override
@@ -639,5 +716,54 @@ public class ChatFragment extends BaseImFragment implements  DialogView.DialogVi
         }
 
         return picImag;
+    }
+    public void initDatasimple() {
+        HashMap<String, String> params = new HashMap<>();
+        RequestManager.getInstance().publicPostMap(getContext(), params, UrlConstant.LIWULUNBO, new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+                gongPingData = com.vise.xsnow.common.GsonUtil.gson().fromJson(requestEntity, GongPingData.class);
+                gongPing.clear();
+                gongPing.addAll(gongPingData.res.getGpistList());
+
+                if (gongPingData.res.getGpistList().size()>0){
+
+                    mvMultiText5.setVisibility(View.VISIBLE);
+                    gongPing(gongPing);
+                }else {
+
+                    mvMultiText5.setVisibility(View.GONE);
+
+                }
+
+            }
+
+
+            @Override
+            public void onError(String message) {
+                AppSessionEngine.clear();
+            }
+        });
+
+    }
+    public void gongPing(List<GongPingData.Res.Gpist> gongPing){
+        simpleTextAdapter = new SimpleTextAdapter( getContext(),R.layout.item_simple_text, gongPing);
+        simpleTextAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, View view) {
+                 Intent intent = new Intent(getContext(), UserInfoAct.class);
+                intent.putExtra("id", gongPing.get(position).getGive_id());
+                startActivity(intent);
+//                if (mvMultiText5.isStart()) {
+                //                    mvMultiText5.stopFilp();
+//                } else {
+//                    mvMultiText5.startFlip();
+//                }
+            }
+        });
+        mvMultiText5.setAdapter(simpleTextAdapter);
+        mvMultiText5.setInterval(3000);
+        mvMultiText5.setAnimDuration(3000);
+        mvMultiText5.setDirection(MarqueeView.DIRECTION_RIGHT_TO_LEFT);
     }
  }

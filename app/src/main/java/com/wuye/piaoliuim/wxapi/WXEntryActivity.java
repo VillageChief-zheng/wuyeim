@@ -18,6 +18,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wuye.piaoliuim.bean.AccessToken;
 import com.wuye.piaoliuim.bean.WXUserInfo;
 import com.wuye.piaoliuim.config.Constants;
+import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.utils.GsonUtil;
 import com.wuye.piaoliuim.utils.MessageEvent;
 import com.wuye.piaoliuim.utils.postMessageWx;
@@ -128,12 +129,24 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             public void onResponse(Call call, Response response) throws IOException {
                 String json = response.body().string();
                 AccessToken accessToken= GsonUtil.getDefaultGson().fromJson(json,AccessToken.class);
-                Log.i("---------",accessToken.getAccess_token()+"XXXXXXXXXXX"+accessToken.getRefresh_token());
-                WXUserInfo wxUserInfo = new WXUserInfo();
-                wxUserInfo.setCity(accessToken.getOpenid());
-                wxUserInfo.setCountry(accessToken.getAccess_token());
-                EventBus.getDefault().post(new postMessageWx(wxUserInfo ));
-                finish();
+                Log.i("---------",accessToken.getUnionid()+"XXXXXXXXXXX"+accessToken.getRefresh_token());
+                if (UrlConstant.GETUNID==2){
+                    WXUserInfo wxUserInfo = new WXUserInfo();
+                    wxUserInfo.setCity(accessToken.getUnionid());
+                    wxUserInfo.setCountry(accessToken.getAccess_token());
+                    EventBus.getDefault().post(new postMessageWx(wxUserInfo ));
+                    UrlConstant.GETUNID=1;
+
+                    finish();
+                }else {
+                    WXUserInfo wxUserInfo = new WXUserInfo();
+                    wxUserInfo.setCity(accessToken.getOpenid());
+                    wxUserInfo.setCountry(accessToken.getAccess_token());
+                    EventBus.getDefault().post(new postMessageWx(wxUserInfo ));
+                    UrlConstant.GETUNID=1;
+                    finish();
+                }
+
 //                 getUserInfo(accessToken.getAccess_token(), accessToken.getOpenid());
             }
         });

@@ -25,7 +25,7 @@
             <com.chuange.basemodule.view.NavigationTopView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:titleName="我的金币"
+                app:titleName="我的钻石"
                 app:bgColor="#00000000"
                 android:id="@+id/top"
                  >
@@ -45,7 +45,7 @@
     android:textColor="@color/white"
     android:textSize="26sp"
     android:text=" "
-     android:drawableLeft="@mipmap/ic_topjb"
+     android:drawableLeft="@mipmap/ic_zuanshi"
      android:id="@+id/tv_myjb"
     android:gravity="center"
       />
@@ -99,33 +99,32 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="金币使用规则"
+            android:text="充值规则："
             android:textSize="@dimen/sp_14"
             android:textColor="#FF75737C"
             android:layout_marginTop="@dimen/dap20"
             android:layout_marginLeft="@dimen/dap15"
-            android:visibility="gone"
-            />
+             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1. 从 2015 年 4 月起，Ant Design 在蚂蚁金服中后台；"
+            android:text="1、金币可以用来捞瓶子，发瓶子，发现页打招呼。"
             android:textSize="@dimen/sp_12"
             android:textColor="#FF75737C"
             android:layout_marginTop="@dimen/dap20"
             android:layout_marginLeft="@dimen/dap15"
-            android:visibility="gone"
-            /> <TextView
+             /> <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1. 从 2015 年 4 月起，Ant Design 在蚂蚁金服中后台；"
+            android:text=" 2、钻石可以用来捞瓶子，发瓶子，发现页打招呼以及赠送礼物。"
             android:textSize="@dimen/sp_12"
             android:textColor="#FF75737C"
             android:layout_marginTop="@dimen/dap10"
             android:layout_marginLeft="@dimen/dap15"
         android:layout_marginBottom="@dimen/dap10"
-        android:visibility="gone"
-            />
+             />
+
+
     </LinearLayout>
 </LinearLayout>
 </ScrollView>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/dap30"
+     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialogfor_imgcode"
+        android:orientation="vertical"
+
+        >
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scaleType="fitXY"
+    android:adjustViewBounds="true"
+    android:src="@mipmap/bg_renwu"
+    />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dap25"
+  android:orientation="horizontal"
+    android:layout_marginTop="@dimen/pad_20"
+    android:layout_marginLeft="@dimen/dap5"
+    >
+
+    <View
+        android:layout_width="@dimen/dap3"
+        android:layout_height="@dimen/pad_20"
+        android:background="#B6A8FF"
+        android:layout_gravity="center"
+
+        />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="0.6"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/textsp15"
+        android:textColor="#2C245A"
+        android:text="看广告领取100金币"
+        android:layout_marginLeft="@dimen/dap10"
+        android:layout_gravity="center"
+
+        />
+    <Button
+    android:id="@+id/go_gg"
+    android:layout_width="0dp"
+    android:layout_height="@dimen/dap20"
+    android:layout_marginRight="@dimen/dap15"
+    android:layout_weight="0.2"
+    android:background="@drawable/bg_rw"
+    android:gravity="center"
+    android:text="去完成"
+    android:textColor="#4320FF"
+    android:textSize="@dimen/textsp12" />
+    <Button
+        android:id="@+id/go_ggs"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dap20"
+        android:layout_marginRight="@dimen/dap15"
+        android:layout_weight="0.2"
+        android:background="@drawable/bg_rws"
+        android:gravity="center"
+        android:text="去完成"
+        android:textColor="#FF666666"
+        android:textSize="@dimen/textsp12"
+        android:visibility="gone"
+        />
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dap25"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/pad_10"
+            android:layout_marginLeft="@dimen/dap5"
+
+            >
+
+            <View
+                android:layout_width="@dimen/dap3"
+                android:layout_height="@dimen/pad_20"
+                android:background="#B6A8FF"
+                android:layout_gravity="center"
+
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/textsp15"
+                android:textColor="#2C245A"
+                android:text="捞取异性的瓶子"
+                android:layout_marginLeft="@dimen/dap10"
+                android:layout_gravity="center"
+
+                />
+            <Button
+                android:id="@+id/go_lpz"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dap20"
+                android:layout_marginRight="@dimen/dap15"
+                android:layout_weight="0.2"
+                android:background="@drawable/bg_rw"
+                android:gravity="center"
+                android:text="去完成"
+                android:textColor="#4320FF"
+                android:textSize="@dimen/textsp12" />
+            <Button
+                android:id="@+id/go_lpzs"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dap20"
+                android:layout_marginRight="@dimen/dap15"
+                android:layout_weight="0.2"
+                android:background="@drawable/bg_rws"
+                android:gravity="center"
+                android:text=" "
+                android:textColor="#FF666666"
+                android:textSize="@dimen/textsp12"
+                android:visibility="gone"
+                />
+        </LinearLayout>
+<!--捞取在线-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dap25"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/pad_10"
+            android:layout_marginLeft="@dimen/dap5"
+
+            >
+
+            <View
+                android:layout_width="@dimen/dap3"
+                android:layout_height="@dimen/pad_20"
+                android:background="#B6A8FF"
+                android:layout_gravity="center"
+
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/textsp15"
+                android:textColor="#2C245A"
+                android:text="捞取在线人的瓶子"
+                android:layout_marginLeft="@dimen/dap10"
+                android:layout_gravity="center"
+
+                />
+            <Button
+                android:id="@+id/go_lzx"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dap20"
+                android:layout_marginRight="@dimen/dap15"
+                android:layout_weight="0.2"
+                android:background="@drawable/bg_rw"
+                android:gravity="center"
+                android:text="去完成"
+                android:textColor="#4320FF"
+                android:textSize="@dimen/textsp12" />
+            <Button
+                android:id="@+id/go_lzxs"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dap20"
+                android:layout_marginRight="@dimen/dap15"
+                android:layout_weight="0.2"
+                android:background="@drawable/bg_rws"
+                android:gravity="center"
+                android:text="去完成"
+                android:textColor="#FF666666"
+                android:textSize="@dimen/textsp12"
+                android:visibility="gone"
+                />
+        </LinearLayout>
+        <!--签到-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dap25"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/pad_10"
+            android:layout_marginLeft="@dimen/dap5"
+
+            >
+
+            <View
+                android:layout_width="@dimen/dap3"
+                android:layout_height="@dimen/pad_20"
+                android:background="#B6A8FF"
+                android:layout_gravity="center"
+
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/textsp15"
+                android:textColor="#2C245A"
+                android:text="每日签到领取100金币"
+                android:layout_marginLeft="@dimen/dap10"
+                android:layout_gravity="center"
+
+                />
+            <Button
+                android:id="@+id/go_qd"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dap20"
+                android:layout_marginRight="@dimen/dap15"
+                android:layout_weight="0.2"
+                android:background="@drawable/bg_rw"
+                android:gravity="center"
+                android:text="签到"
+                android:textColor="#4320FF"
+                android:textSize="@dimen/textsp12" />
+            <Button
+                android:id="@+id/go_qds"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dap20"
+                android:layout_marginRight="@dimen/dap15"
+                android:layout_weight="0.2"
+                android:background="@drawable/bg_rws"
+                android:gravity="center"
+                android:text="已签到"
+                android:textColor="#FF666666"
+                android:textSize="@dimen/textsp12"
+                android:visibility="gone"
+                />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="#FFF1F1F1"
+            android:layout_marginTop="@dimen/dap10"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text=" "
+                android:textSize="14sp"
+                android:layout_centerInParent="true"
+                android:drawableLeft="@mipmap/ic_jbi"
+                android:textColor="#FF000000"
+                android:id="@+id/myjinbi"
+                />
+        </RelativeLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dap50"
+            android:text="购买金币"
+            android:background="@drawable/fillet_grbg"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsp18"
+            android:layout_marginTop="@dimen/dap10"
+            android:layout_marginLeft="@dimen/dap10"
+            android:layout_marginRight="@dimen/dap10"
+            android:id="@+id/bg_buyjinbi"
+            android:layout_marginBottom="@dimen/dap15"
+            />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_gb"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/pad_10"
+        android:id="@+id/img_gbs"
+        />
+</LinearLayout>

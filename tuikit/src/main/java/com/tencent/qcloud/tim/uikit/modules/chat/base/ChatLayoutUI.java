@@ -16,6 +16,7 @@ import com.tencent.qcloud.tim.uikit.modules.chat.interfaces.IChatLayout;
 import com.tencent.qcloud.tim.uikit.modules.chat.layout.input.InputLayout;
 import com.tencent.qcloud.tim.uikit.modules.chat.layout.message.MessageLayout;
 import com.tencent.qcloud.tim.uikit.modules.message.MessageInfo;
+import com.xj.marqueeview.MarqueeView;
 
 public abstract class ChatLayoutUI extends LinearLayout implements IChatLayout {
 
@@ -28,6 +29,7 @@ public abstract class ChatLayoutUI extends LinearLayout implements IChatLayout {
     private InputLayout mInputLayout;
     private NoticeLayout mNoticeLayout;
     private ChatInfo mChatInfo;
+    private MarqueeView mv_multi_text5;
 
     public ChatLayoutUI(Context context) {
         super(context);
@@ -55,6 +57,7 @@ public abstract class ChatLayoutUI extends LinearLayout implements IChatLayout {
         mRecordingTips = findViewById(R.id.recording_tips);
         mGroupApplyLayout = findViewById(R.id.chat_group_apply_layout);
         mNoticeLayout = findViewById(R.id.chat_notice_layout);
+        mv_multi_text5 = findViewById(R.id.mv_multi_text5);
 
         init();
     }
@@ -111,6 +114,11 @@ public abstract class ChatLayoutUI extends LinearLayout implements IChatLayout {
     @Override
     public void sendMessage(MessageInfo msg, boolean retry) {
 
+    }
+
+    @Override
+    public MarqueeView getMarqueeView() {
+        return mv_multi_text5;
     }
 
     @Override

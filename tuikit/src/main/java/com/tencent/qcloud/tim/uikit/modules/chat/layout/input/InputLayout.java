@@ -164,7 +164,7 @@ public class InputLayout extends InputLayoutUI implements View.OnClickListener, 
     }
 
     @Override
-    protected void startSendPhoto() {
+    public void startSendPhoto() {
         TUIKitLog.i(TAG, "startSendPhoto");
         if (!checkPermission(SEND_PHOTO)) {
             TUIKitLog.i(TAG, "startSendPhoto checkPermission failed");
@@ -194,7 +194,7 @@ public class InputLayout extends InputLayoutUI implements View.OnClickListener, 
     }
 
     @Override
-    protected void startCapture() {
+    public void startCapture() {
         TUIKitLog.i(TAG, "startCapture");
         if (!checkPermission(CAPTURE)) {
             TUIKitLog.i(TAG, "startCapture checkPermission failed");
@@ -222,7 +222,7 @@ public class InputLayout extends InputLayoutUI implements View.OnClickListener, 
     }
 
     @Override
-    protected void startVideoRecord() {
+    public void startVideoRecord() {
         TUIKitLog.i(TAG, "startVideoRecord");
         if (!checkPermission(VIDEO_RECORD)) {
             TUIKitLog.i(TAG, "startVideoRecord checkPermission failed");

@@ -30,10 +30,14 @@ import com.wuye.piaoliuim.activity.LiuLanAct;
 import com.wuye.piaoliuim.activity.LiwuAct;
 import com.wuye.piaoliuim.activity.MyActivity;
 import com.wuye.piaoliuim.activity.MyLoveAct;
+import com.wuye.piaoliuim.activity.MyZhangDanAct;
+import com.wuye.piaoliuim.activity.MymlListAct;
 import com.wuye.piaoliuim.activity.OpinionAct;
 import com.wuye.piaoliuim.activity.RechangeAct;
 import com.wuye.piaoliuim.activity.SettingAct;
 import com.wuye.piaoliuim.activity.SysMessageAct;
+import com.wuye.piaoliuim.activity.UserInfoAct;
+import com.wuye.piaoliuim.activity.UserPicSeeAct;
 import com.wuye.piaoliuim.adapter.FragmnetMyAdapter;
 import com.wuye.piaoliuim.bean.ItemBean;
 import com.wuye.piaoliuim.bean.UserInfoData;
@@ -73,8 +77,9 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
     private Class[] itemClass = {LiwuAct.class, RechangeAct.class,   BlackList.class, BlackList.class,  OpinionAct.class, SettingAct.class};
     UserInfoData userInfoData;
     ImageView header;
-    TextView tvname,sigeConetn,fians,jinbi,guanzhu;
+    TextView tvname,sigeConetn,fians,jinbi,guanzhu,tvMlz;
     ImageView imagecie;
+    List<ItemBean> accountDataList;
     @Override
     protected void initView(Bundle savedInstanceState) {
         setView(R.layout.activity_my, this, false);
@@ -95,8 +100,14 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
                 tvname.setText(userInfoData.res.listList.getName());
                 fians.setText(userInfoData.res.listList.getFans());
                 guanzhu.setText(userInfoData.res.listList.getFollows());
+                tvMlz.setText(userInfoData.res.listList.getRece_gold());
                 sigeConetn.setText(userInfoData.res.listList.getSignature());
                 jinbi.setText(userInfoData.res.listList.getUser_gold());
+                ItemBean itemBean =accountDataList.get(1);
+                 itemBean.name="我的钻石"+"("+userInfoData.res.getListList().getDiam_gold()+")";
+                fragmnetMyAdapter.notifyItemChanged(1,itemBean);
+                fragmnetMyAdapter.notifyDataSetChanged();
+                Log.i("ppppppp","我的钻石钻石"+itemBean.name);
                 RequestOptions options = new RequestOptions()//圆形图片
                         .circleCrop();
                 Glide.with(getBaseActivity())
@@ -113,12 +124,12 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
 
             }
         });
-    }
+     }
     private void initAdapter(){
         String[] name = getResources().getStringArray(R.array.main_account_list);
-        int[] nameIcon = {R.mipmap.ic_myliwu, R.mipmap.ic_myjbi,
+        int[] nameIcon = {R.mipmap.ic_myliwu, R.mipmap.ic_zs,
                 R.mipmap.ic_myyy, R.mipmap.ic_myheimd,   R.mipmap.ic_myfk, R.mipmap.ic_myset};
-        List<ItemBean> accountDataList = new ArrayList<>();
+         accountDataList = new ArrayList<>();
         int length = name.length;
         for (int i = 0; i < length; i++) {
             ItemBean accountData = new ItemBean();
@@ -130,6 +141,8 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
         LinearLayout llFins=headerView.findViewById(R.id.ll_fins);
         LinearLayout ll_love=headerView.findViewById(R.id.ll_love);
         LinearLayout llfistTop=headerView.findViewById(R.id.rl_firsttop);
+        LinearLayout llMl=headerView.findViewById(R.id.ll_ml);
+        LinearLayout goJInbi=headerView.findViewById(R.id.gojinbi);
         TextView textView=headerView.findViewById(R.id.tv_myinfo);
         TextView howseee=headerView.findViewById(R.id.howsee);
           imagecie =headerView.findViewById(R.id.aaaa);
@@ -140,12 +153,16 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
         fians=headerView.findViewById(R.id.tv_myfans);
         jinbi=headerView.findViewById(R.id.jinbi);
         guanzhu=headerView.findViewById(R.id.tv_mylove);
+        tvMlz=headerView.findViewById(R.id.mlz);
 
         llFins.setOnClickListener(this);
         ll_love.setOnClickListener(this);
         llfistTop.setOnClickListener(this);
+        goJInbi.setOnClickListener(this);
         textView.setOnClickListener(this);
         howseee.setOnClickListener(this);
+        llMl.setOnClickListener(this);
+        header.setOnClickListener(this);
         @SuppressLint("WrongConstant") RecyclerView.LayoutManager managers = new LinearLayoutManager(
                 getBaseActivity(),
                 LinearLayoutManager.VERTICAL, false);
@@ -191,6 +208,9 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
             case R.id.tv_myinfo:
                 startActivity(new Intent(getActivity(), MyActivity.class));
                   break;
+            case R.id.gojinbi:
+                startActivity(new Intent(getActivity(), MyZhangDanAct.class));
+                  break;
             case R.id.tv_liuyan:
                 startActivity(new Intent(getActivity(), OpinionAct.class));
                 cancelLoading();
@@ -202,6 +222,17 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
             case R.id.howsee:
                startActivity(new Intent(getContext(),LiuLanAct.class));
                    break;
+             case R.id.ll_ml:
+                 Intent intent = new Intent(getContext(), MymlListAct.class);
+                 intent.putExtra("ml", userInfoData.res.listList.getRece_gold());//userInfoData.res.listList.getRece_gold()
+                 startActivity(intent);
+                    break;
+
+                    case R.id.clock:
+                        Intent intents = new Intent(getContext(), UserPicSeeAct.class);
+                        intents.putExtra("picurl", userInfoData.res.listList.getLitpic() );
+                        startActivity(intents);
+                    break;
         }
     }
 
@@ -218,7 +249,7 @@ public class MyFragment extends BaseFragement implements DialogView.DialogViewLi
     public static void bySearchOpen(Context context){
         try {
             Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse("market://search?q="+ "夜色漂流瓶"));
+            i.setData(Uri.parse("market://search?q="+ "秘密漂流瓶"));
             context.startActivity(i);
         } catch (Exception e) {
             Toast.makeText(context, "您的手机没有安装Android应用市场", Toast.LENGTH_SHORT).show();

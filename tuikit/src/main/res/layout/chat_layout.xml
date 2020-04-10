@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/chat_background_color">
+    android:background="#1D1B28"
+    >
 
     <com.tencent.qcloud.tim.uikit.component.TitleBarLayout
         android:id="@+id/chat_title_bar"
@@ -15,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.3dp"
         android:background="#191725" />
+
 
     <com.tencent.qcloud.tim.uikit.component.NoticeLayout
         android:id="@+id/chat_group_apply_layout"
@@ -30,13 +33,25 @@
         android:layout_below="@+id/chat_group_apply_layout"
         android:layout_marginTop="1dp"
         android:visibility="gone" />
-
+    <com.xj.marqueeview.MarqueeView
+        android:id="@+id/mv_multi_text5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:mvAnimDuration="500"
+        app:mvDirection="top_to_bottom"
+        android:background="@drawable/tongzhi"
+        android:layout_below="@+id/chat_notice_layout"
+        android:visibility="gone"
+        app:mvInterval="3000">
+    </com.xj.marqueeview.MarqueeView>
     <com.tencent.qcloud.tim.uikit.modules.chat.layout.message.MessageLayout
         android:id="@+id/chat_message_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/chat_input_layout"
-        android:layout_below="@+id/chat_notice_layout"
+        android:layout_below="@+id/mv_multi_text5"
         android:baselineAligned="false"
         android:background="#1D1B28"
         android:clickable="false"

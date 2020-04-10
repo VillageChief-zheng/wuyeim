@@ -4,24 +4,54 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url 'https://developer.huawei.com/repo/' } // HUAWEI Maven repository
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.2'
-        
+        classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.0'
+        classpath 'com.novoda:bintray-release:0.8.1'
+        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.huawei.agconnect:agcp:1.0.1.301'  // HUAWEI agcp plugin
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
 
+
 allprojects {
     repositories {
         google()
+        maven{url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://developer.huawei.com/repo/' } // HUAWEI Maven repository
+        maven { url 'https://dl.bintray.com/umsdk/release' }
+
         jcenter()
-        
+        flatDir {
+            dirs 'libs'
+        }
+    }
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+        options.addStringOption('charset', 'UTF-8')
     }
 }
 
+ext {
+    compileSdkVersion = 28
+    minSdkVersion = 19
+    targetSdkVersion = 28
+    versionCode = 2
+    versionName = "4.6.50"
+    abiFilters = ['armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64','armeabi'] //['armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64']
+    arguments = "-DANDROID_STL=c++_static"
+    cppFlags = "-std=c++11"
+}
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

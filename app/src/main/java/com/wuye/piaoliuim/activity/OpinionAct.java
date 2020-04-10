@@ -165,8 +165,7 @@ public class OpinionAct extends BaseActivity implements YiJIanTypeAdapter.OnChec
     @OnClick({R.id.bt_submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-
-            case R.id.bt_submit:
+             case R.id.bt_submit:
                 subMit();
                 break;
         }

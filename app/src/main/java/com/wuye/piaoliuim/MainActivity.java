@@ -61,6 +61,7 @@ import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.thirdpush.ThirdPushTokenMgr;
 import com.wuye.piaoliuim.utils.AppSessionEngine;
+import com.wuye.piaoliuim.utils.AppVersion;
 import com.wuye.piaoliuim.utils.DemoLog;
 import com.wuye.piaoliuim.utils.GsonUtil;
 import com.wuye.piaoliuim.utils.ImagUrlUtils;
@@ -120,7 +121,6 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
 //        checkPermission(this);
         setAlias();
         getNetData();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             getWindow().setStatusBarColor(getResources().getColor(R.color.status_bar_color));
@@ -200,10 +200,10 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
             bottomNavigationBar1.setCurrentItem(currentPositions);
 
         }
-        toBindPhone();
+//        toBindPhone();
 //        MobclickAgent.onResume(this);
-        Log.i("pppppppppppppppppppppp","pppppppppppppppppppppppppp");
         initDatasimple();
+
     }
 
     private void toBindPhone() {
@@ -543,8 +543,7 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
             @Override
             public void onComplete(String requestEntity) {
                   gongPingData = com.vise.xsnow.common.GsonUtil.gson().fromJson(requestEntity, GongPingData.class);
-                  Log.i("我是公平消息",requestEntity);
-                gongPing.clear();
+                 gongPing.clear();
                 gongPing.addAll(gongPingData.res.getGpistList());
 
                 if (gongPingData.res.getGpistList().size()>0){
@@ -584,6 +583,8 @@ public class MainActivity extends BaseActivity implements ConversationManagerKit
             }
         });
         mvMultiText5.setAdapter(simpleTextAdapter);
-        mvMultiText5.setDirection(MarqueeView.DIRECTION_BOTTOM_TO_TOP);
+        mvMultiText5.setInterval(3000);
+        mvMultiText5.setAnimDuration(3000);
+        mvMultiText5.setDirection(MarqueeView.DIRECTION_RIGHT_TO_LEFT);
     }
 }

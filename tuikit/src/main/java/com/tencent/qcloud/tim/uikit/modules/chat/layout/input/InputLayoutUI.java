@@ -235,11 +235,11 @@ abstract class InputLayoutUI extends LinearLayout implements IInputLayout {
 
     protected abstract void init();
 
-    protected abstract void startSendPhoto();
+    public abstract void startSendPhoto();
 
-    protected abstract void startCapture();
+    public abstract void startCapture();
 
-    protected abstract void startVideoRecord();
+    public abstract void startVideoRecord();
 
     protected abstract void startSendFile();
 

@@ -58,30 +58,53 @@
        </RelativeLayout>
        <RelativeLayout
            android:layout_width="match_parent"
-           android:layout_height="70dp"
+           android:layout_height="76dp"
            android:layout_centerVertical="true"
             android:id="@+id/rl_editinfo"
            android:layout_marginLeft="@dimen/dap15"
 
             >
+           <LinearLayout
+               android:layout_width="76dp"
+                android:layout_height="76dp"
+               android:orientation="vertical"
+               android:gravity="center"
+               android:id="@+id/zaixian"
 
-           <ImageView
-               android:id="@+id/clock"
-               android:layout_width="@dimen/dp_72"
-               android:layout_height="@dimen/dp_72"
-               android:layout_centerVertical="true"
-                android:src="@mipmap/defal_head"
+               >
+               <ImageView
+                   android:id="@+id/clock"
+                   android:layout_width="@dimen/dp_72"
+                   android:layout_height="@dimen/dp_72"
+                   android:layout_centerVertical="true"
+                   android:src="@mipmap/defal_head"
 
-               />
+                   />
+               <TextView
+                   android:layout_width="@dimen/dap40"
+                   android:layout_height="14dp"
+                   android:gravity="center"
+                   android:text="在线"
+                   android:layout_marginTop="-13dp"
+                   android:textSize="@dimen/textsp9"
+                   android:textColor="@color/white"
+                   android:background="@drawable/inlin_sahpe"
+                   android:padding="@dimen/dap1"
+                   android:id="@+id/tv_inline"
+                   />
+
+
+           </LinearLayout>
+
 
            <TextView
                android:id="@+id/tv_name"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:layout_alignTop="@+id/clock"
+               android:layout_alignTop="@+id/zaixian"
                android:layout_marginLeft="@dimen/dap10"
                android:layout_marginTop="@dimen/dap4"
-               android:layout_toRightOf="@id/clock"
+               android:layout_toRightOf="@id/zaixian"
                android:textColor="@color/white"
                android:textSize="@dimen/textsp17"
                android:textStyle="bold"
@@ -114,107 +137,138 @@
                />
        </RelativeLayout>
 
-   </RelativeLayout>
+   </RelativeLayout> <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_72"
+    android:orientation="horizontal"
+    android:layout_alignParentBottom="true"
+    android:layout_marginLeft="@dimen/pad_15"
+    android:layout_marginRight="@dimen/pad_15"
+    android:background="@drawable/myheader_blackshape"
+    android:layout_marginTop="-30dp"
+    android:id="@+id/ll_xinxi"
+    >
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_72"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/pad_15"
-        android:layout_marginRight="@dimen/pad_15"
-        android:background="@drawable/myheader_blackshape"
-        android:layout_marginTop="-30dp"
-        android:id="@+id/ll_xinxi"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/dp_10"
+        android:id="@+id/ll_love"
         >
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-             android:gravity="center"
-            android:orientation="vertical"
-            android:layout_margin="@dimen/dp_10"
-            android:id="@+id/ll_love"
-            >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="— —"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_20"
-                android:id="@+id/tv_mylove"
-                />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="— —"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20"
+            android:id="@+id/tv_mylove"
+            />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:clickable="true"
-                android:text="我的关注"
-                android:textColor="@color/text_ff99"
-                android:textSize="@dimen/sp_14"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_margin="@dimen/dp_10"
-            android:id="@+id/ll_fins"
-             >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="— —"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_20"
-                android:id="@+id/tv_myfans"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:clickable="true"
-                android:text="我的粉丝"
-                android:textColor="@color/text_ff99"
-                android:textSize="@dimen/sp_14"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_margin="@dimen/dp_10"
-             >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="— —"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_20"
-                android:id="@+id/jinbi"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:clickable="true"
-                android:text="我的金币"
-                android:textColor="@color/text_ff99"
-                android:textSize="@dimen/sp_14"
-                />
-        </LinearLayout>
-
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:clickable="true"
+            android:text="关注"
+            android:textColor="@color/text_ff99"
+            android:textSize="@dimen/sp_14"
+            />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/dp_10"
+        android:id="@+id/ll_fins"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="— —"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20"
+            android:id="@+id/tv_myfans"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:clickable="true"
+            android:text="粉丝"
+            android:textColor="@color/text_ff99"
+            android:textSize="@dimen/sp_14"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/dp_10"
+        android:id="@+id/gojinbi"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="— —"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20"
+            android:id="@+id/jinbi"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:clickable="true"
+            android:text="金币"
+            android:textColor="@color/text_ff99"
+            android:textSize="@dimen/sp_14"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/dp_10"
+        android:id="@+id/ll_ml"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="— —"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20"
+            android:id="@+id/mlz"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:clickable="true"
+            android:text="魅力提现"
+            android:textColor="@color/text_ff99"
+            android:textSize="@dimen/sp_14"
+            />
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dap70"

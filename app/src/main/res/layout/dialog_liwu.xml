@@ -59,7 +59,7 @@
              android:gravity="center_vertical"
             android:textSize="@dimen/sp_16"
             android:textColor="#FFFFFFFF"
-            android:text="金币"
+            android:text="钻石"
             android:layout_marginLeft="@dimen/dap5"
              />
             <TextView

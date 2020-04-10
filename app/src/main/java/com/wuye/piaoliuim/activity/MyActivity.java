@@ -19,9 +19,11 @@ import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.utils.ToastUtil;
 import com.lcw.library.imagepicker.ImagePicker;
 import com.wuye.piaoliuim.R;
+import com.wuye.piaoliuim.bean.IsAddPicBean;
 import com.wuye.piaoliuim.bean.UpFileData;
 import com.wuye.piaoliuim.bean.UserInfoData;
 import com.wuye.piaoliuim.config.UrlConstant;
+import com.wuye.piaoliuim.fragment.MeiliFragment;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.GlideLoader;
@@ -89,6 +91,10 @@ public class MyActivity extends BaseActivity {
     private static final int REQUEST_SELECT_IMAGES_CODE = 0x022;
     @BindView(R.id.im_back)
     RelativeLayout imBack;
+    @BindView(R.id.tv_inline)
+    TextView tvInline;
+    @BindView(R.id.tv_mlz)
+    TextView tvMlz;
 
     private ArrayList<String> mPicList = new ArrayList<>(); //上传的图片凭证的数据源
     private ArrayList<File> upPicList = new ArrayList<>(); //上传的图片源文件
@@ -105,7 +111,7 @@ public class MyActivity extends BaseActivity {
     List<ImageView> imageList = new ArrayList<>();
 
     String picname;
-
+   private  int maxpic=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,10 +158,12 @@ public class MyActivity extends BaseActivity {
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             tvName.setCompoundDrawables(null, null, drawable, null);
         }
-        tvName.setText(userInfoData.res.listList.name+" ");
+        tvName.setText(userInfoData.res.listList.name + " ");
         tvQianming.setText(userInfoData.res.listList.getSignature());
         tvFins.setText(userInfoData.res.listList.getFans() + "  粉丝");
         tvGz.setText(userInfoData.res.listList.getFollows() + "  关注");
+        tvMlz.setText(" 魅力值"+userInfoData.res.listList.getRece_gold() + " ");
+
         RequestOptions options = new RequestOptions()//圆形图片
                 .circleCrop();
         Glide.with(this)
@@ -173,7 +181,8 @@ public class MyActivity extends BaseActivity {
         });
         mlist = getimagList(userInfoData.res.listList.getUser_imgs());
         picname = userInfoData.res.listList.getUser_imgs();
-         initView(mlist);
+        maxpic=6-mlist.size();
+        initView(mlist);
 
     }
 
@@ -187,23 +196,12 @@ public class MyActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.toupPic, R.id.im1, R.id.im2, R.id.im3, R.id.img_lin1, R.id.im4, R.id.im5, R.id.im6, R.id.nodatpic,R.id.im_back})
+    @OnClick({R.id.toupPic, R.id.im1, R.id.im2, R.id.im3, R.id.img_lin1, R.id.im4, R.id.im5, R.id.im6, R.id.nodatpic, R.id.im_back,R.id.tv_mlz,R.id.im_header})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.toupPic:
-                if (mlist.size() == 6) {
-                    ToastUtil.show(getBaseContext(), "添加图片达到上限");
-                } else {
-                    ImagePicker.getInstance()
-                            .setTitle("标题")//设置标题
-                            .showCamera(true)//设置是否显示拍照按钮
-                            .showImage(true)//设置是否展示图片
-                            .showVideo(false)//设置是否展示视频
-                            .setMaxCount(1)//设置最大选择图片数目(默认为1，单选)
-                            .setSingleType(true)//设置图片视频不能同时选择
-                            .setImageLoader(new GlideLoader())
-                            .start(MyActivity.this, REQUEST_SELECT_IMAGES_CODE);//REQEST_SELECT_IMAGES_CODE为Intent调用的requestCod
-                }
+
+   isAddpic();
 
                 break;
             case R.id.im1:
@@ -239,6 +237,15 @@ public class MyActivity extends BaseActivity {
             case R.id.im_back:
                 finish();
                 break;
+              case R.id.tv_mlz:
+                  Intent intent = new Intent(this, MymlListAct.class);
+                  intent.putExtra("ml", userInfoData.res.listList.getRece_gold());//userInfoData.res.listList.getRece_gold()
+                  startActivity(intent);                  break;
+         case R.id.im_header:
+             Intent intents = new Intent(this, UserPicSeeAct.class);
+             intents.putExtra("picurl", userInfoData.res.listList.getLitpic() );
+             startActivity(intents);
+                  break;
         }
     }
 
@@ -274,7 +281,7 @@ public class MyActivity extends BaseActivity {
         for (int i = 0; i < mPicList.size(); i++) {
             upPicList.add(new File(mPicList.get(i)));
         }
-        RequestManager.getInstance().upUpFile(this, params, upPicList, UrlConstant.FILEDATA, MEDIA_TYPE_PNG, new RequestListener<String>() {
+         RequestManager.getInstance().upUpFile(this, params, upPicList, UrlConstant.FILEDATA, MEDIA_TYPE_PNG, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
                 //更新成功
@@ -298,7 +305,7 @@ public class MyActivity extends BaseActivity {
             @Override
             public void onComplete(String requestEntity) {
                 //删除成功操作
-                ToastUtil.show(getBaseContext(), "添加成功");
+                ToastUtil.show(getBaseContext(), "上传成功需审核通过展示");
                 getNetData();
             }
 
@@ -377,5 +384,39 @@ public class MyActivity extends BaseActivity {
         }
     }
 
+    private void isAddpic(   ) {
+        HashMap<String, String> params = new HashMap<>();
+         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.ISADDPIC, new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+                //删除成功操作
+                IsAddPicBean isAddPicBean=GsonUtil.getDefaultGson().fromJson(requestEntity, IsAddPicBean.class);
+                if (isAddPicBean.res.getStatus().equals("1")){
+
+
+                    if (mlist.size() == 6) {
+                        ToastUtil.show(getBaseContext(), "添加图片达到上限");
+                    } else {
+                        ImagePicker.getInstance()
+                                .setTitle("标题")//设置标题
+                                .showCamera(true)//设置是否显示拍照按钮
+                                .showImage(true)//设置是否展示图片
+                                .showVideo(false)//设置是否展示视频
+                                .setMaxCount(maxpic)//设置最大选择图片数目(默认为1，单选)
+                                .setSingleType(true)//设置图片视频不能同时选择
+                                .setImageLoader(new GlideLoader())
+                                .start(MyActivity.this, REQUEST_SELECT_IMAGES_CODE);//REQEST_SELECT_IMAGES_CODE为Intent调用的requestCod
+                    }
+                }else {
+                    ToastUtil.show(getBaseContext(),"您有照片在审核");
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
 
 }

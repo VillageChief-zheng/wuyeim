@@ -102,7 +102,7 @@ public class RechangeAct extends BaseActivity implements ChannelAdapter.OnChecke
     @Override
     protected void onResume() {
         super.onResume();
-        tvMyjb.setText("  "+ AppSessionEngine.getMyUserInfo().res.getListList().getUser_gold());
+        tvMyjb.setText("  "+ AppSessionEngine.getMyUserInfo().res.getListList().getDiam_gold());
 
     }
 
@@ -129,13 +129,13 @@ public class RechangeAct extends BaseActivity implements ChannelAdapter.OnChecke
           TopListData.Res.TopList topList=topListData.res.getPuList().get(i);
 //          ChannelModel channelModelss = new ChannelModel(ChannelModel.THREE, "10元", "1000金币", "+60金币", "10",1);
           if (i==0){
-              channelModels.add(new ChannelModel(ChannelModel.ONE,getMoney(topList.getMoney())+"元",topList.getGold()+"金币","",topList.getMoney(),topList.getId()));
+              channelModels.add(new ChannelModel(ChannelModel.ONE,getMoney(topList.getMoney())+"元",topList.getGold()+"钻石","",topList.getMoney(),topList.getId()));
            }else {
               if (topList.getGive_gold().equals("0")){
-                  channelModels.add(new ChannelModel(ChannelModel.THREE,getMoney(topList.getMoney())+"元",topList.getGold()+"金币","",topList.getMoney(),topList.getId()));
+                  channelModels.add(new ChannelModel(ChannelModel.THREE,getMoney(topList.getMoney())+"元",topList.getGold()+"钻石","",topList.getMoney(),topList.getId()));
 
               }else {
-                  channelModels.add(new ChannelModel(ChannelModel.THREE,getMoney(topList.getMoney())+"元",topList.getGold()+"金币","+"+topList.getGive_gold()+"金币",topList.getMoney(),topList.getId()));
+                  channelModels.add(new ChannelModel(ChannelModel.THREE,getMoney(topList.getMoney())+"元",topList.getGold()+"钻石","+"+topList.getGive_gold()+"钻石",topList.getMoney(),topList.getId()));
 
               }
 

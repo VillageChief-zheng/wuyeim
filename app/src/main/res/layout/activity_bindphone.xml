@@ -46,7 +46,7 @@
         android:id="@+id/qq"
         android:layout_width="wrap_content"
         android:layout_marginTop="@dimen/dap5"
-        android:text="欢迎来到夜色漂流瓶！"
+        android:text="欢迎来到秘密漂流瓶！"
         android:textSize="@dimen/textsp30"
         android:textColor="@color/white"
         android:layout_height="wrap_content" />

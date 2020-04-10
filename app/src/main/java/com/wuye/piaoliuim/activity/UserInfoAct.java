@@ -86,6 +86,8 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
     List<Object> imcList = new ArrayList<>();
     @BindView(R.id.tv_inline)
     TextView tvInline;
+    @BindView(R.id.tv_mlz)
+    TextView tvMlz;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -163,20 +165,15 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
 
     }
 
-    @OnClick({R.id.im_more, R.id.tv_tosx, R.id.tv_togz, R.id.im_back, R.id.im1, R.id.im2, R.id.im3, R.id.im4, R.id.im5, R.id.im6})
+    @OnClick({R.id.im_more, R.id.tv_tosx, R.id.tv_togz, R.id.im_back, R.id.im1, R.id.im2, R.id.im3, R.id.im4, R.id.im5, R.id.im6, R.id.tv_mlz, R.id.im_header})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.im_more:
                 loading(R.layout.dialog_black, this).setOutsideClose(true).setGravity(Gravity.BOTTOM);
                 break;
             case R.id.tv_tosx:
-                ConversationInfo conversationInfo = new ConversationInfo();
-                conversationInfo.setId(userInfoData.res.getListList().getId());
-                imcList.add(ImagUrlUtils.getImag(userInfoData.res.getListList().getLitpic()));
-                conversationInfo.setIconUrlList(imcList);
-                conversationInfo.setGroup(false);
-                conversationInfo.setTitle(userInfoData.res.getListList().getName());
-                startChatActivity(conversationInfo);
+                delJinbi();
+
                 break;
             case R.id.tv_togz:
                 toFlow();
@@ -205,6 +202,20 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
                 break;
             case R.id.im6:
                 starPicsee(5);
+
+                break;
+            case R.id.tv_mlz:
+                Intent intent = new Intent(getBaseContext(), PeopleMlListAct.class);
+                intent.putExtra("uid",  userInfoData.res.listList.getId());//userInfoData.res.listList.getRece_gold()
+
+                intent.putExtra("ml", userInfoData.res.listList.getRece_gold());//userInfoData.res.listList.getRece_gold()
+                startActivity(intent);
+
+                break;
+             case R.id.im_header:
+                 Intent intents = new Intent(this, UserPicSeeAct.class);
+                 intents.putExtra("picurl", userInfoData.res.listList.getLitpic() );
+                 startActivity(intents);
 
                 break;
 
@@ -254,13 +265,14 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             tvName.setCompoundDrawables(null, null, drawable, null);
         }
-        if (userInfoData.res.getListList().getOnline().equals("1")){
+        if (userInfoData.res.getListList().getOnline().equals("1")) {
             tvInline.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             tvInline.setVisibility(View.GONE);
 
         }
         tvName.setText(userInfoData.res.listList.name + " ");
+        tvMlz.setText(" 魅力值"+userInfoData.res.listList.getRece_gold() + " ");
 
         if (userInfoData.res.listList.getIs_follow().equals("1")) {
             tvYiguanzhu.setVisibility(View.VISIBLE);
@@ -314,6 +326,28 @@ public class UserInfoAct extends BaseActivity implements DialogView.DialogViewLi
         intent.putExtra(Constants.CHAT_INFO, chatInfo);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         WuyeApplicatione.instance().startActivity(intent);
+    }
+    public void delJinbi() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(UrlConstant.USER_ID,id);
+         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.DELJINBI, new RequestListener<String>() {
+            @Override
+            public void onComplete(String requestEntity) {
+                ConversationInfo conversationInfo = new ConversationInfo();
+                conversationInfo.setId(userInfoData.res.getListList().getId());
+                imcList.add(ImagUrlUtils.getImag(userInfoData.res.getListList().getLitpic()));
+                conversationInfo.setIconUrlList(imcList);
+                conversationInfo.setGroup(false);
+                conversationInfo.setTitle(userInfoData.res.getListList().getName());
+                startChatActivity(conversationInfo);
+
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
     }
 
 }

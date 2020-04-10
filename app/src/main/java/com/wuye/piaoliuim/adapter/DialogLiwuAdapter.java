@@ -143,7 +143,7 @@ public class DialogLiwuAdapter extends RecyclerView.Adapter<DialogLiwuAdapter.Ba
             if (data != null) {
                 String text = "";//(String) data
                  tvName.setText(data.getName()+"");
-                 tvJinbi.setText(data.getGold()+"金币");
+                 tvJinbi.setText(data.getGold()+"钻石");
                 Glide.with(context)
                         .load(ImagUrlUtils.getImag(data.getLitpic()))
                         .into(imLiwu);

@@ -51,7 +51,7 @@ public class Constants {
     public static final int CHAT_ITEM_SENDING = 0x003;
     public static final int CHAT_ITEM_SEND_ERROR = 0x004;
     public static final int CHAT_ITEM_SEND_SUCCESS = 0x005;
-    public static long SPLASH_TIME = 3;
+    public static long SPLASH_TIME = 5;
     public static long COUNT_DOWN = 60;
 
     //线上环境
@@ -59,7 +59,8 @@ public class Constants {
     public static String VersionName = "";
     public static boolean mIsDebug = false;
 //    public static String BASEURL = "http://piaoliu.kuaiyueread.com/";//
-    public static String BASEURL = "http://ceshi.yesepiaoliu.com/";//
+    public static String BASEURL = "http://www.yesepiaoliu.com/";//
+//    public static String BASEURL = "http://ceshi.yesepiaoliu.com/";//
     public static String RTMPPREFIXION = "ODRPxVx";
     public static String EstimateUrl = "http://zlpg.yipan.com/";
     public static String ConsultUrl = "https://robot.odrcloud.cn/";

@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':basemodule', ':module_net', ':tuikit',':open_sdk_r2973327_lite'
 rootProject.name='piaoliuim'

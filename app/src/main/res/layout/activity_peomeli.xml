@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#191725"
+
+    >
+    <com.chuange.basemodule.view.NavigationTopView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:titleName="魅力值"
+        app:bgColor="#FF191725"
+        >
+    </com.chuange.basemodule.view.NavigationTopView>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/pad_100"
+    android:background="@mipmap/bg_mlz"
+    android:orientation="vertical"
+    >
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:textSize="@dimen/sp_14"
+    android:text="当前用户魅力"
+    android:textColor="#6C5F9C"
+    android:layout_marginTop="@dimen/dap15"
+    />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/sp_24"
+        android:text="000"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/dap5"
+        android:id="@+id/tv_mlz"
+        />
+</LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textSize="@dimen/sp_14"
+        android:text="贡献记录"
+        android:textColor="#666666"
+        android:layout_marginTop="@dimen/dap5"
+        android:layout_marginLeft="@dimen/dap15"
+         />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recommend_gv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="2"
+        android:scrollbars="none"
+        />
+    <include layout="@layout/comm_nodata" />
+
+</LinearLayout>

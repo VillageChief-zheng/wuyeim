@@ -34,6 +34,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.BaseView
     int mPostion;
     public void replaceAll(ArrayList<ChannelModel> list) {
         dataList.clear();
+        lastPressIndex=0;
         if (list != null && list.size() > 0) {
             dataList.addAll(list);
         }

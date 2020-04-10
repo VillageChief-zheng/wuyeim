@@ -42,6 +42,8 @@ public class UserInfoData extends BaseData {
             public String user_gold ;//用户相册 多个以","分割
             public String phone ;//是否绑定
             public String online ;//是否绑定
+            public String rece_gold ;//魅力值
+            public String diam_gold ;//魅力值
 
             public String getPhone() {
                 return phone;
@@ -145,6 +147,22 @@ public class UserInfoData extends BaseData {
 
             public void setOnline(String online) {
                 this.online = online;
+            }
+
+            public String getRece_gold() {
+                return rece_gold;
+            }
+
+            public void setRece_gold(String rece_gold) {
+                this.rece_gold = rece_gold;
+            }
+
+            public String getDiam_gold() {
+                return diam_gold;
+            }
+
+            public void setDiam_gold(String diam_gold) {
+                this.diam_gold = diam_gold;
             }
         }
 

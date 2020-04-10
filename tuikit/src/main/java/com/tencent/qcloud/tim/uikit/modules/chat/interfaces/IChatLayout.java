@@ -8,6 +8,7 @@ import com.tencent.qcloud.tim.uikit.modules.chat.base.ChatInfo;
 import com.tencent.qcloud.tim.uikit.modules.chat.layout.input.InputLayout;
 import com.tencent.qcloud.tim.uikit.modules.chat.layout.message.MessageLayout;
 import com.tencent.qcloud.tim.uikit.modules.message.MessageInfo;
+import com.xj.marqueeview.MarqueeView;
 
 /**
  * 聊天窗口 {@link ChatLayout} 提供了消息的展示与发送等功能，界面布局从上到下分为四个部分: <br>
@@ -74,4 +75,11 @@ public interface IChatLayout extends ILayout {
      * @param retry 是否重试
      */
     void sendMessage(MessageInfo msg, boolean retry);
+
+    /***
+     *
+     * @return
+     */
+    MarqueeView getMarqueeView();
+
 }

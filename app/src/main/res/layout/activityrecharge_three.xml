@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:fillViewport="true"
+    android:textColor="#FF717486"
+     android:scrollbars="none">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#FF191725"
+
+        >
+    <com.chuange.basemodule.view.NavigationTopView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:titleName="提现"
+        app:bgColor="#FF191725"
+        android:id="@+id/topView"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#6C5F9C"
+        android:text="当前魅力值"
+        android:layout_marginTop="@dimen/dap15"
+        android:layout_marginLeft="@dimen/dap15"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dap40"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dap5"
+        android:layout_marginLeft="@dimen/dap15"
+        >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_mlnumber"
+        android:text="8000"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_24"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dap5"
+        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dap20"
+            android:id="@+id/tv_jine"
+            android:text="约800元"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_13"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/dap15"
+            android:background="@mipmap/ic_jinetx"
+            android:visibility="gone"
+
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="@dimen/pad_34"
+             android:text="提现记录"
+            android:textColor="#B6A8FF"
+            android:gravity="center"
+            android:textSize="@dimen/sp_13"
+            android:background="@drawable/loginbuttonbg"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dap15"
+            android:layout_centerInParent="true"
+            android:id="@+id/tvtxjl"
+             />
+        </RelativeLayout>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="魅力值满10元即可提现"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#6C5F9C"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dap5"
+        android:layout_marginLeft="@dimen/dap15"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_55"
+        android:hint="请选择提现金额"
+        android:textColorHint="#75737C"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dap15"
+        android:background="@null"
+        android:maxLength="6"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recommend_gv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="2"
+        android:scrollbars="none"
+        android:layout_marginTop="@dimen/dp_10"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dap50"
+        android:text="魅力提现"
+        android:background="@drawable/fillet_grbg"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsp18"
+        android:layout_marginTop="@dimen/dap20"
+        android:layout_marginLeft="@dimen/dap26"
+        android:layout_marginRight="@dimen/dap26"
+        android:id="@+id/bg_tixian"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提现规则"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#FF75737C"
+        android:layout_marginTop="@dimen/dap20"
+        android:layout_marginLeft="@dimen/dap15"
+         />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1、每天可提现1次。"
+        android:textSize="@dimen/sp_12"
+        android:textColor="#FF75737C"
+        android:layout_marginTop="@dimen/dap20"
+        android:layout_marginLeft="@dimen/dap15"
+         /> <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="2、提现之后，大家耐心等待，管理员耐心审核之后，会一一打款。"
+    android:textSize="@dimen/sp_12"
+    android:textColor="#FF75737C"
+    android:layout_marginTop="@dimen/dap10"
+    android:layout_marginLeft="@dimen/dap15"
+      /> <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="3、发现有违反平台规则者，一律不打款，且封掉账号。"
+    android:textSize="@dimen/sp_12"
+    android:textColor="#FF75737C"
+    android:layout_marginTop="@dimen/dap10"
+    android:layout_marginLeft="@dimen/dap15"
+      /> <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="4、最终解释权归秘密漂流瓶所有。"
+    android:textSize="@dimen/sp_12"
+    android:textColor="#FF75737C"
+    android:layout_marginTop="@dimen/dap10"
+    android:layout_marginLeft="@dimen/dap15"
+      />
+
+
+
+</LinearLayout>
+</ScrollView>

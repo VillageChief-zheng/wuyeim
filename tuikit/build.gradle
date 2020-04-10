@@ -57,5 +57,7 @@ dependencies {
     implementation 'com.tencent.imsdk:imsdk:4.6.51'
      // Java
  // api project(':imsdk')
+    implementation 'com.xj.marqueeView:marqueeView:0.1.20'
+
 }
 

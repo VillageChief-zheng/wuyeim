@@ -235,7 +235,7 @@ public class ImFragment extends BaseImFragment implements ConversationManagerKit
            @Override
            public void onClick(View view) {
                ConversationInfo conversationInfo=new ConversationInfo();
-               conversationInfo.setId("75");
+               conversationInfo.setId("50001");
                conversationInfo.setGroup(false);
                conversationInfo.setTitle("客服");
                startChatActivity(conversationInfo);

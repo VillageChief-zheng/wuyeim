@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE"
@@ -30,7 +31,7 @@
         android:icon="@mipmap/app_ico"
         android:requestLegacyExternalStorage="true"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/app_ico"
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/wuyeTheam">
@@ -108,6 +109,13 @@
         <activity android:name=".activity.PayJiegAct"/>
         <activity android:name=".activity.ToBindPhoneAct"/>
         <activity android:name=".utils.WebActivity"/>
+        <activity android:name=".activity.CashOneAct"/>
+        <activity android:name=".activity.CashThreeAct"/>
+        <activity android:name=".activity.CashHistoryAct"/>
+        <activity android:name=".activity.MymlListAct"/>
+        <activity android:name=".activity.PeopleMlListAct"/>
+        <activity android:name=".activity.CashTowAct"/>
+
         <!--         im-->
         <activity
             android:name=".activity.ChatActivity"
@@ -300,7 +308,7 @@
         <!-- Channel ID用来标识App的推广渠道，作为推送消息时给用户分组的一个维度。-->
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="oppo" />
+            android:value="安智" />
         <!--qq 登录-->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -321,6 +329,20 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <provider
+            android:name="com.bytedance.sdk.openadsdk.TTFileProvider"
+            android:authorities="${applicationId}.TTFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        <provider
+            android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider"
+            android:authorities="${applicationId}.TTMultiProvider"
+            android:exported="false" />
+
     </application>
 
     <!--TUISOPNG-->

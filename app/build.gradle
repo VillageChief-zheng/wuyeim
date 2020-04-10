@@ -8,8 +8,8 @@ android {
         applicationId "com.wuye.piaoliuim"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
@@ -118,7 +118,7 @@ dependencies {
     implementation project(path: ':tuikit')
     implementation 'com.tencent.imsdk:imsdk:4.6.51'
     //youmeng
- //PushSDK必须依赖utdid库，所以需要加入对应依赖
+    //PushSDK必须依赖utdid库，所以需要加入对应依赖
 //    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
 //PushSDK
     implementation 'com.umeng.umsdk:common:2.1.0'
@@ -130,5 +130,8 @@ dependencies {
     implementation 'com.huawei.android.hms:push:2.6.3.301'
     implementation 'com.huawei.android.hms:base:2.6.3.301'
     implementation 'com.github.zyyoona7:EasyPopup:1.1.2'
+    implementation 'com.xj.marqueeView:marqueeView:0.1.20'
+    implementation 'com.google.android.material:material:1.0.0'
+     implementation (name: 'open_ad_sdk', ext: 'aar')
 
 }

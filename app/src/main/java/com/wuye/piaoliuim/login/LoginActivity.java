@@ -1,17 +1,11 @@
 package com.wuye.piaoliuim.login;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
-import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,40 +19,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.chuange.basemodule.BaseActivity;
 import com.chuange.basemodule.utils.ActivityTaskManager;
 import com.chuange.basemodule.utils.ToastUtil;
-import com.chuange.basemodule.view.DialogView;
-import com.tencent.imsdk.TIMManager;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.tencent.qcloud.tim.uikit.TUIKit;
-import com.tencent.qcloud.tim.uikit.base.IUIKitCallBack;
 import com.tencent.tauth.UiError;
 import com.vise.xsnow.common.GsonUtil;
 import com.wuye.piaoliuim.MainActivity;
 import com.wuye.piaoliuim.R;
+import com.wuye.piaoliuim.WuyeApplicatione;
 import com.wuye.piaoliuim.activity.BindPhone;
-import com.wuye.piaoliuim.activity.ResetPswAct;
-import com.wuye.piaoliuim.bean.SingData;
 import com.wuye.piaoliuim.bean.TokenUserInfo;
 import com.wuye.piaoliuim.bean.UserInfoData;
-import com.wuye.piaoliuim.bean.UserTokenData;
 import com.wuye.piaoliuim.config.Constants;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.http.RequestListener;
 import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.utils.AppSessionEngine;
-import com.wuye.piaoliuim.utils.DemoLog;
-import com.wuye.piaoliuim.utils.FileSizeUtil;
-import com.wuye.piaoliuim.utils.GenerateTestUserSig;
 import com.wuye.piaoliuim.utils.ImgcodeDialog;
 import com.wuye.piaoliuim.utils.LocationProvider;
-import com.wuye.piaoliuim.utils.MessageEvent;
 import com.wuye.piaoliuim.utils.TelNumMatch;
 import com.wuye.piaoliuim.utils.postMessageWx;
 import com.wuye.piaoliuim.wxapi.QQLoginManager;
@@ -69,16 +52,12 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.tencent.imsdk.TIMManager.TIM_STATUS_LOGINED;
 
 /**
  * @ClassName LoginActivity
@@ -108,6 +87,8 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
 
 
     TokenUserInfo tokenUserInfo;
+    @BindView(R.id.loginxieyi)
+    TextView loginxieyi;
     private LocationManager locationManager;
     LocationProvider myLocationListener;
     private QQLoginManager qqLoginManager;
@@ -117,6 +98,7 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
      * 微信的登录
      */
     private IWXAPI api;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,62 +115,64 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
 //       TokenUserInfo tokenDatas= AppSessionEngine.getUserTokenInfo() ;
 //       Log.i("ppppppp",tokenDatas.getToken());
         EventBus.getDefault().register(this);
-             AppSessionEngine.setLocation("1");
+        AppSessionEngine.setLocation("1");
         edphone.addTextChangedListener(new TextWatcher() {
-       @Override
-       public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-       }
+            }
 
-       @Override
-       public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-       }
+            }
 
-       @SuppressLint("ResourceAsColor")
-       @Override
-       public void afterTextChanged(Editable editable) {
-           if (editable.length() > 0) {
-               bgLogin.setBackgroundResource(R.drawable.fillet_grbg);
-               bgLogin.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.white));
-           } else {
-               bgLogin.setBackgroundResource(R.drawable.loginbuttonbg);
-               bgLogin.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.notinput));
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 0) {
+                    bgLogin.setBackgroundResource(R.drawable.fillet_grbg);
+                    bgLogin.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.white));
+                } else {
+                    bgLogin.setBackgroundResource(R.drawable.loginbuttonbg);
+                    bgLogin.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.notinput));
 
-           }
-       }
-   });
-   smcode.addTextChangedListener(new TextWatcher() {
-       @Override
-       public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+            }
+        });
+        smcode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-       }
+            }
 
-       @Override
-       public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-       }
+            }
 
-       @SuppressLint("ResourceAsColor")
-       @Override
-       public void afterTextChanged(Editable editable) {
-           if (editable.length() > 0) {
-               bgLogin.setBackgroundResource(R.drawable.fillet_grbg);
-               bgLogin.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.white));
-           } else {
-               bgLogin.setBackgroundResource(R.drawable.loginbuttonbg);
-               bgLogin.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.notinput));
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 0) {
+                    bgLogin.setBackgroundResource(R.drawable.fillet_grbg);
+                    bgLogin.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.white));
+                } else {
+                    bgLogin.setBackgroundResource(R.drawable.loginbuttonbg);
+                    bgLogin.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.notinput));
 
-           }
-       }
-   });
-     }
-   private void wChatLogin(){
-       SendAuth.Req req = new SendAuth.Req();
-       req.scope = "snsapi_userinfo";
-       req.state = "wechat_sdk_demo_test";
-       api.sendReq(req);
-   }
+                }
+            }
+        });
+    }
+
+    private void wChatLogin() {
+        SendAuth.Req req = new SendAuth.Req();
+        req.scope = "snsapi_userinfo";
+        req.state = "wechat_sdk_demo_test";
+        api.sendReq(req);
+    }
+
     @Override
     protected void initView(Bundle savedInstanceState) {
 
@@ -199,7 +183,7 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
 
     }
 
-    @OnClick({R.id.sendcode, R.id.bg_login, R.id.qq_login, R.id.wx_login,R.id.tv_pswlogin})
+    @OnClick({R.id.sendcode, R.id.bg_login, R.id.qq_login, R.id.wx_login, R.id.tv_pswlogin,R.id.loginxieyi})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
@@ -225,11 +209,11 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
                 logIn();
                 break;
             case R.id.qq_login:
-                if (isQQClientAvailable(this)){
+                if (isQQClientAvailable(this)) {
                     qqLoginManager.launchQQLogin();
 
-                }else {
-                    ToastUtil.show(this,"请安装qq");
+                } else {
+                    ToastUtil.show(this, "请安装qq");
                 }
                 break;
             case R.id.wx_login:
@@ -237,6 +221,9 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
                 break;
             case R.id.tv_pswlogin:
                 startActivity(new Intent(this, PswLogin.class));
+                break;
+            case R.id.loginxieyi:
+                WuyeApplicatione.instance().webView("使用条款和隐私政策",Constants.BASEURL+"/Public/home/agree/privacy.html");
                 break;
         }
     }
@@ -264,49 +251,52 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
 
         String phoneStr = edphone.getText().toString().trim();
         String phoneCode = smcode.getText().toString().trim();
-         if (!TelNumMatch.isValidPhoneNumber(phoneStr)) {
+        if (!TelNumMatch.isValidPhoneNumber(phoneStr)) {
             loading("请输入正确手机号").setOnlySure();
             return;
         }
         HashMap<String, String> params = new HashMap<>();
         params.put(UrlConstant.PHONE, phoneStr);
         params.put(UrlConstant.CODE, phoneCode);
-        if (getLocatione().equals("")){
+        if (getLocatione().equals("")) {
             params.put(UrlConstant.SINGNINREGION, "");
 
-        }else {
+        } else {
             params.put(UrlConstant.SINGNINREGION, getLocatione());
 
-        }        RequestManager.getInstance().publicPostMap(this, params, UrlConstant.LOGIN, new RequestListener<String>() {
+        }
+        RequestManager.getInstance().publicPostMap(this, params, UrlConstant.LOGIN, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
-                  tokenUserInfo = GsonUtil.gson().fromJson(requestEntity, TokenUserInfo.class);
+                tokenUserInfo = GsonUtil.gson().fromJson(requestEntity, TokenUserInfo.class);
                 AppSessionEngine.setTokenUserInfo(tokenUserInfo);
                 getNetData();
 //                startActivity(new Intent(getBaseContext(), MainActivity.class));
 //                finish();
-             }
+            }
 
             @Override
             public void onError(String message) {
 
             }
         });
-    } public void wchatLogin(String token,String opendid) {
+    }
+
+    public void wchatLogin(String token, String opendid) {
         HashMap<String, String> params = new HashMap<>();
         params.put(UrlConstant.QQTOKEN, token);
         params.put(UrlConstant.QQOPENID, opendid);
-         if (getLocatione().equals("")){
-             params.put(UrlConstant.SINGNINREGION, "");
+        if (getLocatione().equals("")) {
+            params.put(UrlConstant.SINGNINREGION, "");
 
-         }else {
-             params.put(UrlConstant.SINGNINREGION, getLocatione());
+        } else {
+            params.put(UrlConstant.SINGNINREGION, getLocatione());
 
-         }
+        }
         RequestManager.getInstance().publicGettMap(this, params, UrlConstant.WECHATLOFIN, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
-                  tokenUserInfo = GsonUtil.gson().fromJson(requestEntity, TokenUserInfo.class);
+                tokenUserInfo = GsonUtil.gson().fromJson(requestEntity, TokenUserInfo.class);
                 AppSessionEngine.setTokenUserInfo(tokenUserInfo);
                 getNetData();
 
@@ -336,10 +326,11 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
             }
         });
     }
+
     //微信登录
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(postMessageWx event) {
-             wchatLogin(event.wxUserInfo.getCountry(),event.wxUserInfo.getCity());
+        wchatLogin(event.wxUserInfo.getCountry(), event.wxUserInfo.getCity());
 
 
     }
@@ -366,18 +357,19 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
         }
         return super.onKeyDown(keyCode, event);
     }
-    public void qqLogin(String token,String opendid) {
+
+    public void qqLogin(String token, String opendid) {
         HashMap<String, String> params = new HashMap<>();
         params.put(UrlConstant.QQTOKEN, token);
         params.put(UrlConstant.QQOPENID, opendid);
-        if (getLocatione().equals("")){
+        if (getLocatione().equals("")) {
             params.put(UrlConstant.SINGNINREGION, "");
 
-        }else {
+        } else {
             params.put(UrlConstant.SINGNINREGION, getLocatione());
 
         }
-        Log.i("--------",getLocatione());
+        Log.i("--------", getLocatione());
         RequestManager.getInstance().publicGettMap(this, params, UrlConstant.QQLOIN, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
@@ -394,27 +386,30 @@ public class LoginActivity extends BaseActivity implements QQLoginManager.QQLogi
             }
         });
     }
-@SuppressLint("MissingPermission")
-private String getLocatione(){
-     if (LocationProvider.getInstance().getLocations(this).equals("")||LocationProvider.getInstance().getLocations(this)==null){
-        return "";
-    }else {
-        return LocationProvider.getInstance().getLocations(this);
+
+    @SuppressLint("MissingPermission")
+    private String getLocatione() {
+        if (LocationProvider.getInstance().getLocations(this).equals("") || LocationProvider.getInstance().getLocations(this) == null) {
+            return "";
+        } else {
+            return LocationProvider.getInstance().getLocations(this);
+        }
     }
- }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         // 回调
         super.onActivityResult(requestCode, resultCode, data);
         qqLoginManager.onActivityResultData(requestCode, resultCode, data);
     }
+
     @Override
     public void onQQLoginSuccess(JSONObject jsonObject) {
         try {
-            String  openID = jsonObject.getString("openid");
+            String openID = jsonObject.getString("openid");
             String access_token = jsonObject.getString("access_token");
 //            Log.i("pppppp",openID+"]]]"+access_token);
-        qqLogin(access_token,openID);
+            qqLogin(access_token, openID);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -423,13 +418,14 @@ private String getLocatione(){
 
     @Override
     public void onQQLoginCancel() {
-   ToastUtil.show(this,"取消qq登录");
+        ToastUtil.show(this, "取消qq登录");
     }
 
     @Override
     public void onQQLoginError(UiError uiError) {
 
     }
+
     /**
      * 判断qq是否可用
      *
@@ -449,21 +445,22 @@ private String getLocatione(){
         }
         return false;
     }
-    public void getNetData(){
+
+    public void getNetData() {
         HashMap<String, String> params = new HashMap<>();
         RequestManager.getInstance().publicPostMap(this, params, UrlConstant.GETUSERINFO, new RequestListener<String>() {
             @Override
             public void onComplete(String requestEntity) {
-                userInfoData= com.wuye.piaoliuim.utils.GsonUtil.getDefaultGson().fromJson(requestEntity, UserInfoData.class);
-                 AppSessionEngine.setUserInfo(userInfoData);
-              if (userInfoData.res.getListList().getPhone().equals("")){
-                  startActivity(new Intent(getBaseContext(), BindPhone.class));
-                  finish();
-              }else {
-                  startActivity(new Intent(getBaseContext(), MainActivity.class));
-                  finish();
-
-              }
+                userInfoData = com.wuye.piaoliuim.utils.GsonUtil.getDefaultGson().fromJson(requestEntity, UserInfoData.class);
+                AppSessionEngine.setUserInfo(userInfoData);
+//                if (userInfoData.res.getListList().getPhone().equals("")) {
+//                    startActivity(new Intent(getBaseContext(), BindPhone.class));
+//                    finish(); 暂时不要绑定了
+//                } else {
+                    startActivity(new Intent(getBaseContext(), MainActivity.class));
+                    finish();
+//
+//                }
             }
 
             @Override

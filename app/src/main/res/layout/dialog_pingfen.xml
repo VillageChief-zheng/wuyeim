@@ -11,7 +11,7 @@
     android:layout_height="wrap_content"
     android:textSize="@dimen/sp_20"
     android:textColor="#FF000000"
-    android:text="喜欢夜色漂流瓶吗？"
+    android:text="喜欢秘密漂流瓶吗？"
     android:gravity="center"
     android:layout_marginTop="@dimen/dap15"
     />

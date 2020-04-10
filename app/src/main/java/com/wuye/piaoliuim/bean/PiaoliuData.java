@@ -35,6 +35,8 @@ public class PiaoliuData extends BaseData {
        private String name;
        private String gender;
        private String online;
+       private String id;
+
 
             public String getUser_id() {
                 return user_id;
@@ -90,6 +92,14 @@ public class PiaoliuData extends BaseData {
 
             public void setOnline(String online) {
                 this.online = online;
+            }
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
             }
         }
         }

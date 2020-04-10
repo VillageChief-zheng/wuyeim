@@ -308,10 +308,12 @@ public abstract class BaseRequest<T> {
             }
             //遍历paths中所有图片绝对路径到builder，并约定key如“upload”作为后台接受多张图片的key
             if (params.getFiles() != null){
-
+             int i=0;
                 for (File file : params.getFiles()) {
 
-                    multipartBodyBuilder.addFormDataPart(params.getFileName(), file.getName(), RequestBody.create(params.getType(), file));
+                    multipartBodyBuilder.addFormDataPart(params.getFileName()+""+i++, file.getName(), RequestBody.create(params.getType(), file));
+                    Log.e("文件上传参数", " ║    " + params.getFileName()+""+i++ + "    ====   " + file.getName());
+
                 }
             }
 

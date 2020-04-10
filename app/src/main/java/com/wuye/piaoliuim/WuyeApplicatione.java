@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
+import com.bytedance.sdk.openadsdk.TTAdConfig;
+import com.bytedance.sdk.openadsdk.TTAdConstant;
+import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.chuange.basemodule.BaseApplication;
 import com.chuange.basemodule.BaseData;
 import com.chuange.basemodule.utils.ToastUtil;
@@ -53,15 +56,20 @@ import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.interceptor.HttpLogInterceptor;
 import com.wuye.piaoliuim.activity.IndexAct;
 import com.wuye.piaoliuim.activity.imactivity.MipushTestActivity;
+import com.wuye.piaoliuim.bean.UserInfoData;
 import com.wuye.piaoliuim.config.AppConfig;
 import com.wuye.piaoliuim.config.Constants;
+import com.wuye.piaoliuim.config.TTAdManagerHolder;
 import com.wuye.piaoliuim.config.UrlConstant;
 import com.wuye.piaoliuim.helper.ConfigHelper;
 import com.wuye.piaoliuim.helper.CustomAVCallUIController;
 import com.wuye.piaoliuim.helper.CustomMessage;
+import com.wuye.piaoliuim.http.RequestListener;
+import com.wuye.piaoliuim.http.RequestManager;
 import com.wuye.piaoliuim.thirdpush.ThirdPushTokenMgr;
 import com.wuye.piaoliuim.utils.DemoLog;
 import com.wuye.piaoliuim.utils.GenerateTestUserSig;
+import com.wuye.piaoliuim.utils.GsonUtil;
 import com.wuye.piaoliuim.utils.PrivateConstants;
 import com.wuye.piaoliuim.utils.WebActivity;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -113,10 +121,11 @@ private int SDKAPPID=1400302511;
         instance=this;
          initIm();
          initUmengSdk();
+        TTAdManagerHolder.init(this);
 
     }
     private void initUmengSdk() {
-        UMConfigure.init(this, "5e12960f0cafb2b4690002d1", "oppo",
+        UMConfigure.init(this, "5e12960f0cafb2b4690002d1", "安智",
                 UMConfigure.DEVICE_TYPE_PHONE, "d3e4d91c1818405d1506069d0055e9d8");
         PushAgent mPushAgent = PushAgent.getInstance(this);
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
@@ -408,6 +417,8 @@ private int SDKAPPID=1400302511;
                     }
                 });
                 TUIKit.removeIMEventListener(mIMEventListener);
+                onLine("1");
+
             }
             isChangingConfiguration = false;
         }
@@ -448,6 +459,7 @@ private int SDKAPPID=1400302511;
                 });
                 // 应用退到后台，消息转化为系统通知
                 TUIKit.addIMEventListener(mIMEventListener);
+                onLine("0");
             }
             isChangingConfiguration = activity.isChangingConfigurations();
         }
@@ -553,5 +565,38 @@ private int SDKAPPID=1400302511;
       Notification notify = mBuilder.build();
       notify.flags |= Notification.FLAG_AUTO_CANCEL;
       mNotificationManager.notify(1, notify);
+  }
+  private void onLine(String onLine){
+      HashMap<String, String> params = new HashMap<>();
+      params.put(UrlConstant.ONLINE,onLine);
+      params.put(UrlConstant.SINGNINREGION,"");
+      RequestManager.getInstance().publicPostMap(this, params, UrlConstant.INLINE, new RequestListener<String>() {
+          @Override
+          public void onComplete(String requestEntity) {
+       Log.i("pppppppp","kkkkkkkk");
+          }
+
+          @Override
+          public void onError(String message) {
+
+          }
+      });
+  }
+  private void initGg(){
+      //强烈建议在应用对应的Application#onCreate()方法中调用，避免出现content为null的异常
+      TTAdSdk.init(getContext(),
+              new TTAdConfig.Builder()
+                      .appId("5057595")
+                      .useTextureView(false) //使用TextureView控件播放视频,默认为SurfaceView,当有SurfaceView冲突的场景，可以使用TextureView
+                      .appName("秘密漂流瓶")
+                      .titleBarTheme(TTAdConstant.TITLE_BAR_THEME_DARK)
+                      .allowShowNotify(true) //是否允许sdk展示通知栏提示
+                      .allowShowPageWhenScreenLock(true) //是否在锁屏场景支持展示广告落地页
+                      .debug(true) //测试阶段打开，可以通过日志排查问题，上线时去除该调用
+                      .directDownloadNetworkType(TTAdConstant.NETWORK_STATE_WIFI, TTAdConstant.NETWORK_STATE_4G) //允许直接下载的网络状态集合
+                      .supportMultiProcess(false) //是否支持多进程，true支持
+                      //.httpStack(new MyOkStack3())//自定义网络库，demo中给出了okhttp3版本的样例，其余请自行开发或者咨询工作人员。
+                      .build());
+
   }
 }

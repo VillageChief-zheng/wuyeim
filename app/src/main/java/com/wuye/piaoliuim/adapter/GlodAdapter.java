@@ -47,20 +47,25 @@ public class GlodAdapter  extends BaseQuickAdapter<GlodData.Res.GlodList, BaseVi
         ;
         type=helper.getView(R.id.tv_name);
 
+
         if (rseckillRow.getType().equals("1")){
             type.setText("注册送");
         }else if (rseckillRow.getType().equals("2")){
             type.setText("充值");
-         }else if (rseckillRow.getType().equals("3")){
-            type.setText("收到礼物");
-        }else if (rseckillRow.getType().equals("4")){
+        }else if (rseckillRow.getType().equals("3")){
             type.setText("看广告");
+        }else if (rseckillRow.getType().equals("4")){
+            type.setText("签到");
         }else if (rseckillRow.getType().equals("-1")){
             type.setText("扔瓶子");
         }else if (rseckillRow.getType().equals("-2")){
             type.setText("送礼物");
         }else if (rseckillRow.getType().equals("-3")){
             type.setText("捞瓶子");
+        }else if (rseckillRow.getType().equals("-4")){
+            type.setText("刷新瓶子");
+        }else if (rseckillRow.getType().equals("-5")){
+            type.setText("发现/排行榜");
         }
     }
  }

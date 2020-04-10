@@ -19,6 +19,7 @@ public class UrlConstant {
     public static final String MCH_ID = "1561549991";
     public static final String WEBURL = "http://39.105.150.151:8859/#/";
 
+    public static int GETUNID = 1;
 
     /**
      * SharePreference with params
@@ -44,7 +45,7 @@ public class UrlConstant {
     public static String LOCATIONE = "locatione";
     public static String TENCENIM = "tencenIm";
     //渠道
-    public static String QUDAOHAO = "1";
+    public static String QUDAOHAO = "14";
      /**
      * the net params
      */
@@ -103,6 +104,11 @@ public class UrlConstant {
     public static String QQTOKEN = "access_token";
     public static String QQOPENID = "openid";
     public static String ONLINE = "online";
+    public static String REALNAME = "real_name";
+    public static String IDCARD = "idcard";
+    public static String MONEY = "money";
+    public static String UNIONID = "unionid";
+    public static String Y_TYPE = "y_type";
 
 
 
@@ -162,6 +168,21 @@ public class UrlConstant {
     public static final String SYSTEMSMs = "User/userNoticeRead";//站内消息
     public static final String QQLOIN = "Useracc/userQqLogin";//站内消息
     public static final String LIWULUNBO = "User/getPublicScreen";//礼物消息
+    public static final String INLINE = "Index/userReportOnline";//礼物消息
+    public static final String CACHS = "With/payMent";//礼物消息
+    public static final String BINDCARD = "User/BindIdcard";//实名认证
+    public static final String MEILILIST = "User/getUserContributionRank";// 魅力值
+    public static final String GETCASHINFO = "User/getUserCaseInfos";// 获取提现信息
+    public static final String GETQIANDAO = "Adsign/getAdSignInfo";// 获取签到信息
+    public static final String GETZHANGHU = "User/getUserAccountInfos";// 获取账户信息
+    public static final String QIANDAO = "Adsign/userSign";// 签到
+    public static final String BINDWX = "User/bindWeUnionid";// 绑定微信
+    public static final String CASHLIST = "User/getUserWithdrawLists";// 提现记录
+    public static final String ADDJINBI = "Adsign/addUserAdGold";// 增加金币
+    public static final String ISORGZ = "User/getIsAttention";// 查看是否关注
+    public static final String ISADDPIC = "User/getUserReview";// 是否增加图片
+    public static final String DELJINBI = "User/deductionChatGold";// 扣金币
+
 
 
 }
